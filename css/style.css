@@ -1,0 +1,115 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --font-primary: 'Manrope', sans-serif;
+    --primary-color: #2B3990;
+}
+
+body {
+    height: 100vh;
+    width: 100%;
+    font-family: var(--font-primary);
+}
+
+h1 {
+    font-size: clamp(1.5rem, 2vw, 5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    color: var(--primary-color);
+}
+
+
+.logo-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 450px;
+    gap: 10px;
+}
+
+.logo-wrapper img{
+    width: 30%;
+}
+
+
+
+ main,section{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    /* place-content: center; */
+}
+
+.inscription-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 50px;
+    max-width: 450px;
+}
+
+
+/* From Uiverse.io by SelfMadeSystem */ 
+.btn {
+  /* margin: 0.5rem; */
+  padding: 1rem 1.75rem;
+  border-radius: 0.5rem;
+  border: none;
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-weight: 600;
+  cursor: pointer;
+  width: min(100%, 450px);
+  /* align-self: stretch; */
+  /* width: 100%; */
+  
+}
+
+.btn kbd {
+  margin: 0.25rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.btn-primary {
+  background: linear-gradient( var(--primary-color),var(--primary-color));
+  color: white;
+  box-shadow: inset 0pt 4pt 3pt -2pt #386fff, 0pt 4pt 5pt -3pt #0009;
+  border-bottom: 2pt solid #083acd;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  border-bottom: 4pt solid #083acd;
+  translate: 0pt -1pt;
+}
+
+.btn-primary:active {
+  box-shadow: inset 0pt 4pt 3pt -2pt #386fff, 0pt 4pt 5pt -3pt #0000;
+  border-bottom: 1pt solid #083acd;
+  translate: 0pt 0pt;
+}
+
+.btn-primary kbd {
+  background-color: #3e6eff;
+  box-shadow: inset 0pt -3pt 3pt -2pt #1f54f0, inset 0pt 3pt 3pt -2pt #658dff,
+    0pt 2pt 2pt -2pt #0005, 0pt 0pt 0pt 2pt #0d47f0;
+}
+
+.btn-base {
+  background: #386fff;
+}
+
+/* .btn-wrapper{
+    height: 200px;
+    width: 200px;
+} */
+
+
