@@ -65,57 +65,78 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
     <link rel="stylesheet" href="/css/style.css">
+    <style type="text/tailwindcss">
+        @theme {
+            --font-gotham: "Gotham", sans-serif;
+            --primary-color: var(--primary-color);
+        }
+    </style>
 </head>
 
-<body>
+<body class="bg-linear-[67deg] from-pink-100 via-white to-pink-100 h-screen w-screen">
+    <section class="flex flex-col items-center justify-between  w-full h-full">
 
-    <main>
-        <section class="registration">
-            <div class="inscription-wrapper">
-
-                <div class="logo-wrapper">
-                    <img src="/assets/logo-debout-patriotes.png"  alt="">
-                    <h1>Debout Patriotes</h1>
-                </div>
-    
-                <div class="btn-wrapper">
-
-                    <a class="btn btn-primary" href="https://tally.so/r/gD8MeO">
-                        <span class="btn-txt">KLIKE POU REJWENN NOU</span>
-                        <!-- <kbd class="btn-kbd">G</kbd> -->
-                    </a>
-                </div>
-
-                
-    
-                <!-- <a href="https://...">
-                    S'inscrire
-                </a> -->
+        <div class="flex flex-col items-center gap-5 my-auto">
+            <div class="flex flex-col gap-2 items-center text-center">
+                <img id="logo" src="/assets/logo-debout-patriotes.png" class="fade-down w-54"  alt="logo">
+                <h1 id="title" class="fade font-bold font-gotham uppercase">Debout Patriotes</h1>
             </div>
-        </section>
 
-        <section class="social-section">
-            <div>
-                <a href="#">
+            <div class="fade-up" id="btn">
+
+                <a href="https://tally.so/r/gD8MeO"
+           class=" relative inline-block p-px font-semibold leading-6 text-white bg-gray-800 shadow-2xl cursor-pointer rounded-xl shadow-zinc-900 transition-transform duration-300 ease-in-out hover:scale-105 active:scale-95"
+        >
+          <span
+            class="absolute inset-0 rounded-xl bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500 p-[2px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+          ></span>
+    
+          <span class="relative z-10 block px-6 py-3 rounded-xl bg-(--primary-color)">
+            <div class="relative z-10 flex items-center space-x-2">
+              <span class="transition-all duration-500 group-hover:translate-x-1"
+                >KLIKE POU REJWENN NOU</span
+              >
+              <svg
+                class="w-6 h-6 transition-transform duration-500 group-hover:translate-x-1"
+                data-slot="icon"
+                aria-hidden="true"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
+                  fill-rule="evenodd"
+                ></path>
+              </svg>
+            </div>
+          </span>
+                </a >
+            </div>
+        </div>
+
+        <div class="flex gap-5 mb-5">
+                <a href="https://www.facebook.com/profile.php?id=61593620932981" class="social-icon" style="--i: 1;">
 
                     <i class="fa-brands fa-facebook"></i>
                 </a>
 
-                <a href="https://www.tiktok.com/@deboutpatriotes">
+                <a href="https://www.tiktok.com/@deboutpatriotes" class="social-icon" style="--i: 2;">
                     <i class="fa-brands fa-tiktok"></i>
                 </a>
 
-                <a href="#">
+                <a href="https://x.com/deboutpatriotes" class="social-icon" style="--i: 3;">
                     <i class="fa-brands fa-x-twitter"></i>
                 </a>
 
-                <a href="https://www.instagram.com/deboutpatriotes">
+                <a href="https://www.instagram.com/deboutpatriotes" class="social-icon" style="--i: 4;">
                     <i class="fa-brands fa-instagram"></i>
                 </a>
             </div>
-        </section>
-    </main>
 
-    
+    </section>
+
+    <script src="js/script.js"></script>
 </body>
 </html>

@@ -4,8 +4,23 @@
     box-sizing: border-box;
 }
 
+
+
+
+
+@font-face {
+    font-family: "Gotham";
+    src: url("../assets/fonts/Gotham/Gotham-Bold.otf")
+        format("otf");
+
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --font-primary: 'Manrope', sans-serif;
+     --font-gotham: "Gotham", sans-serif;
     --primary-color: #BE1E2D;
 }
 
@@ -39,7 +54,12 @@ h1 {
 
 i{
     color: var(--primary-color);
-    font-size: 48px;
+    font-size: 15px;
+    transition: transform 0.5s ease-in-out;
+}
+
+i:hover{
+    transform: scale(2);
 }
 
 main{
@@ -138,3 +158,65 @@ main{
 }
 
 
+.fade-down{
+    transform: translateY(-30%);
+    opacity: 0;
+    transition: all 1s ease-in-out;
+}
+
+
+.fade-down.active{
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.fade-up{
+    transform: translateY(30%);
+    opacity: 0;
+    transition: all  1s ease-in-out;
+    /* transition-property: opacity, transform ; */
+}
+
+
+.fade-up.active{
+    transform: translateY(0);
+    opacity: 1;
+}
+
+
+.fade{
+    
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    transition-delay: 1s;
+}
+
+
+.fade.active{
+    opacity: 1;
+}
+
+.social-icon{
+      /* 1. État initial avant le début de l'animation */
+  opacity: 0;
+  
+  /* 2. Application de l'animation au chargement */
+  /* Définition : nom | durée | style de courbe | mode de remplissage */
+  animation: slideIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  
+  /* 3. Calcul dynamique du délai pour créer l'effet décalé */
+  /* Le premier attend 0.2s, le deuxième 0.4s, le troisième 0.6s... */
+  animation-delay: calc(var(--i) * 0.2s);
+}
+
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-100px); /* Départ vers la gauche */
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);     /* Arrivée au centre (position normale) */
+  }
+}
