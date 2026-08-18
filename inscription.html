@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Document</title>
+</head>
+<body class="h-screen w-screen flex items-center justify-center bg-gray-100">
+    <form id="registrationForm" class="bg-white p-5 block rounded-2xl shadow">
+
+            <div class="flex items-center gap-2 mb-5">
+                <img src="assets/logo-debout-patriotes.png" class="w-30" alt="logo Debout Patriotes">
+                <span class="font-bold text-3xl" style="color: var(--primary-color);">DEBOUT PATRIOTES</span>
+            </div>
+
+            <!-- SECTION 1 -->
+            <section class="form-section active text-gray-600" data-section="0">
+
+                <div class="section-header pb-4">
+                    <span class="section-number">01</span>
+
+                    <h2 class="text-gray-700 text-xl font-bold">Informations personnelles</h2>
+
+                    <p class="text-gray-600 text-sm">
+                        Commençons par quelques informations sur vous.
+                    </p>
+                </div>
+
+                <div class="form-fields grid grid-cols-2 gap-2">
+
+                    <div class="field flex flex-col">
+                        <label for="firstName">
+                            Prénom
+                        </label>
+
+                        <input
+                            type="text"
+                            id="firstName"
+                            name="firstName"
+                            required
+                            class="border border-gray-300 rounded"
+                        >
+                    </div>
+
+                    <div class="field flex flex-col">
+                        <label for="lastName">
+                            Nom
+                        </label>
+
+                        <input
+                            type="text"
+                            id="lastName"
+                            name="lastName"
+                            required
+                            class="border border-gray-300 rounded"
+                        >
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- SECTION 2 -->
+            <section class="form-section" data-section="1">
+
+                <div class="section-header">
+                    <span class="section-number">02</span>
+
+                    <h2>Coordonnées</h2>
+
+                    <p>
+                        Comment pouvons-nous vous contacter ?
+                    </p>
+                </div>
+
+                <div class="form-fields">
+
+                    <div class="field">
+                        <label for="email">
+                            Adresse e-mail
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            required
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label for="phone">
+                            Téléphone
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            required
+                        >
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- SECTION 3 -->
+            <section class="form-section" data-section="2">
+
+                <div class="section-header">
+                    <span class="section-number">03</span>
+
+                    <h2>Confirmation</h2>
+
+                    <p>
+                        Vérifiez vos informations avant de continuer.
+                    </p>
+                </div>
+
+            </section>
+
+
+            <!-- NAVIGATION -->
+            <div class="form-navigation pt-5">
+
+                <button
+                    type="button"
+                    id="previousButton"
+                    class="bg-(--primary-color) text-white py-1 px-2 rounded font-bold"
+                >
+                    Retour
+                </button>
+
+                <button
+                    type="button"
+                    id="nextButton"
+                    class="bg-(--primary-color) text-white py-1 px-2 rounded font-bold"
+                >
+                    Continuer
+                </button>
+
+            </div>
+
+    </form>
+</body>
+</html>

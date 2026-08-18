@@ -1,6 +1,6 @@
 *{
-    margin: 0;
-    padding: 0;
+    /* margin: 0;
+    padding: 0; */
     box-sizing: border-box;
 }
 
@@ -13,7 +13,7 @@ body {
     height: 100vh;
     width: 100%;
     font-family: var(--font-primary);
-    background: #fcfcfc;
+    /* background: #fcfcfc; */
 }
 
 h1 {
@@ -84,6 +84,9 @@ main{
   font-weight: 600;
   cursor: pointer;
   width: min(100%, 450px);
+  display: block;
+  text-decoration: none;
+  text-align: center;
   /* align-self: stretch; */
   /* width: 100%; */
   
@@ -124,5 +127,14 @@ main{
     height: 200px;
     width: 200px;
 } */
+
+
+.form-section {
+    display: none;
+}
+
+.form-section.active {
+    display: block;
+}
 
 
