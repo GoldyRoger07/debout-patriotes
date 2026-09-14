@@ -1,59 +1,88 @@
-# DeboutPatriotes
+# DEBOUT PATRIOTES — site Web
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.1.
+Site officiel du groupement politique DEBOUT PATRIOTES, réunissant onze partis
+politiques émergents haïtiens.
 
-## Development server
+Angular 22 (SSR + prerendering), Tailwind CSS 4, PrimeIcons.
 
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Démarrer
 
 ```bash
-ng generate component component-name
+npm install
+npm start                 # http://localhost:4200
+npm run build             # build de production (prerender des 12 routes)
+npm run serve:ssr:debout-patriotes   # sert le build SSR
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Où se trouve le contenu
 
-```bash
-ng generate --help
-```
+**Tout le texte du site est dans un seul fichier :**
+[`src/app/config/content/fr.ts`](src/app/config/content/fr.ts).
 
-## Building
+Les composants ne contiennent aucun texte en dur : ils lisent ce fichier via
+`LanguageService`. Pour corriger une formulation, changer un intitulé de menu ou
+ajouter un axe au programme, c'est le seul fichier à modifier — la structure
+attendue est décrite dans [`src/app/models/content.model.ts`](src/app/models/content.model.ts).
 
-To build the project run:
+### Ajouter une langue (créole, anglais)
 
-```bash
-ng build
-```
+1. Copier `fr.ts` en `ht.ts` (ou `en.ts`) et traduire les valeurs.
+2. L'ajouter au catalogue dans [`src/app/services/language.service.ts`](src/app/services/language.service.ts)
+   et étendre le type `Locale`.
+3. Brancher un sélecteur de langue sur `LanguageService.setLanguage()`.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### Identité visuelle
 
-## Running unit tests
+- Couleurs, polices, rayons : [`src/app/config/brand/theme.ts`](src/app/config/brand/theme.ts)
+  (les mêmes valeurs sont reprises comme défauts CSS dans `src/styles.css`, pour que
+  le rendu serveur soit déjà aux bonnes couleurs avant l'hydratation — garder les deux alignés).
+- Coordonnées et logo : [`src/app/config/brand/company.ts`](src/app/config/brand/company.ts)
+- Réseaux sociaux : [`src/app/config/brand/social.ts`](src/app/config/brand/social.ts)
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Pages
 
-```bash
-ng test
-```
+| Route             | Page                    |
+| ----------------- | ----------------------- |
+| `/`               | Accueil                 |
+| `/a-propos`       | À propos                |
+| `/vision`         | Notre vision            |
+| `/programme`      | Notre programme         |
+| `/organigramme`   | Organigramme            |
+| `/actualites`     | Actualités              |
+| `/evenements`     | Événements              |
+| `/presse`         | Espace presse           |
+| `/galerie`        | Galerie                 |
+| `/devenir-membre` | Devenir membre          |
+| `/faire-un-don`   | Soutenir le groupement  |
+| `/contact`        | Nous contacter          |
 
-## Running end-to-end tests
+Titre et description SEO de chaque page : [`src/app/app.routes.ts`](src/app/app.routes.ts).
 
-For end-to-end (e2e) testing, run:
+## À compléter par le groupement
 
-```bash
-ng e2e
-```
+Le contenu éditorial est rédigé à partir du texte de présentation fourni. Les
+informations que seul DEBOUT PATRIOTES peut fournir ont été laissées en
+placeholders explicites plutôt qu'inventées. Chercher `À COMPLÉTER` dans
+`src/app/config/content/fr.ts` et `src/app/config/brand/`.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+- [ ] **Date exacte** de la constitution formelle (« le … août 2026 ») — `meta.foundedOn`
+- [ ] **Les onze partis membres** : dénominations officielles, sigles, responsables — `about.parties.list`
+- [ ] **Responsables des instances** : Coordination générale, porte-parole, secrétariats — `org.levels`
+- [ ] **Coordonnées** : e-mail, téléphone, adresse du siège — `company.ts`, `contact.channels`, `contact.office`
+- [ ] **Contact presse** : e-mail et téléphone dédiés — `press.contact`
+- [ ] **Comptes officiels** des réseaux sociaux — `social.ts`
+- [ ] **Modalités de contribution** : coordonnées bancaires, transfert mobile — `donate.methods`
+- [ ] **Actualités, événements, communiqués, photos** — `news.items`, `events.items`, `press.items`, `gallery.albums`
+      (les listes sont vides : chaque page affiche un état vide propre en attendant)
 
-## Additional Resources
+## À brancher côté technique
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Les deux formulaires valident les saisies puis affichent un message de succès,
+sans envoyer quoi que ce soit. Chercher les `TODO` :
+
+- [`src/app/pages/devenir-membre/devenir-membre.ts`](src/app/pages/devenir-membre/devenir-membre.ts) — adhésions
+- [`src/app/pages/contact/contact.ts`](src/app/pages/contact/contact.ts) — messages
+- Le champ « lettre d'information » du pied de page n'est pas encore branché non plus.
+
+Images : `public/img/` contient des visuels de démonstration (`hero-img.png`,
+`vision.png`) à remplacer par des photos du groupement.

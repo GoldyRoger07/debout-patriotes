@@ -1,0 +1,32 @@
+<section class="relative overflow-hidden bg-primary py-16 md:py-20">
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 opacity-10"
+       style="background-image: radial-gradient(circle at 1px 1px, #fff 1px, transparent 0); background-size: 24px 24px;"></div>
+
+  <my-container>
+    <div class="relative flex flex-col items-center gap-6 text-center">
+      <h2 class="max-w-2xl font-heading text-2xl font-extrabold text-white md:text-4xl">
+        {{ cta().title }}
+      </h2>
+
+      <p class="max-w-2xl leading-relaxed text-white/85">{{ cta().desc }}</p>
+
+      <div class="mt-2 flex flex-col gap-3 sm:flex-row">
+        <a
+          [routerLink]="cta().primary.url"
+          class="rounded-sm bg-white px-6 py-3 text-center font-bold text-primary shadow transition-transform duration-200 hover:-translate-y-0.5"
+        >
+          {{ cta().primary.label }}
+        </a>
+
+        @if (cta().secondary; as second) {
+          <a
+            [routerLink]="second.url"
+            class="rounded-sm border-2 border-white/70 px-6 py-3 text-center font-bold text-white transition-colors duration-200 hover:bg-white/10"
+          >
+            {{ second.label }}
+          </a>
+        }
+      </div>
+    </div>
+  </my-container>
+</section>

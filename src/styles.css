@@ -1,3 +1,147 @@
-/* You can add global styles to this file, and also import other style files */
+/* Styles globaux — DEBOUT PATRIOTES */
 
 @import 'tailwindcss';
+@import 'primeicons/primeicons.css';
+
+/**
+ * Valeurs par défaut de la marque.
+ *
+ * ThemeService ne s'exécute que dans le navigateur : sans ces valeurs, le HTML
+ * rendu côté serveur (SSR / prerender) s'afficherait sans couleurs ni polices
+ * jusqu'à l'hydratation. Elles doivent rester alignées sur `config/brand/theme.ts`.
+ */
+:root {
+  --brand-primary: #be1e2d;
+  --brand-primary-dark: #8f1522;
+  --brand-secondary: #111827;
+  --brand-background: #ffffff;
+  --brand-surface: #f7f7f7;
+  --brand-foreground: #111111;
+  --brand-foreground-muted: #6b7280;
+
+  --brand-success: #15803d;
+  --brand-warning: #b45309;
+  --brand-danger: #b91c1c;
+
+  --font-heading: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-accent: 'Playfair Display', ui-serif, Georgia, serif;
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+
+  --shadow-card: 0 1px 2px rgb(17 17 17 / 0.04), 0 8px 24px -12px rgb(17 17 17 / 0.12);
+  --shadow-button: 0 1px 2px rgb(17 17 17 / 0.08);
+}
+
+@theme {
+  /* Colors */
+
+  --color-primary: var(--brand-primary);
+  --color-primary-dark: var(--brand-primary-dark);
+  --color-secondary: var(--brand-secondary);
+  --color-background: var(--brand-background);
+  --color-surface: var(--brand-surface);
+  --color-foreground: var(--brand-foreground);
+  --color-foreground-muted: var(--brand-foreground-muted);
+
+  --color-success: var(--brand-success);
+  --color-warning: var(--brand-warning);
+  --color-danger: var(--brand-danger);
+
+  /* Fonts */
+
+  --font-heading: var(--font-heading);
+  --font-accent: var(--font-accent);
+  --font-body: var(--font-body);
+
+  /* Radius */
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+
+  /* Shadows */
+
+  --shadow-card: var(--shadow-card);
+  --shadow-button: var(--shadow-button);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Compense le header fixe lors d'un saut vers une ancre. */
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--brand-foreground);
+    background-color: var(--brand-background);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Anneau de focus visible et cohérent sur tout le site. */
+  :focus-visible {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  /* Barre décorative placée sous les titres de section. */
+  .rule {
+    display: block;
+    width: 3.5rem;
+    height: 3px;
+    background: var(--brand-primary);
+    border-radius: 2px;
+  }
+
+  /* Trame drapeau utilisée en fond de certaines sections. */
+  .flag-stripe {
+    background-image: linear-gradient(
+      90deg,
+      var(--brand-primary) 0 33.33%,
+      var(--brand-secondary) 33.33% 66.66%,
+      var(--brand-primary) 66.66% 100%
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.linear-img{
+  /* Version standard pour le futur */
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  mask-repeat: no-repeat;
+}

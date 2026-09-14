@@ -1,0 +1,102 @@
+<footer class="bg-secondary pt-16 pb-8 text-white">
+  <div aria-hidden="true" class="flag-stripe h-1 w-full"></div>
+
+  <my-container>
+    <div class="flex flex-col gap-12 pt-14">
+      <div class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-12">
+        <!-- Identité -->
+        <div class="flex flex-col gap-4 lg:col-span-4">
+          <a routerLink="/" class="flex items-center gap-3" aria-label="DEBOUT PATRIOTES — accueil">
+            <img [src]="company().logo.light" class="h-14 w-auto rounded-sm bg-white p-1.5" [alt]="company().name" />
+            <span class="font-heading text-lg font-extrabold uppercase leading-tight tracking-tight">
+              Debout<br />Patriotes
+            </span>
+          </a>
+
+          <p class="max-w-sm text-sm leading-relaxed text-white/70">{{ footer().about }}</p>
+
+          <p class="font-accent text-base italic text-white/90">{{ meta().tagline }}</p>
+        </div>
+
+        <!-- Colonnes de liens -->
+        @for (column of footer().columns; track column.title) {
+          <nav class="flex flex-col gap-3 lg:col-span-2" [attr.aria-label]="column.title">
+            <h2 class="font-heading text-sm font-bold uppercase tracking-wider text-white">{{ column.title }}</h2>
+            <ul class="flex flex-col gap-2.5">
+              @for (link of column.links; track link.url) {
+                <li>
+                  <a [routerLink]="link.url" class="text-sm text-white/70 transition-colors hover:text-white">
+                    {{ link.label }}
+                  </a>
+                </li>
+              }
+            </ul>
+          </nav>
+        }
+
+        <!-- Contact et lettre d'information -->
+        <div class="flex flex-col gap-5 lg:col-span-2">
+          <div class="flex flex-col gap-3">
+            <h2 class="font-heading text-sm font-bold uppercase tracking-wider text-white">Contact</h2>
+            <a [href]="'mailto:' + company().contact.email" class="text-sm text-white/70 transition-colors hover:text-white">
+              {{ company().contact.email }}
+            </a>
+            <span class="text-sm text-white/70">{{ company().contact.phone }}</span>
+            <span class="text-sm text-white/70">{{ company().contact.address }}</span>
+          </div>
+
+          <div class="flex flex-col gap-3">
+            <h2 class="font-heading text-sm font-bold uppercase tracking-wider text-white">Suivez-nous</h2>
+            <ul class="flex flex-wrap gap-2">
+              @for (network of networks(); track network.name) {
+                <li>
+                  <a
+                    [href]="network.url"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    [attr.aria-label]="network.name"
+                    class="inline-flex h-10 w-10 items-center justify-center rounded-sm bg-white/10 transition-colors hover:bg-primary"
+                  >
+                    <i class="pi pi-{{ network.icon }} text-lg" aria-hidden="true"></i>
+                  </a>
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lettre d'information -->
+      <div class="rounded-md border border-white/12 bg-white/5 p-6 md:p-8">
+        <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+          <div class="max-w-md">
+            <h2 class="font-heading text-lg font-bold text-white">{{ footer().newsletter.title }}</h2>
+            <p class="mt-1 text-sm text-white/70">{{ footer().newsletter.desc }}</p>
+          </div>
+
+          <form class="flex w-full max-w-md flex-col gap-2 sm:flex-row" (submit)="$event.preventDefault()">
+            <label class="sr-only" for="footer-newsletter">{{ footer().newsletter.placeholder }}</label>
+            <input
+              id="footer-newsletter"
+              type="email"
+              required
+              [placeholder]="footer().newsletter.placeholder"
+              class="w-full rounded-sm border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/50 focus:border-white/50 focus:outline-none"
+            />
+            <button
+              type="submit"
+              class="shrink-0 rounded-sm bg-primary px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-primary-dark"
+            >
+              {{ footer().newsletter.submit }}
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="flex flex-col items-center gap-2 border-t border-white/15 pt-6 text-center text-sm text-white/60 md:flex-row md:justify-between md:text-left">
+        <p>© {{ year }} {{ company().legalName }}. {{ footer().legal }}</p>
+        <p class="font-accent italic">{{ footer().credits }}</p>
+      </div>
+    </div>
+  </my-container>
+</footer>

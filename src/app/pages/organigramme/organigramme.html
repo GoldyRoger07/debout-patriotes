@@ -1,0 +1,99 @@
+<my-page-header
+  [eyebrow]="page().intro.eyebrow!"
+  [title]="page().intro.title"
+  [lead]="page().intro.lead"
+/>
+
+<!-- ============================ PRINCIPE ============================ -->
+<section class="py-20 md:py-24">
+  <my-container>
+    <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16">
+      <div class="lg:col-span-5">
+        <my-section-title eyebrow="Notre fonctionnement" [heading]="page().principle.title" />
+      </div>
+
+      <div class="flex flex-col gap-5 lg:col-span-7">
+        @for (paragraph of page().principle.paragraphs; track $index) {
+          <p class="leading-relaxed text-foreground-muted">{{ paragraph }}</p>
+        }
+      </div>
+    </div>
+  </my-container>
+</section>
+
+<!-- ============================ INSTANCES ============================ -->
+<section class="bg-surface py-20 md:py-24">
+  <my-container>
+    <my-section-title
+      eyebrow="Nos instances"
+      heading="De l'Assemblée aux sections communales"
+      lead="Six niveaux, du plus souverain au plus proche du terrain."
+    />
+
+    <ol class="relative mt-12 flex flex-col gap-5 border-l-2 border-gray-200 pl-6 md:pl-10">
+      @for (level of page().levels; track level.title; let i = $index) {
+        <li class="relative">
+          <span
+            aria-hidden="true"
+            class="absolute -left-[1.9rem] top-6 flex h-7 w-7 items-center justify-center rounded-full border-4 border-surface bg-primary font-heading text-xs font-bold text-white md:-left-[3.15rem]"
+          >
+            {{ i + 1 }}
+          </span>
+
+          <article class="rounded-md border border-gray-200 bg-white p-6 shadow-card md:p-8">
+            <h3 class="font-heading text-xl font-bold text-secondary">{{ level.title }}</h3>
+            <p class="mt-2 leading-relaxed text-foreground-muted">{{ level.role }}</p>
+
+            @if (level.members?.length) {
+              <ul class="mt-4 flex flex-wrap gap-2">
+                @for (member of level.members!; track member) {
+                  <li class="rounded-sm bg-primary/8 px-3 py-1.5 text-sm font-medium text-primary">
+                    {{ member }}
+                  </li>
+                }
+              </ul>
+            }
+          </article>
+        </li>
+      }
+    </ol>
+
+    <p class="mt-10 flex items-start gap-3 rounded-md border border-dashed border-gray-300 bg-white p-5 text-sm leading-relaxed text-foreground-muted">
+      <i class="pi pi-info-circle mt-0.5 shrink-0 text-primary" aria-hidden="true"></i>
+      Les responsables de chaque instance seront nommément publiés sur cette page dès leur désignation
+      par l'Assemblée des partis membres.
+    </p>
+  </my-container>
+</section>
+
+<!-- ============================ COMMISSIONS ============================ -->
+<section class="py-20 md:py-24">
+  <my-container>
+    <my-section-title
+      [heading]="page().commissions.title"
+      [lead]="page().commissions.lead"
+    />
+
+    <div class="mt-12">
+      <my-feature-grid [items]="page().commissions.items" [cols]="3" />
+    </div>
+  </my-container>
+</section>
+
+<!-- ============================ IMPLANTATION ============================ -->
+<section class="bg-secondary py-20 md:py-24">
+  <my-container>
+    <my-section-title
+      align="center"
+      [heading]="page().territory.title"
+      [lead]="page().territory.lead"
+      [invert]="true"
+    />
+
+    <div class="mt-12">
+      <my-feature-grid [items]="page().territory.items" [cols]="3" [invert]="true" />
+    </div>
+  </my-container>
+</section>
+
+<my-cta-section [cta]="page().cta" />

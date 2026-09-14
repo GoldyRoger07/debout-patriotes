@@ -1,0 +1,34 @@
+<my-page-header
+  [eyebrow]="page().intro.eyebrow!"
+  [title]="page().intro.title"
+  [lead]="page().intro.lead"
+/>
+
+<section class="py-16 md:py-20">
+  <my-container>
+    @if (page().albums.length) {
+      <ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        @for (album of page().albums; track album.title) {
+          <li class="group overflow-hidden rounded-md border border-gray-200 bg-white shadow-card">
+            @if (album.cover) {
+              <img
+                [src]="album.cover"
+                [alt]="album.title"
+                class="h-56 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+            }
+
+            <div class="p-5">
+              <h2 class="font-heading text-lg font-bold text-secondary">{{ album.title }}</h2>
+              <p class="mt-1 text-sm text-foreground-muted">
+                {{ album.date }} · {{ album.count }} photos
+              </p>
+            </div>
+          </li>
+        }
+      </ul>
+    } @else {
+      <my-empty-state [message]="page().empty" icon="pi-images" />
+    }
+  </my-container>
+</section>

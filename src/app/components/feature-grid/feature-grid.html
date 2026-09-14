@@ -1,0 +1,27 @@
+<ul class="grid grid-cols-1 gap-5" [class]="gridClass()">
+  @for (item of items(); track item.title) {
+    <li
+      class="group rounded-md border p-6 transition-colors duration-200"
+      [class]="invert()
+        ? 'border-white/15 bg-white/5 hover:border-white/30'
+        : 'border-gray-200 bg-white shadow-card hover:border-primary/40'"
+    >
+      @if (item.icon) {
+        <span
+          class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-sm"
+          [class]="invert() ? 'bg-white/10 text-white' : 'bg-primary/10 text-primary'"
+        >
+          <i class="pi {{ item.icon }} text-xl" aria-hidden="true"></i>
+        </span>
+      }
+
+      <h3 class="font-heading text-lg font-bold" [class]="invert() ? 'text-white' : 'text-secondary'">
+        {{ item.title }}
+      </h3>
+
+      <p class="mt-2 text-sm leading-relaxed" [class]="invert() ? 'text-white/70' : 'text-foreground-muted'">
+        {{ item.desc }}
+      </p>
+    </li>
+  }
+</ul>

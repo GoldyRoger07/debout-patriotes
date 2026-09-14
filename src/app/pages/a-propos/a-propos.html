@@ -1,0 +1,108 @@
+<my-page-header
+  [eyebrow]="page().intro.eyebrow!"
+  [title]="page().intro.title"
+  [lead]="page().intro.lead"
+/>
+
+<!-- ============================ ACTE DE NAISSANCE ============================ -->
+<section class="py-20 md:py-24">
+  <my-container>
+    <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16">
+      <div class="lg:col-span-5">
+        <my-section-title [heading]="page().story.title" />
+      </div>
+
+      <div class="flex flex-col gap-5 lg:col-span-7">
+        @for (paragraph of page().story.paragraphs; track $index) {
+          <p class="leading-relaxed text-foreground-muted">{{ paragraph }}</p>
+        }
+      </div>
+    </div>
+  </my-container>
+</section>
+
+<!-- ============================ LE CONSTAT ============================ -->
+<section class="bg-surface py-20 md:py-24">
+  <my-container>
+    <my-section-title
+      eyebrow="Le point de départ"
+      [heading]="page().diagnosis.title"
+      [lead]="page().diagnosis.lead"
+    />
+
+    <div class="mt-12">
+      <my-feature-grid [items]="page().diagnosis.items" [cols]="3" />
+    </div>
+  </my-container>
+</section>
+
+<!-- ============================ NOTRE RÉPONSE ============================ -->
+<section class="bg-secondary py-20 md:py-24">
+  <my-container>
+    <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16">
+      <div class="lg:col-span-5">
+        <my-section-title [heading]="page().answer.title" [invert]="true" />
+      </div>
+
+      <div class="flex flex-col gap-5 lg:col-span-7">
+        @for (paragraph of page().answer.paragraphs; track $index) {
+          <p class="leading-relaxed text-white/75">{{ paragraph }}</p>
+        }
+      </div>
+    </div>
+  </my-container>
+</section>
+
+<!-- ============================ CE QUI NOUS TIENT ENSEMBLE ============================ -->
+<section class="py-20 md:py-24">
+  <my-container>
+    <my-section-title
+      eyebrow="Notre charte"
+      [heading]="page().charter.title"
+      [lead]="page().charter.lead"
+    />
+
+    <div class="mt-12">
+      <my-feature-grid [items]="page().charter.principles" [cols]="2" />
+    </div>
+  </my-container>
+</section>
+
+<!-- ============================ LES ONZE PARTIS ============================ -->
+<section class="bg-surface py-20 md:py-24">
+  <my-container>
+    <my-section-title
+      align="center"
+      eyebrow="Nos composantes"
+      [heading]="page().parties.title"
+      [lead]="page().parties.lead"
+    />
+
+    <ul class="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      @for (party of page().parties.list; track party.name; let i = $index) {
+        <li class="flex items-center gap-4 rounded-md border border-gray-200 bg-white p-5 shadow-card">
+          <span
+            aria-hidden="true"
+            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm bg-primary/10 font-heading text-base font-extrabold text-primary"
+          >
+            {{ i + 1 }}
+          </span>
+
+          <div class="min-w-0">
+            <p class="truncate font-heading font-bold text-secondary">{{ party.name }}</p>
+            @if (party.note) {
+              <p class="truncate text-sm text-foreground-muted">{{ party.note }}</p>
+            }
+          </div>
+        </li>
+      }
+    </ul>
+
+    <p class="mx-auto mt-8 flex max-w-2xl items-start gap-3 rounded-md border border-dashed border-gray-300 bg-white p-5 text-sm leading-relaxed text-foreground-muted">
+      <i class="pi pi-info-circle mt-0.5 shrink-0 text-primary" aria-hidden="true"></i>
+      {{ page().parties.note }}
+    </p>
+  </my-container>
+</section>
+
+<my-cta-section [cta]="page().cta" />

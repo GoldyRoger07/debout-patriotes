@@ -1,0 +1,76 @@
+<my-page-header
+  [eyebrow]="page().intro.eyebrow!"
+  [title]="page().intro.title"
+  [lead]="page().intro.lead"
+/>
+
+<!-- ============================ POURQUOI ============================ -->
+<section class="py-20 md:py-24">
+  <my-container>
+    <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16">
+      <div class="lg:col-span-5">
+        <my-section-title eyebrow="Indépendance" [heading]="page().why.title" />
+      </div>
+
+      <div class="flex flex-col gap-5 lg:col-span-7">
+        @for (paragraph of page().why.paragraphs; track $index) {
+          <p class="leading-relaxed text-foreground-muted">{{ paragraph }}</p>
+        }
+      </div>
+    </div>
+  </my-container>
+</section>
+
+<!-- ============================ USAGES ============================ -->
+<section class="bg-surface py-20 md:py-24">
+  <my-container>
+    <my-section-title [heading]="page().uses.title" [lead]="page().uses.lead" />
+
+    <div class="mt-12">
+      <my-feature-grid [items]="page().uses.items" [cols]="4" />
+    </div>
+  </my-container>
+</section>
+
+<!-- ============================ MODALITÉS ============================ -->
+<section class="py-20 md:py-24">
+  <my-container>
+    <my-section-title [heading]="page().methods.title" [lead]="page().methods.lead" />
+
+    <div class="mt-12">
+      <my-feature-grid [items]="page().methods.items" [cols]="4" />
+    </div>
+
+    <p class="mt-8 flex items-start gap-3 rounded-md border border-dashed border-gray-300 bg-surface p-5 text-sm leading-relaxed text-foreground-muted">
+      <i class="pi pi-info-circle mt-0.5 shrink-0 text-primary" aria-hidden="true"></i>
+      <span>
+        En attendant la publication des coordonnées officielles,
+        <a routerLink="/contact" class="font-bold text-primary underline underline-offset-2">écrivez-nous</a>
+        : le Secrétariat à la trésorerie vous indiquera la marche à suivre.
+      </span>
+    </p>
+  </my-container>
+</section>
+
+<!-- ============================ RÈGLES ============================ -->
+<section class="bg-secondary py-20 md:py-24">
+  <my-container>
+    <div class="mx-auto max-w-3xl">
+      <my-section-title
+        align="center"
+        [heading]="page().rules.title"
+        [lead]="page().rules.lead"
+        [invert]="true"
+      />
+
+      <ul class="mt-10 flex flex-col gap-4">
+        @for (rule of page().rules.items; track rule) {
+          <li class="flex items-start gap-4 rounded-md border border-white/15 bg-white/5 p-5">
+            <i class="pi pi-verified mt-0.5 shrink-0 text-primary" aria-hidden="true"></i>
+            <span class="leading-relaxed text-white/80">{{ rule }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+  </my-container>
+</section>

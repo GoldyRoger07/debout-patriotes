@@ -1,0 +1,5 @@
+/* Estompe le bas de l'image du hero pour la fondre dans la section. */
+.hero-mask {
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  /* background: #0000007e; */
+}

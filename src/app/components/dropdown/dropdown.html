@@ -1,0 +1,18 @@
+<div class="dropdown">
+  <button
+    type="button"
+    class="dropdown-trigger flex items-center gap-1 text-sm font-semibold text-secondary transition-colors hover:text-primary"
+    aria-haspopup="true"
+  >
+    <span>{{ label() }}</span>
+    <i class="pi pi-angle-down text-base" aria-hidden="true"></i>
+  </button>
+
+  <ul class="dropdown-menu">
+    @for (item of items(); track item.url) {
+      <li>
+        <a [routerLink]="item.url" routerLinkActive="is-active">{{ item.label }}</a>
+      </li>
+    }
+  </ul>
+</div>

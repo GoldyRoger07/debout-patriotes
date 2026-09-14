@@ -1,0 +1,168 @@
+<a
+  href="#contenu"
+  class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-100 focus:rounded-sm focus:bg-primary focus:px-4 focus:py-2 focus:font-semibold focus:text-white"
+>
+  Aller au contenu principal
+</a>
+
+<header
+  [class.hide-header]="hidden()"
+  [class.is-scrolled]="scrolled()"
+  class="fixed inset-x-0 top-0 z-50 w-full border-b border-transparent py-2 transition-all duration-300 will-change-transform"
+>
+  <my-container>
+    <nav class="flex h-16 w-full items-center justify-between gap-2 py-1" aria-label="Navigation principale">
+      <!-- Logo -->
+      <a routerLink="/" class="flex shrink-0 items-center gap-2.5" aria-label="DEBOUT PATRIOTES — accueil">
+        <img [src]="company().logo.light" class="h-11 w-auto" [alt]="company().name" />
+        <span class="hidden font-heading text-lg font-extrabold uppercase tracking-tight text-primary sm:block">
+          Debout Patriotes
+        </span>
+      </a>
+
+      <!-- Menu (bureau) -->
+      <ul class="hidden items-center gap-7 lg:flex">
+        @for (item of navItems(); track item.label) {
+          <li>
+            @if (item.children?.length) {
+              <my-dropdown [items]="item.children!" [label]="item.label" />
+            } @else {
+              <a
+                [routerLink]="item.url"
+                routerLinkActive="text-primary"
+                [routerLinkActiveOptions]="{ exact: true }"
+                class="text-sm font-semibold text-secondary transition-colors hover:text-primary"
+              >
+                {{ item.label }}
+              </a>
+            }
+          </li>
+        }
+      </ul>
+
+      <!-- Actions (bureau) -->
+      <div class="hidden items-center gap-3 lg:flex">
+        <a
+          routerLink="/faire-un-don"
+          class="rounded-sm border-2 border-primary px-4 py-2 text-sm font-bold text-primary transition-colors hover:bg-primary/5"
+        >
+          Soutenir
+        </a>
+        <a
+          routerLink="/devenir-membre"
+          class="rounded-sm border-2 border-primary bg-primary px-4 py-2 text-sm font-bold text-white shadow transition-transform duration-200 hover:-translate-y-0.5"
+        >
+          Devenir membre
+        </a>
+      </div>
+
+      <!-- Bouton menu (mobile) -->
+      <button
+        type="button"
+        class="inline-flex h-11 w-11 items-center justify-center rounded-sm text-secondary transition-colors hover:bg-black/5 lg:hidden"
+        [attr.aria-expanded]="menuOpen()"
+        aria-controls="mobile-menu"
+        aria-label="Ouvrir le menu"
+        (click)="toggleMenu()"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </nav>
+  </my-container>
+</header>
+
+<!-- Menu plein écran (mobile) -->
+<div
+  id="mobile-menu"
+  [class.open]="menuOpen()"
+  [attr.aria-hidden]="!menuOpen()"
+  class="mobile-menu-overlay fixed inset-0 z-60 flex h-dvh w-full flex-col overflow-y-auto bg-white lg:hidden"
+>
+  <div class="flex shrink-0 items-center justify-between border-b border-gray-200 px-5 py-4">
+    <a routerLink="/" class="flex items-center gap-2.5" (click)="closeMenu()" aria-label="DEBOUT PATRIOTES — accueil">
+      <img [src]="company().logo.light" class="h-10 w-auto" [alt]="company().name" />
+      <span class="font-heading text-base font-extrabold uppercase tracking-tight text-primary">
+        Debout Patriotes
+      </span>
+    </a>
+
+    <button
+      type="button"
+      class="inline-flex h-11 w-11 items-center justify-center rounded-sm text-secondary transition-colors hover:bg-black/5"
+      aria-label="Fermer le menu"
+      (click)="closeMenu()"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <ul class="flex flex-1 flex-col px-5 py-2">
+    @for (item of navItems(); track item.label) {
+      <li class="border-b border-gray-100">
+        @if (item.children?.length) {
+          <button
+            type="button"
+            class="flex w-full items-center justify-between py-4 text-left font-heading text-lg font-bold text-secondary"
+            [attr.aria-expanded]="openSection() === item.label"
+            (click)="toggleSection(item.label)"
+          >
+            {{ item.label }}
+            <i
+              class="pi pi-angle-down text-xl transition-transform duration-300"
+              [class.rotate-180]="openSection() === item.label"
+              aria-hidden="true"
+            ></i>
+          </button>
+
+          <div class="grid transition-all duration-300" [class]="openSection() === item.label ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'">
+            <ul class="overflow-hidden">
+              @for (child of item.children!; track child.url) {
+                <li>
+                  <a
+                    [routerLink]="child.url"
+                    routerLinkActive="text-primary"
+                    class="block py-3 pl-4 text-base text-foreground-muted transition-colors hover:text-primary"
+                    (click)="closeMenu()"
+                  >
+                    {{ child.label }}
+                  </a>
+                </li>
+              }
+            </ul>
+          </div>
+        } @else {
+          <a
+            [routerLink]="item.url"
+            routerLinkActive="text-primary"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="block py-4 font-heading text-lg font-bold text-secondary transition-colors hover:text-primary"
+            (click)="closeMenu()"
+          >
+            {{ item.label }}
+          </a>
+        }
+      </li>
+    }
+  </ul>
+
+  <div class="flex shrink-0 flex-col gap-3 border-t border-gray-200 px-5 py-5">
+    <a
+      routerLink="/devenir-membre"
+      class="rounded-sm bg-primary px-5 py-3 text-center font-bold text-white shadow"
+      (click)="closeMenu()"
+    >
+      Devenir membre
+    </a>
+    <a
+      routerLink="/faire-un-don"
+      class="rounded-sm border-2 border-primary px-5 py-3 text-center font-bold text-primary"
+      (click)="closeMenu()"
+    >
+      Soutenir le groupement
+    </a>
+  </div>
+</div>

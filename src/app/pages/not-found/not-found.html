@@ -1,0 +1,31 @@
+<section class="flex min-h-[70vh] items-center bg-surface pt-32 pb-20">
+  <my-container>
+    <div class="mx-auto flex max-w-xl flex-col items-center gap-5 text-center">
+      <p class="font-heading text-7xl font-extrabold text-primary/25 md:text-8xl">404</p>
+
+      <h1 class="font-heading text-3xl font-extrabold text-secondary md:text-4xl">
+        Cette page est introuvable
+      </h1>
+
+      <p class="leading-relaxed text-foreground-muted">
+        Le lien que vous avez suivi ne mène nulle part, ou la page a changé d'adresse.
+        Reprenons depuis le début.
+      </p>
+
+      <div class="mt-2 flex flex-col gap-3 sm:flex-row">
+        <a
+          routerLink="/"
+          class="rounded-sm bg-primary px-6 py-3 font-bold text-white shadow transition-colors hover:bg-primary-dark"
+        >
+          Retour à l'accueil
+        </a>
+        <a
+          routerLink="/contact"
+          class="rounded-sm border-2 border-primary px-6 py-3 font-bold text-primary transition-colors hover:bg-primary/5"
+        >
+          Nous signaler le problème
+        </a>
+      </div>
+    </div>
+  </my-container>
+</section>

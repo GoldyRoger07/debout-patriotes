@@ -1,0 +1,52 @@
+<my-page-header
+  [eyebrow]="page().intro.eyebrow!"
+  [title]="page().intro.title"
+  [lead]="page().intro.lead"
+/>
+
+<section class="py-16 md:py-20">
+  <my-container>
+    <!-- Filtres par catégorie -->
+    @if (page().items.length) {
+      <div class="flex flex-wrap gap-2" role="group" aria-label="Filtrer par catégorie">
+        @for (category of page().categories; track category) {
+          <button
+            type="button"
+            class="rounded-sm border px-4 py-2 text-sm font-semibold transition-colors"
+            [class]="activeCategory() === category
+              ? 'border-primary bg-primary text-white'
+              : 'border-gray-300 bg-white text-secondary hover:border-primary hover:text-primary'"
+            [attr.aria-pressed]="activeCategory() === category"
+            (click)="select(category)"
+          >
+            {{ category }}
+          </button>
+        }
+      </div>
+    }
+
+    <div class="mt-10">
+      @if (visibleItems().length) {
+        <ul class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          @for (item of visibleItems(); track item.slug) {
+            <li class="flex flex-col overflow-hidden rounded-md border border-gray-200 bg-white shadow-card transition-colors hover:border-primary/40">
+              @if (item.cover) {
+                <img [src]="item.cover" [alt]="item.title" class="h-48 w-full object-cover" />
+              }
+
+              <div class="flex flex-1 flex-col gap-2 p-6">
+                <p class="text-xs font-semibold uppercase tracking-wider text-primary">
+                  {{ item.category }} · {{ item.date }}
+                </p>
+                <h2 class="font-heading text-lg font-bold text-secondary">{{ item.title }}</h2>
+                <p class="flex-1 text-sm leading-relaxed text-foreground-muted">{{ item.excerpt }}</p>
+              </div>
+            </li>
+          }
+        </ul>
+      } @else {
+        <my-empty-state [message]="page().empty" icon="pi-megaphone" />
+      }
+    </div>
+  </my-container>
+</section>

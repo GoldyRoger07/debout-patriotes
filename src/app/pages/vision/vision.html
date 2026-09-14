@@ -1,0 +1,109 @@
+<my-page-header
+  [eyebrow]="page().intro.eyebrow!"
+  [title]="page().intro.title"
+  [lead]="page().intro.lead"
+/>
+
+<!-- ============================ CE QUE NOUS VOULONS ============================ -->
+<section class="py-20 md:py-24">
+  <my-container>
+    <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16">
+      <div class="lg:col-span-5">
+        <my-section-title eyebrow="Notre vision" [heading]="page().statement.title" />
+      </div>
+
+      <div class="flex flex-col gap-5 lg:col-span-7">
+        @for (paragraph of page().statement.paragraphs; track $index) {
+          <p class="leading-relaxed text-foreground-muted">{{ paragraph }}</p>
+        }
+      </div>
+    </div>
+  </my-container>
+</section>
+
+<!-- ============================ LES QUATRE PILIERS ============================ -->
+<section class="bg-surface py-20 md:py-24">
+  <my-container>
+    <my-section-title
+      align="center"
+      eyebrow="Nos quatre piliers"
+      heading="Sécurité, souveraineté, légitimité démocratique, progrès"
+      lead="Quatre exigences indissociables. Aucune ne tient sans les trois autres."
+    />
+
+    <div class="mt-14 flex flex-col gap-6">
+      @for (pillar of page().pillars; track pillar.key; let i = $index) {
+        <article
+          [id]="pillar.key"
+          class="grid grid-cols-1 gap-8 rounded-md border border-gray-200 bg-white p-7 shadow-card md:grid-cols-12 md:p-10"
+        >
+          <div class="md:col-span-5">
+            <div class="flex items-center gap-4">
+              <span class="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-sm bg-primary text-white">
+                <i class="pi {{ pillar.icon }} text-2xl" aria-hidden="true"></i>
+              </span>
+
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-foreground-muted">
+                  Pilier {{ i + 1 }} / {{ page().pillars.length }}
+                </p>
+                <h3 class="font-heading text-2xl font-extrabold text-secondary">{{ pillar.title }}</h3>
+              </div>
+            </div>
+
+            <p class="mt-4 font-accent text-lg italic text-primary">{{ pillar.tagline }}</p>
+            <p class="mt-3 leading-relaxed text-foreground-muted">{{ pillar.desc }}</p>
+          </div>
+
+          <div class="md:col-span-7">
+            <h4 class="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-foreground-muted">
+              Ce que cela implique
+            </h4>
+
+            <ul class="flex flex-col gap-3">
+              @for (point of pillar.points; track point) {
+                <li class="flex items-start gap-3">
+                  <i class="pi pi-check mt-1 shrink-0 text-sm text-primary" aria-hidden="true"></i>
+                  <span class="leading-relaxed text-secondary">{{ point }}</span>
+                </li>
+              }
+            </ul>
+          </div>
+        </article>
+      }
+    </div>
+  </my-container>
+</section>
+
+<!-- ============================ NOTRE HORIZON ============================ -->
+<section class="bg-secondary py-20 md:py-24">
+  <my-container>
+    <my-section-title
+      align="center"
+      [heading]="page().horizon.title"
+      [lead]="page().horizon.lead"
+      [invert]="true"
+    />
+
+    <div class="mt-12">
+      <my-feature-grid [items]="page().horizon.items" [cols]="3" [invert]="true" />
+    </div>
+  </my-container>
+</section>
+
+<!-- ============================ NOS VALEURS ============================ -->
+<section class="py-20 md:py-24">
+  <my-container>
+    <my-section-title
+      eyebrow="Nos valeurs"
+      [heading]="page().values.title"
+      [lead]="page().values.lead"
+    />
+
+    <div class="mt-12">
+      <my-feature-grid [items]="page().values.items" [cols]="3" />
+    </div>
+  </my-container>
+</section>
+
+<my-cta-section [cta]="page().cta" />
