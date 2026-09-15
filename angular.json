@@ -31,7 +31,7 @@
             "outputMode": "server",
             "security": {
               "allowedHosts": [
-                "*"
+                
               ]
             },
             "ssr": {
