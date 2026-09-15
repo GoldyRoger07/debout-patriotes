@@ -114,6 +114,17 @@ export interface SiteContent {
       primaryCta: { label: string; url: string };
       secondaryCta: { label: string; url: string };
     };
+    emblem: {
+      eyebrow: string;
+      title: string;
+      lead: string;
+      logoLabel: string;
+      logo: { src: string; alt: string };
+      colorsLabel: string;
+      colors: { name: string; hex: string }[];
+      numberLabel: string;
+      number: string;
+    };
     stats: Stat[];
     welcome: { title: string; paragraphs: string[]; cta: { label: string; url: string } };
     identity: { title: string; lead: string; cards: Feature[] };

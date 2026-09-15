@@ -66,6 +66,22 @@ export const fr: SiteContent = {
       secondaryCta: { label: 'Découvrir notre vision', url: '/vision' },
     },
 
+    emblem: {
+      eyebrow: 'Identité officielle',
+      title: 'Nos symboles',
+      lead: 'Un logo, trois couleurs et un numéro : les repères officiels de DEBOUT PATRIOTES.',
+      logoLabel: 'Logo officiel',
+      logo: { src: '/img/home/bg-dp.png', alt: 'Logo officiel de DEBOUT PATRIOTES' },
+      colorsLabel: 'Couleurs officielles',
+      colors: [
+        { name: 'Rouge', hex: '#BE1E2D' },
+        { name: 'Vert', hex: '#006838' },
+        { name: 'Noir', hex: '#000000' },
+      ],
+      numberLabel: 'Numéro officiel',
+      number: '#16',
+    },
+
     stats: [
       { value: '11', label: 'partis politiques émergents rassemblés' },
       { value: '1', label: 'vision commune de la gouvernance' },
