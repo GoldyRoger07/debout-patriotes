@@ -11,7 +11,7 @@ services:
     healthCheckPath: /api/ping
     envVars:
       - key: NODE_VERSION
-        value: 22.12.0
+        value: v22.22.3
       - key: NODE_ENV
         value: production
       # SSRF protection Angular 21 : hôtes autorisés pour le rendu serveur.
