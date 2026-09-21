@@ -50,13 +50,27 @@ export interface MemberParty {
   note?: string;
 }
 
-export interface NewsItem {
+/** Fiche candidat telle que renvoyée par l'API (`GET /api/candidates`), saisie dans le back-office. */
+export interface Candidate {
+  id?: number;
+  /** Identifiant d'URL : `/candidats/<slug>`. */
   slug: string;
-  date: string;
-  category: string;
-  title: string;
-  excerpt: string;
-  cover?: string;
+  name: string;
+  subtitle: string;
+  /** URL ImageKit de la photo. Un visuel neutre s'affiche en attendant. */
+  photo?: string | null;
+  /** Poste brigué. */
+  position: string;
+  constituency: string;
+  party: string;
+  profession: string;
+  birthplace: string;
+  quote?: string | null;
+  bio: string[];
+  priorities: Feature[];
+  career: { period: string; title: string; desc?: string | null }[];
+  education: string[];
+  contact?: { email?: string; facebook?: string; x?: string; instagram?: string } | null;
 }
 
 export interface EventItem {
@@ -130,8 +144,32 @@ export interface SiteContent {
     identity: { title: string; lead: string; cards: Feature[] };
     pillars: { title: string; lead: string };
     heritage: { eyebrow: string; title: string; paragraphs: string[]; attribution: string };
+    candidates: { eyebrow: string; title: string; lead: string; cta: { label: string; url: string } };
     news: { title: string; lead: string; cta: { label: string; url: string } };
     cta: CtaContent;
+  };
+
+  /** Libellés des pages candidats ; les fiches elles-mêmes viennent de l'API. */
+  candidates: {
+    intro: PageIntro;
+    empty: string;
+    profile: {
+      back: string;
+      sheet: string;
+      position: string;
+      constituency: string;
+      party: string;
+      profession: string;
+      birthplace: string;
+      bio: string;
+      priorities: string;
+      career: string;
+      education: string;
+      contact: string;
+      others: string;
+      notFound: string;
+      cta: CtaContent;
+    };
   };
 
   about: {
@@ -170,11 +208,15 @@ export interface SiteContent {
     cta: CtaContent;
   };
 
+  /** Libellés du blog ; rubriques et articles viennent de l'API. */
   news: {
     intro: PageIntro;
-    categories: string[];
-    items: NewsItem[];
+    /** Filtre « toutes rubriques ». */
+    all: string;
     empty: string;
+    more: string;
+    readMore: string;
+    article: { back: string; related: string; notFound: string; cta: CtaContent };
   };
 
   events: {

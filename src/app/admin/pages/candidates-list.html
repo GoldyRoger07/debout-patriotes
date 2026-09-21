@@ -1,0 +1,106 @@
+<div class="flex flex-wrap items-end justify-between gap-4">
+  <div>
+    <h1 class="font-heading text-2xl font-extrabold text-secondary">Candidats</h1>
+    <p class="mt-1 text-sm text-foreground-muted">
+      L'ordre ci-dessous est celui du site (accueil et page « Nos candidats »).
+    </p>
+  </div>
+  <a routerLink="/admin/candidats/nouveau" class="admin-btn admin-btn-primary">
+    <i class="pi pi-plus" aria-hidden="true"></i> Nouveau candidat
+  </a>
+</div>
+
+<div class="mt-8 overflow-hidden rounded-lg border border-gray-200 bg-white">
+  @if (candidates(); as list) {
+    @if (list.length) {
+      <ul class="divide-y divide-gray-100">
+        @for (candidate of list; track candidate.id; let i = $index, first = $first, last = $last) {
+          <li class="flex items-center gap-4 p-3 sm:p-4" [class.opacity-60]="!candidate.published">
+            <div class="flex flex-col">
+              <button
+                type="button"
+                class="px-1 text-foreground-muted hover:text-primary disabled:opacity-30"
+                [disabled]="first || busy()"
+                (click)="move(i, -1)"
+                title="Monter"
+              >
+                <i class="pi pi-chevron-up text-xs" aria-hidden="true"></i><span class="sr-only">Monter {{ candidate.name }}</span>
+              </button>
+              <button
+                type="button"
+                class="px-1 text-foreground-muted hover:text-primary disabled:opacity-30"
+                [disabled]="last || busy()"
+                (click)="move(i, 1)"
+                title="Descendre"
+              >
+                <i class="pi pi-chevron-down text-xs" aria-hidden="true"></i><span class="sr-only">Descendre {{ candidate.name }}</span>
+              </button>
+            </div>
+
+            <div class="h-14 w-11 shrink-0 overflow-hidden rounded bg-surface">
+              @if (candidate.photo) {
+                <img [src]="candidate.photo | ik: 'w-88,h-112,fo-face'" alt="" class="h-full w-full object-cover" />
+              } @else {
+                <div class="flex h-full items-center justify-center text-gray-300"><i class="pi pi-user" aria-hidden="true"></i></div>
+              }
+            </div>
+
+            <div class="min-w-0 flex-1">
+              <a [routerLink]="['/admin/candidats', candidate.id]" class="block truncate font-semibold text-secondary hover:text-primary">
+                {{ candidate.name }}
+              </a>
+              <p class="truncate text-xs text-foreground-muted">{{ candidate.position }} · {{ candidate.constituency }}</p>
+            </div>
+
+            <button
+              type="button"
+              class="hidden rounded-full px-3 py-1 text-xs font-semibold sm:inline-flex"
+              [class]="candidate.published ? 'bg-green-50 text-success hover:bg-green-100' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+              [disabled]="busy()"
+              [title]="candidate.published ? 'Masquer du site' : 'Mettre en ligne'"
+              (click)="togglePublished(candidate)"
+            >
+              {{ candidate.published ? 'En ligne' : 'Masqué' }}
+            </button>
+
+            <div class="flex shrink-0 items-center gap-1">
+              @if (candidate.published) {
+                <a
+                  [href]="'/candidats/' + candidate.slug"
+                  target="_blank"
+                  rel="noopener"
+                  class="rounded p-2 text-foreground-muted hover:bg-gray-100 hover:text-secondary"
+                  title="Voir sur le site"
+                >
+                  <i class="pi pi-eye" aria-hidden="true"></i><span class="sr-only">Voir sur le site</span>
+                </a>
+              }
+              <a
+                [routerLink]="['/admin/candidats', candidate.id]"
+                class="rounded p-2 text-foreground-muted hover:bg-gray-100 hover:text-secondary"
+                title="Modifier"
+              >
+                <i class="pi pi-pencil" aria-hidden="true"></i><span class="sr-only">Modifier</span>
+              </a>
+              <button
+                type="button"
+                class="rounded p-2 text-foreground-muted hover:bg-red-50 hover:text-danger"
+                title="Supprimer"
+                (click)="remove(candidate)"
+              >
+                <i class="pi pi-trash" aria-hidden="true"></i><span class="sr-only">Supprimer</span>
+              </button>
+            </div>
+          </li>
+        }
+      </ul>
+    } @else {
+      <div class="p-12 text-center text-sm text-foreground-muted">
+        <i class="pi pi-users mb-3 text-3xl text-gray-300" aria-hidden="true"></i>
+        <p>Aucun candidat pour le moment.</p>
+      </div>
+    }
+  } @else {
+    <div class="p-12 text-center text-foreground-muted"><i class="pi pi-spin pi-spinner" aria-hidden="true"></i></div>
+  }
+</div>

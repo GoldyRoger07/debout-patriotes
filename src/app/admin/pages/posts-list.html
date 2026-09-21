@@ -1,0 +1,137 @@
+<div class="flex flex-wrap items-end justify-between gap-4">
+  <div>
+    <h1 class="font-heading text-2xl font-extrabold text-secondary">Articles</h1>
+    <p class="mt-1 text-sm text-foreground-muted">Actualités publiées sur la page « Actualités » du site.</p>
+  </div>
+  <a routerLink="/admin/articles/nouveau" class="admin-btn admin-btn-primary">
+    <i class="pi pi-plus" aria-hidden="true"></i> Nouvel article
+  </a>
+</div>
+
+<div class="mt-8 flex flex-wrap items-center justify-between gap-3">
+  <div class="flex rounded-md bg-white p-1 ring-1 ring-gray-200" role="group" aria-label="Filtrer par statut">
+    @for (tab of tabs; track tab.label) {
+      <button
+        type="button"
+        class="rounded px-4 py-1.5 text-sm font-semibold transition-colors"
+        [class]="status() === tab.status ? 'bg-secondary text-white' : 'text-foreground-muted hover:text-secondary'"
+        [attr.aria-pressed]="status() === tab.status"
+        (click)="setStatus(tab.status)"
+      >
+        {{ tab.label }}
+      </button>
+    }
+  </div>
+
+  <label class="relative w-full sm:w-72">
+    <span class="sr-only">Rechercher un article</span>
+    <i class="pi pi-search absolute top-1/2 left-3 -translate-y-1/2 text-sm text-gray-400" aria-hidden="true"></i>
+    <input
+      type="search"
+      class="admin-input pl-9"
+      placeholder="Rechercher par titre…"
+      #search
+      (input)="onSearch(search.value)"
+    />
+  </label>
+</div>
+
+<div class="mt-6 overflow-hidden rounded-lg border border-gray-200 bg-white" [attr.aria-busy]="loading()">
+  @if (page(); as p) {
+    @if (p.items.length) {
+      <ul class="divide-y divide-gray-100">
+        @for (post of p.items; track post.id) {
+          <li class="flex items-center gap-4 p-4">
+            <div class="hidden h-14 w-24 shrink-0 overflow-hidden rounded bg-surface sm:block">
+              @if (post.cover) {
+                <img [src]="post.cover | ik: 'w-192,h-112'" alt="" class="h-full w-full object-cover" />
+              } @else {
+                <div class="flex h-full items-center justify-center text-gray-300">
+                  <i class="pi pi-image" aria-hidden="true"></i>
+                </div>
+              }
+            </div>
+
+            <div class="min-w-0 flex-1">
+              <a [routerLink]="['/admin/articles', post.id]" class="block truncate font-semibold text-secondary hover:text-primary">
+                {{ post.title }}
+              </a>
+              <p class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-foreground-muted">
+                @if (post.status === 'DRAFT') {
+                  <span class="rounded-full bg-gray-100 px-2 py-0.5 font-semibold text-gray-600">Brouillon</span>
+                } @else if (isScheduled(post)) {
+                  <span class="rounded-full bg-amber-50 px-2 py-0.5 font-semibold text-warning">
+                    Programmé · {{ post.publishedAt | date: 'd MMM y, HH:mm' }}
+                  </span>
+                } @else {
+                  <span class="rounded-full bg-green-50 px-2 py-0.5 font-semibold text-success">
+                    Publié · {{ post.publishedAt | date: 'd MMM y' }}
+                  </span>
+                }
+                <span>{{ post.category?.name ?? 'Sans rubrique' }}</span>
+                <span>Modifié le {{ post.updatedAt | date: 'd MMM y, HH:mm' }}</span>
+              </p>
+            </div>
+
+            <div class="flex shrink-0 items-center gap-1">
+              @if (post.status === 'PUBLISHED' && !isScheduled(post)) {
+                <a
+                  [href]="'/actualites/' + post.slug"
+                  target="_blank"
+                  rel="noopener"
+                  class="rounded p-2 text-foreground-muted hover:bg-gray-100 hover:text-secondary"
+                  title="Voir sur le site"
+                >
+                  <i class="pi pi-eye" aria-hidden="true"></i><span class="sr-only">Voir sur le site</span>
+                </a>
+              }
+              <a
+                [routerLink]="['/admin/articles', post.id]"
+                class="rounded p-2 text-foreground-muted hover:bg-gray-100 hover:text-secondary"
+                title="Modifier"
+              >
+                <i class="pi pi-pencil" aria-hidden="true"></i><span class="sr-only">Modifier</span>
+              </a>
+              <button
+                type="button"
+                class="rounded p-2 text-foreground-muted hover:bg-red-50 hover:text-danger"
+                title="Supprimer"
+                (click)="remove(post)"
+              >
+                <i class="pi pi-trash" aria-hidden="true"></i><span class="sr-only">Supprimer</span>
+              </button>
+            </div>
+          </li>
+        }
+      </ul>
+
+      @if (p.totalPages > 1) {
+        <div class="flex items-center justify-between border-t border-gray-100 px-4 py-3 text-sm">
+          <span class="text-foreground-muted">{{ p.totalItems }} articles · page {{ p.page + 1 }} / {{ p.totalPages }}</span>
+          <div class="flex gap-2">
+            <button type="button" class="admin-btn admin-btn-ghost" [disabled]="p.page === 0 || loading()" (click)="load(p.page - 1)">
+              <i class="pi pi-arrow-left" aria-hidden="true"></i> Précédente
+            </button>
+            <button
+              type="button"
+              class="admin-btn admin-btn-ghost"
+              [disabled]="p.page + 1 >= p.totalPages || loading()"
+              (click)="load(p.page + 1)"
+            >
+              Suivante <i class="pi pi-arrow-right" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      }
+    } @else {
+      <div class="p-12 text-center text-sm text-foreground-muted">
+        <i class="pi pi-inbox mb-3 text-3xl text-gray-300" aria-hidden="true"></i>
+        <p>{{ query() ? 'Aucun article ne correspond à cette recherche.' : 'Aucun article pour le moment.' }}</p>
+      </div>
+    }
+  } @else {
+    <div class="p-12 text-center text-foreground-muted">
+      <i class="pi pi-spin pi-spinner" aria-hidden="true"></i>
+    </div>
+  }
+</div>

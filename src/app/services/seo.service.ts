@@ -7,7 +7,12 @@ import { LanguageService } from './language.service';
 /** Données SEO facultatives portées par une route (`data`). */
 export interface RouteSeo {
   description?: string;
+  /** Visuel de partage (Open Graph), ex. la couverture d'un article. */
+  image?: string;
 }
+
+/** Visuel de partage par défaut, repris de `index.html`. */
+const DEFAULT_IMAGE = 'logo-debout-patriotes.png';
 
 @Injectable({ providedIn: 'root' })
 export class SeoService {
@@ -35,6 +40,7 @@ export class SeoService {
     this.meta.updateTag({ name: 'description', content: description });
     this.meta.updateTag({ property: 'og:description', content: description });
     this.meta.updateTag({ property: 'og:title', content: title });
+    this.meta.updateTag({ property: 'og:image', content: seo?.image ?? DEFAULT_IMAGE });
   }
 
   private deepestRoute(): ActivatedRoute {

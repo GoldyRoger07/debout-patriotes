@@ -3,3 +3,39 @@
   mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
   /* background: #0000007e; */
 }
+
+/* Défilement infini des candidats. */
+.marquee {
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 60s linear infinite;
+}
+
+/* Espacement porté par chaque carte (et non `gap`) pour que -50 % tombe pile sur la copie. */
+.marquee-track > li {
+  margin-right: 1.5rem;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+
+  .marquee {
+    overflow-x: auto;
+  }
+}

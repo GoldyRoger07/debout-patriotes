@@ -3,12 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { ThemeService } from './services/theme.service';
 import { SeoService } from './services/seo.service';
 import { themeConfig } from './config/brand/theme';
-import { Header2 } from './components/header2/header2';
-import { Footer } from './components/footer/footer';
 
+/** Racine : le site public (`PublicLayout`) et le back-office (`/admin`) ont chacun leur habillage. */
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header2, Footer],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

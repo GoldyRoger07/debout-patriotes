@@ -51,6 +51,42 @@
 
 </section>
 
+<!-- ============================ CANDIDATS ============================ -->
+@if (candidates().length) {
+  <section class="overflow-hidden py-20 md:py-28">
+    <my-container>
+      <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <my-section-title
+          [eyebrow]="page().candidates.eyebrow"
+          [heading]="page().candidates.title"
+          [lead]="page().candidates.lead"
+        />
+
+        <a
+          [routerLink]="page().candidates.cta.url"
+          class="inline-flex shrink-0 items-center gap-2 self-start rounded-sm border-2 border-primary px-6 py-3 font-bold text-primary transition-colors duration-200 hover:bg-primary/5 md:self-auto"
+        >
+          {{ page().candidates.cta.label }}
+          <i class="pi pi-arrow-right text-sm" aria-hidden="true"></i>
+        </a>
+      </div>
+    </my-container>
+
+    <!-- Défilement infini : la liste est dupliquée, l'animation translate de -50 %. -->
+    <div class="marquee mt-12">
+      <ul class="marquee-track">
+        @for (copy of [0, 1]; track copy) {
+          @for (candidate of candidates(); track candidate.name) {
+            <li class="w-56 shrink-0 md:w-64" [attr.aria-hidden]="copy === 1 ? 'true' : null">
+              <my-candidate-card [candidate]="candidate" [decorative]="copy === 1" />
+            </li>
+          }
+        }
+      </ul>
+    </div>
+  </section>
+}
+
 <!-- ============================ SYMBOLES OFFICIELS ============================ -->
 <section class="bg-surface py-20 md:py-28">
   <my-container>
@@ -275,25 +311,17 @@
     </div>
 
     <div class="mt-10">
-      @if (news().items.length) {
-        <ul class="grid grid-cols-1 gap-6 md:grid-cols-3">
-          @for (item of news().items.slice(0, 3); track item.slug) {
-            <li class="flex flex-col overflow-hidden rounded-md border border-gray-200 bg-white shadow-card">
-              @if (item.cover) {
-                <img [src]="item.cover" [alt]="item.title" class="h-44 w-full object-cover" />
-              }
-              <div class="flex flex-1 flex-col gap-2 p-6">
-                <p class="text-xs font-semibold uppercase tracking-wider text-primary">
-                  {{ item.category }} · {{ item.date }}
-                </p>
-                <h3 class="font-heading text-lg font-bold text-secondary">{{ item.title }}</h3>
-                <p class="flex-1 text-sm leading-relaxed text-foreground-muted">{{ item.excerpt }}</p>
-              </div>
-            </li>
-          }
-        </ul>
-      } @else {
-        <my-empty-state [message]="news().empty" icon="pi-megaphone" />
+      <!-- Rien n'est affiché pendant le chargement (navigation côté navigateur). -->
+      @if (latestPosts(); as posts) {
+        @if (posts.length) {
+          <ul class="grid grid-cols-1 gap-6 md:grid-cols-3">
+            @for (item of posts; track item.id) {
+              <li><my-post-card [post]="item" /></li>
+            }
+          </ul>
+        } @else {
+          <my-empty-state [message]="news().empty" icon="pi-megaphone" />
+        }
       }
     </div>
   </my-container>

@@ -115,6 +115,144 @@
     border-radius: 2px;
   }
 
+  /* Corps d'un article du blog (HTML issu du Markdown saisi dans le back-office). */
+  .prose-dp {
+    color: var(--brand-foreground);
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+  .prose-dp > * + * {
+    margin-top: 1.25em;
+  }
+  .prose-dp h2 {
+    margin-top: 2em;
+    font-size: 1.625rem;
+    font-weight: 800;
+    line-height: 1.3;
+    color: var(--brand-secondary);
+  }
+  .prose-dp h3 {
+    margin-top: 1.75em;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--brand-secondary);
+  }
+  .prose-dp a {
+    color: var(--brand-primary);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .prose-dp ul,
+  .prose-dp ol {
+    padding-left: 1.5em;
+  }
+  .prose-dp ul {
+    list-style: disc;
+  }
+  .prose-dp ol {
+    list-style: decimal;
+  }
+  .prose-dp li + li {
+    margin-top: 0.4em;
+  }
+  .prose-dp li::marker {
+    color: var(--brand-primary);
+  }
+  .prose-dp blockquote {
+    border-left: 4px solid var(--brand-primary);
+    padding-left: 1.25em;
+    font-family: var(--font-accent);
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--brand-secondary);
+  }
+  .prose-dp img {
+    width: 100%;
+    border-radius: var(--radius-md);
+  }
+  .prose-dp code {
+    border-radius: 4px;
+    background: var(--brand-surface);
+    padding: 0.1em 0.35em;
+    font-size: 0.9em;
+  }
+  .prose-dp hr {
+    border-color: rgb(0 0 0 / 0.1);
+  }
+
+  /* Champs du back-office. */
+  .admin-input {
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid rgb(209 213 219);
+    background: #fff;
+    padding: 0.55rem 0.75rem;
+    font-size: 0.9375rem;
+    color: var(--brand-foreground);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .admin-input:focus {
+    outline: none;
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 3px rgb(190 30 45 / 0.12);
+  }
+  .admin-input.ng-invalid.ng-touched {
+    border-color: var(--brand-danger);
+  }
+  .admin-label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--brand-secondary);
+  }
+  .admin-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 6px;
+    padding: 0.55rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .admin-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+  .admin-btn-primary {
+    background: var(--brand-primary);
+    color: #fff;
+  }
+  .admin-btn-primary:not(:disabled):hover {
+    background: var(--brand-primary-dark);
+  }
+  .admin-btn-ghost {
+    border: 1px solid rgb(209 213 219);
+    background: #fff;
+    color: var(--brand-secondary);
+  }
+  .admin-btn-ghost:not(:disabled):hover {
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+  }
+  .admin-btn-danger {
+    border: 1px solid rgb(254 202 202);
+    background: #fff;
+    color: var(--brand-danger);
+  }
+  .admin-btn-danger:not(:disabled):hover {
+    background: rgb(254 242 242);
+  }
+  .admin-card {
+    border-radius: 10px;
+    border: 1px solid rgb(229 231 235);
+    background: #fff;
+    padding: 1.5rem;
+  }
+
   /* Trame drapeau utilisée en fond de certaines sections. */
   .flag-stripe {
     background-image: linear-gradient(

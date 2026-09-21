@@ -1,0 +1,79 @@
+@if (post(); as p) {
+  <!-- ============================ EN-TÊTE ============================ -->
+  <section class="relative overflow-hidden bg-secondary pt-32 pb-14 md:pt-40 md:pb-20">
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0 opacity-[0.07]"
+      style="background-image: radial-gradient(circle at 1px 1px, #fff 1px, transparent 0); background-size: 28px 28px;"
+    ></div>
+    <div aria-hidden="true" class="flag-stripe absolute inset-x-0 bottom-0 h-1"></div>
+
+    <my-container>
+      <div class="relative mx-auto max-w-3xl">
+        <a
+          routerLink="/actualites"
+          class="inline-flex items-center gap-2 text-sm font-semibold text-white/70 transition-colors hover:text-white"
+        >
+          <i class="pi pi-arrow-left text-xs" aria-hidden="true"></i>
+          {{ labels().article.back }}
+        </a>
+
+        <p class="mt-8 text-xs font-semibold uppercase tracking-[0.16em] text-white/70">
+          @if (p.category) {
+            <span class="text-primary">{{ p.category.name }}</span> ·
+          }
+          <time [attr.datetime]="p.publishedAt">{{ p.publishedAt | date: 'longDate' }}</time>
+        </p>
+
+        <h1 class="mt-4 font-heading text-3xl font-extrabold leading-tight text-white md:text-5xl">
+          {{ p.title }}
+        </h1>
+        <p class="mt-5 text-lg leading-relaxed text-white/75">{{ p.excerpt }}</p>
+      </div>
+    </my-container>
+  </section>
+
+  <!-- ============================ CONTENU ============================ -->
+  <article class="py-14 md:py-20">
+    <my-container>
+      <div class="mx-auto max-w-3xl">
+        @if (p.cover) {
+          <img
+            [src]="p.cover | ik: 'w-1200,h-675,fo-auto'"
+            [alt]="p.title"
+            class="mb-12 aspect-video w-full rounded-md object-cover shadow-card"
+          />
+        }
+        <div class="prose-dp" [innerHTML]="p.content | markdown"></div>
+      </div>
+    </my-container>
+  </article>
+
+  <!-- ============================ À LIRE AUSSI ============================ -->
+  @if (related().length) {
+    <section class="bg-surface py-16 md:py-24">
+      <my-container>
+        <my-section-title [heading]="labels().article.related" />
+        <ul class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
+          @for (item of related(); track item.id) {
+            <li><my-post-card [post]="item" /></li>
+          }
+        </ul>
+      </my-container>
+    </section>
+  }
+
+  <my-cta-section [cta]="labels().article.cta" />
+} @else {
+  <section class="pt-32 pb-20 md:pt-40">
+    <my-container>
+      <my-empty-state [message]="labels().article.notFound" icon="pi-megaphone" />
+      <div class="mt-8 text-center">
+        <a routerLink="/actualites" class="inline-flex items-center gap-2 font-bold text-primary hover:text-primary-dark">
+          <i class="pi pi-arrow-left text-sm" aria-hidden="true"></i>
+          {{ labels().article.back }}
+        </a>
+      </div>
+    </my-container>
+  </section>
+}

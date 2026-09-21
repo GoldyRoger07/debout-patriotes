@@ -48,7 +48,7 @@ export const fr: SiteContent = {
         { label: 'Nous contacter', url: '/contact' },
       ],
     },
-    { label: 'Candidats', url: '/' }
+    { label: 'Candidats', url: '/candidats' },
   ],
 
   /* ------------------------------------------------------------------ */
@@ -132,6 +132,13 @@ export const fr: SiteContent = {
       attribution: "L'héritage de 1804, appliqué au présent",
     },
 
+    candidates: {
+      eyebrow: 'Nos candidats',
+      title: 'Les visages de DEBOUT PATRIOTES',
+      lead: 'Des femmes et des hommes debout, prêts à servir Haïti dans chaque département.',
+      cta: { label: 'Voir tous les candidats', url: '/candidats' },
+    },
+
     news: {
       title: 'Actualités du groupement',
       lead: 'Prises de position, activités de terrain et vie des onze partis membres.',
@@ -143,6 +150,42 @@ export const fr: SiteContent = {
       desc: "Militant, sympathisant, membre de la diaspora ou simple citoyen préoccupé par l'avenir d'Haïti : il y a une place pour vous dans ce rassemblement.",
       primary: { label: 'Rejoindre DEBOUT PATRIOTES', url: '/devenir-membre' },
       secondary: { label: 'Nous contacter', url: '/contact' },
+    },
+  },
+
+  /* ------------------------------------------------------------------ */
+  /* CANDIDATS                                                           */
+  /* ------------------------------------------------------------------ */
+
+  candidates: {
+    intro: {
+      eyebrow: 'Élections générales',
+      title: 'Nos candidats',
+      lead: 'Les femmes et les hommes qui portent les couleurs de DEBOUT PATRIOTES aux prochaines élections générales.',
+    },
+    // Les fiches sont gérées dans le back-office (/admin/candidats).
+    empty: 'La liste des candidats sera publiée ici dès sa validation par le CEP.',
+    profile: {
+      back: 'Tous les candidats',
+      sheet: 'En bref',
+      position: 'Poste brigué',
+      constituency: 'Circonscription',
+      party: 'Groupement',
+      profession: 'Profession',
+      birthplace: 'Lieu de naissance',
+      bio: 'Biographie',
+      priorities: 'Priorités',
+      career: 'Parcours',
+      education: 'Formation',
+      contact: 'Contact',
+      others: 'Découvrir les autres candidats',
+      notFound: "Ce candidat est introuvable. Il a peut-être été retiré de la liste ou l'adresse est incorrecte.",
+      cta: {
+        title: 'Soutenez nos candidats',
+        desc: 'Rejoignez les équipes de campagne de DEBOUT PATRIOTES ou contribuez au financement de nos candidatures.',
+        primary: { label: 'Devenir membre', url: '/devenir-membre' },
+        secondary: { label: 'Faire un don', url: '/faire-un-don' },
+      },
     },
   },
 
@@ -690,11 +733,23 @@ export const fr: SiteContent = {
       title: 'Actualités du groupement',
       lead: 'Prises de position, activités de terrain, vie des onze partis membres et étapes de notre marche vers les élections générales.',
     },
-    categories: ['Tout', 'Communiqués', 'Terrain', 'Vie du groupement', 'Élections'],
-    // À COMPLÉTER : remplacer par les publications réelles du groupement.
-    items: [],
+    // Rubriques et articles sont gérés dans le back-office (/admin/articles).
+    all: 'Tout',
     empty:
       "Aucune publication pour le moment. Les premières actualités du groupement paraîtront ici. Abonnez-vous à notre lettre d'information pour ne rien manquer.",
+    more: 'Afficher plus d’actualités',
+    readMore: 'Lire l’article',
+    article: {
+      back: 'Toutes les actualités',
+      related: 'À lire aussi',
+      notFound: "Cet article est introuvable. Il a peut-être été retiré ou l'adresse est incorrecte.",
+      cta: {
+        title: 'Le pays a besoin de vous debout',
+        desc: "Militant, sympathisant, membre de la diaspora ou simple citoyen préoccupé par l'avenir d'Haïti : il y a une place pour vous dans ce rassemblement.",
+        primary: { label: 'Rejoindre DEBOUT PATRIOTES', url: '/devenir-membre' },
+        secondary: { label: 'Nous contacter', url: '/contact' },
+      },
+    },
   },
 
   /* ------------------------------------------------------------------ */

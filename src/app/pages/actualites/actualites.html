@@ -6,45 +6,47 @@
 
 <section class="py-16 md:py-20">
   <my-container>
-    <!-- Filtres par catégorie -->
-    @if (page().items.length) {
-      <div class="flex flex-wrap gap-2" role="group" aria-label="Filtrer par catégorie">
-        @for (category of page().categories; track category) {
+    <!-- Filtres par rubrique -->
+    @if (filters().length > 1) {
+      <div class="flex flex-wrap gap-2" role="group" aria-label="Filtrer par rubrique">
+        @for (category of filters(); track category.slug) {
           <button
             type="button"
             class="rounded-sm border px-4 py-2 text-sm font-semibold transition-colors"
-            [class]="activeCategory() === category
+            [class]="activeCategory() === category.slug
               ? 'border-primary bg-primary text-white'
               : 'border-gray-300 bg-white text-secondary hover:border-primary hover:text-primary'"
-            [attr.aria-pressed]="activeCategory() === category"
-            (click)="select(category)"
+            [attr.aria-pressed]="activeCategory() === category.slug"
+            (click)="select(category.slug)"
           >
-            {{ category }}
+            {{ category.name }}
           </button>
         }
       </div>
     }
 
-    <div class="mt-10">
-      @if (visibleItems().length) {
+    <div class="mt-10" [attr.aria-busy]="loading()">
+      @if (items().length) {
         <ul class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          @for (item of visibleItems(); track item.slug) {
-            <li class="flex flex-col overflow-hidden rounded-md border border-gray-200 bg-white shadow-card transition-colors hover:border-primary/40">
-              @if (item.cover) {
-                <img [src]="item.cover" [alt]="item.title" class="h-48 w-full object-cover" />
-              }
-
-              <div class="flex flex-1 flex-col gap-2 p-6">
-                <p class="text-xs font-semibold uppercase tracking-wider text-primary">
-                  {{ item.category }} · {{ item.date }}
-                </p>
-                <h2 class="font-heading text-lg font-bold text-secondary">{{ item.title }}</h2>
-                <p class="flex-1 text-sm leading-relaxed text-foreground-muted">{{ item.excerpt }}</p>
-              </div>
-            </li>
+          @for (item of items(); track item.id) {
+            <li><my-post-card [post]="item" [readMore]="page().readMore" /></li>
           }
         </ul>
-      } @else {
+
+        @if (hasMore()) {
+          <div class="mt-12 text-center">
+            <button
+              type="button"
+              class="inline-flex items-center gap-2 rounded-sm border-2 border-primary px-6 py-3 font-bold text-primary transition-colors hover:bg-primary/5 disabled:opacity-50"
+              [disabled]="loading()"
+              (click)="more()"
+            >
+              {{ page().more }}
+              <i class="pi text-sm" [class]="loading() ? 'pi-spin pi-spinner' : 'pi-arrow-down'" aria-hidden="true"></i>
+            </button>
+          </div>
+        }
+      } @else if (!loading()) {
         <my-empty-state [message]="page().empty" icon="pi-megaphone" />
       }
     </div>

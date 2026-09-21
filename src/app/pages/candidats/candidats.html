@@ -1,0 +1,24 @@
+<my-page-header
+  [eyebrow]="page().intro.eyebrow!"
+  [title]="page().intro.title"
+  [lead]="page().intro.lead"
+/>
+
+<section class="py-16 md:py-20">
+  <my-container>
+    <!-- Rien n'est affiché pendant le chargement (navigation côté navigateur). -->
+    @if (candidates(); as list) {
+      @if (list.length) {
+        <ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          @for (candidate of list; track candidate.slug) {
+            <li>
+              <my-candidate-card [candidate]="candidate" />
+            </li>
+          }
+        </ul>
+      } @else {
+        <my-empty-state [message]="page().empty" icon="pi-users" />
+      }
+    }
+  </my-container>
+</section>
