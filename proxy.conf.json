@@ -1,7 +1,8 @@
 {
   "/api": {
-    "target": "http://localhost:8081",
+    "target": "https://debout-patriotes-api.railway.internal",
     "secure": false,
     "changeOrigin": true
   }
 }
+
