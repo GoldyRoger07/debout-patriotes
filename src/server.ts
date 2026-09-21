@@ -11,7 +11,7 @@ import { Readable } from 'node:stream';
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 /** API Spring (blog, candidats, back-office). */
-const apiUrl = (process.env['API_URL'] ?? 'http://localhost:8081').replace(/\/+$/, '');
+const apiUrl = (process.env['API_URL'] ?? 'http://debout-patriotes-api.railway.internal').replace(/\/+$/, '');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
