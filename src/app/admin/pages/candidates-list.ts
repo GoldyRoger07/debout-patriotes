@@ -28,6 +28,16 @@ export default class CandidatesList {
     });
   }
 
+  /** Vignette de la liste : le portrait de la fiche, à défaut la couverture. */
+  protected thumbnail(candidate: AdminCandidate): string | null {
+    return candidate.photo || candidate.cover || null;
+  }
+
+  /** Résumé d'une ligne : seules les informations renseignées y figurent. */
+  protected summary(candidate: AdminCandidate): string {
+    return [candidate.position, candidate.constituency].filter(Boolean).join(' · ');
+  }
+
   /** Déplace un candidat d'un cran : l'ordre est celui du site (accueil et page « Nos candidats »). */
   protected move(index: number, direction: -1 | 1): void {
     const list = [...(this.candidates() ?? [])];

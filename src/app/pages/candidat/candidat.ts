@@ -12,6 +12,12 @@ import { CandidatesApi } from '../../services/candidates-api.service';
 import { Candidate } from '../../models/content.model';
 import { ImageKitPipe } from '../../pipes/imagekit.pipe';
 
+/** Une ligne de la fiche « En bref » : un libellé et les valeurs saisies. */
+interface SheetRow {
+  label: string;
+  values: string[];
+}
+
 /** Fiche détaillée d'un candidat : `/candidats/:slug`. Données chargées par le résolveur de la route. */
 @Component({
   selector: 'app-candidat',
@@ -33,4 +39,36 @@ export default class Candidat {
       .filter((c) => c.slug !== this.candidate()?.slug)
       .slice(0, 4),
   );
+
+  /** Portrait de la fiche ; la couverture des cartes sert de secours. */
+  protected readonly portrait = computed(() => {
+    const c = this.candidate();
+    return c?.photo || c?.cover || null;
+  });
+
+  /** Seules les lignes réellement renseignées sont conservées. */
+  protected readonly sheet = computed<SheetRow[]>(() => {
+    const c = this.candidate();
+    if (!c) {
+      return [];
+    }
+    const l = this.labels();
+    const professions = (c.professions ?? []).filter((p) => !!p?.trim());
+    const rows: SheetRow[] = [
+      { label: l.position, values: [c.position ?? ''] },
+      { label: l.constituency, values: [c.constituency ?? ''] },
+      { label: l.party, values: [c.party ?? ''] },
+      { label: professions.length > 1 ? l.professions : l.profession, values: professions },
+      { label: l.birthplace, values: [c.birthplace ?? ''] },
+    ];
+    return rows
+      .map((row) => ({ label: row.label, values: row.values.filter((v) => !!v?.trim()) }))
+      .filter((row) => row.values.length > 0);
+  });
+
+  /** La colonne latérale disparaît quand elle n'a rien à montrer. */
+  protected readonly hasAside = computed(() => {
+    const c = this.candidate();
+    return this.sheet().length > 0 || !!c?.education.length || !!c?.contact;
+  });
 }

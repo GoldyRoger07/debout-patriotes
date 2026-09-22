@@ -172,6 +172,7 @@ export const fr: SiteContent = {
       constituency: 'Circonscription',
       party: 'Groupement',
       profession: 'Profession',
+      professions: 'Professions',
       birthplace: 'Lieu de naissance',
       bio: 'Biographie',
       priorities: 'Priorités',

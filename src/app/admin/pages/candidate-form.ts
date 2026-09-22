@@ -1,4 +1,4 @@
-import { Component, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChildren } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   FormArray,
@@ -66,23 +66,26 @@ export default class CandidateForm {
   private readonly feedback = inject(Feedback);
   private readonly router = inject(Router);
   private readonly fb = inject(NonNullableFormBuilder);
-  private readonly imageUpload = viewChild(ImageUpload);
+  private readonly imageUploads = viewChildren(ImageUpload);
 
   protected readonly icons = PRIORITY_ICONS;
 
   protected readonly form = this.fb.group({
     name: ['', [Validators.required, Validators.maxLength(160)]],
     slug: ['', Validators.maxLength(190)],
-    subtitle: ['', [Validators.required, Validators.maxLength(255)]],
-    position: ['', [Validators.required, Validators.maxLength(160)]],
-    constituency: ['', [Validators.required, Validators.maxLength(160)]],
-    party: ['DEBOUT PATRIOTES', [Validators.required, Validators.maxLength(160)]],
-    profession: ['', [Validators.required, Validators.maxLength(160)]],
-    birthplace: ['', [Validators.required, Validators.maxLength(160)]],
+    subtitle: ['', Validators.maxLength(255)],
+    position: ['', Validators.maxLength(160)],
+    constituency: ['', Validators.maxLength(160)],
+    party: ['DEBOUT PATRIOTES', Validators.maxLength(160)],
+    birthplace: ['', Validators.maxLength(160)],
     quote: ['', Validators.maxLength(500)],
+    /** Portrait de la fiche, affiché à côté de la biographie. */
     photo: this.fb.control<ImageRef | null>(null),
+    /** Couverture des cartes : accueil et liste complète des candidats. */
+    cover: this.fb.control<ImageRef | null>(null),
     published: [true],
-    bio: this.fb.array([this.paragraph()]),
+    professions: this.fb.array<FormControl<string>>([]),
+    bio: this.fb.array<FormControl<string>>([]),
     priorities: this.fb.array<ReturnType<typeof priorityGroup>>([]),
     career: this.fb.array<ReturnType<typeof careerGroup>>([]),
     education: this.fb.array<FormControl<string>>([]),
@@ -126,6 +129,10 @@ export default class CandidateForm {
 
   protected paragraph(value = ''): FormControl<string> {
     return this.fb.control(value, Validators.required);
+  }
+
+  protected professionEntry(value = ''): FormControl<string> {
+    return this.fb.control(value, [Validators.required, Validators.maxLength(160)]);
   }
 
   protected priority(value?: Parameters<typeof priorityGroup>[1]) {
@@ -172,14 +179,16 @@ export default class CandidateForm {
     const payload: CandidatePayload = {
       slug: emptyToNull(v.slug) ?? '',
       name: v.name.trim(),
-      subtitle: v.subtitle.trim(),
+      subtitle: emptyToNull(v.subtitle),
       photo: v.photo?.url ?? null,
       photoFileId: v.photo?.fileId ?? null,
-      position: v.position.trim(),
-      constituency: v.constituency.trim(),
-      party: v.party.trim(),
-      profession: v.profession.trim(),
-      birthplace: v.birthplace.trim(),
+      cover: v.cover?.url ?? null,
+      coverFileId: v.cover?.fileId ?? null,
+      position: emptyToNull(v.position),
+      constituency: emptyToNull(v.constituency),
+      party: emptyToNull(v.party),
+      professions: v.professions.map((p) => p.trim()),
+      birthplace: emptyToNull(v.birthplace),
       quote: emptyToNull(v.quote),
       bio: v.bio.map((p) => p.trim()),
       priorities: v.priorities.map((p) => ({
@@ -207,7 +216,7 @@ export default class CandidateForm {
     this.api.saveCandidate(this.id(), payload).subscribe({
       next: (candidate) => {
         this.saving.set(false);
-        this.imageUpload()?.commit();
+        this.imageUploads().forEach((upload) => upload.commit());
         this.feedback.success(`Fiche de ${candidate.name} enregistrée.`);
         if (this.id() === null) {
           this.router.navigate(['/admin/candidats', candidate.id], { replaceUrl: true });
@@ -266,7 +275,9 @@ export default class CandidateForm {
     this.candidate.set(c);
     this.loading.set(false);
 
-    const { bio, priorities, career, education } = this.form.controls;
+    const { professions, bio, priorities, career, education } = this.form.controls;
+    professions.clear();
+    (c.professions ?? []).forEach((p) => professions.push(this.professionEntry(p)));
     bio.clear();
     c.bio.forEach((p) => bio.push(this.paragraph(p)));
     priorities.clear();
@@ -279,14 +290,14 @@ export default class CandidateForm {
     this.form.reset({
       name: c.name,
       slug: c.slug,
-      subtitle: c.subtitle,
-      position: c.position,
-      constituency: c.constituency,
-      party: c.party,
-      profession: c.profession,
-      birthplace: c.birthplace,
+      subtitle: c.subtitle ?? '',
+      position: c.position ?? '',
+      constituency: c.constituency ?? '',
+      party: c.party ?? '',
+      birthplace: c.birthplace ?? '',
       quote: c.quote ?? '',
       photo: c.photo ? { url: c.photo, fileId: c.photoFileId ?? null } : null,
+      cover: c.cover ? { url: c.cover, fileId: c.coverFileId ?? null } : null,
       published: c.published,
       contact: {
         email: c.contact?.email ?? '',

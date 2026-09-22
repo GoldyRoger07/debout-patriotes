@@ -50,23 +50,47 @@
           </div>
           <div class="sm:col-span-2">
             <ng-container
-              *ngTemplateOutlet="field; context: { name: 'subtitle', label: 'Sous-titre *', hint: 'Affiché sous le nom, ex. « Candidat au Sénat — Ouest ».' }"
+              *ngTemplateOutlet="field; context: { name: 'subtitle', label: 'Sous-titre', hint: 'Affiché sous le nom, ex. « Candidat au Sénat — Ouest ». Laissé vide, il n’apparaît pas.' }"
             />
           </div>
           <div>
-            <ng-container *ngTemplateOutlet="field; context: { name: 'position', label: 'Poste brigué *' }" />
+            <ng-container *ngTemplateOutlet="field; context: { name: 'position', label: 'Poste brigué' }" />
           </div>
           <div>
-            <ng-container *ngTemplateOutlet="field; context: { name: 'constituency', label: 'Circonscription *' }" />
+            <ng-container *ngTemplateOutlet="field; context: { name: 'constituency', label: 'Circonscription' }" />
           </div>
           <div>
-            <ng-container *ngTemplateOutlet="field; context: { name: 'party', label: 'Groupement / parti *' }" />
+            <ng-container *ngTemplateOutlet="field; context: { name: 'party', label: 'Groupement / parti' }" />
           </div>
           <div>
-            <ng-container *ngTemplateOutlet="field; context: { name: 'profession', label: 'Profession *' }" />
+            <ng-container *ngTemplateOutlet="field; context: { name: 'birthplace', label: 'Lieu de naissance' }" />
           </div>
-          <div>
-            <ng-container *ngTemplateOutlet="field; context: { name: 'birthplace', label: 'Lieu de naissance *' }" />
+          <!-- Professions : autant que nécessaire. -->
+          <div class="sm:col-span-2" formArrayName="professions">
+            <div class="flex items-center justify-between">
+              <span class="admin-label mb-0">Profession(s)</span>
+              <button type="button" class="text-sm font-semibold text-primary hover:underline" (click)="form.controls.professions.push(professionEntry())">
+                + Ajouter
+              </button>
+            </div>
+            <div class="mt-2 flex flex-col gap-2">
+              @for (control of form.controls.professions.controls; track control; let i = $index, first = $first, last = $last) {
+                <div class="flex gap-2">
+                  <input class="admin-input" [formControlName]="i" [attr.aria-label]="'Profession ' + (i + 1)" />
+                  <button type="button" class="p-1 text-foreground-muted hover:text-primary disabled:opacity-30" [disabled]="first" (click)="move(form.controls.professions, i, -1)" title="Monter">
+                    <i class="pi pi-chevron-up text-xs" aria-hidden="true"></i>
+                  </button>
+                  <button type="button" class="p-1 text-foreground-muted hover:text-primary disabled:opacity-30" [disabled]="last" (click)="move(form.controls.professions, i, 1)" title="Descendre">
+                    <i class="pi pi-chevron-down text-xs" aria-hidden="true"></i>
+                  </button>
+                  <button type="button" class="p-1 text-foreground-muted hover:text-danger" (click)="removeAt(form.controls.professions, i)" title="Supprimer">
+                    <i class="pi pi-trash text-xs" aria-hidden="true"></i>
+                  </button>
+                </div>
+              } @empty {
+                <p class="text-xs text-foreground-muted">Aucune profession : la ligne est masquée sur la fiche.</p>
+              }
+            </div>
           </div>
           <div class="sm:col-span-2">
             <label class="admin-label" for="quote">Citation</label>
@@ -81,7 +105,7 @@
       <!-- Biographie -->
       <section class="admin-card" formArrayName="bio">
         <div class="flex items-center justify-between">
-          <h2 class="font-heading text-base font-bold text-secondary">Biographie *</h2>
+          <h2 class="font-heading text-base font-bold text-secondary">Biographie</h2>
           <button type="button" class="admin-btn admin-btn-ghost" (click)="form.controls.bio.push(paragraph())">
             <i class="pi pi-plus" aria-hidden="true"></i> Paragraphe
           </button>
@@ -102,8 +126,7 @@
                 </button>
                 <button
                   type="button"
-                  class="p-1 text-foreground-muted hover:text-danger disabled:opacity-30"
-                  [disabled]="form.controls.bio.length === 1"
+                  class="p-1 text-foreground-muted hover:text-danger"
                   (click)="removeAt(form.controls.bio, i)"
                   title="Supprimer"
                 >
@@ -111,6 +134,8 @@
                 </button>
               </div>
             </div>
+          } @empty {
+            <p class="text-sm text-foreground-muted">Aucun paragraphe : la biographie est masquée sur la fiche.</p>
           }
         </div>
       </section>
@@ -231,9 +256,19 @@
       </div>
 
       <div class="admin-card">
-        <span class="admin-label">Photo</span>
+        <span class="admin-label">Photo de la fiche</span>
         <admin-image-upload formControlName="photo" folder="candidats" aspect="aspect-[4/5]" />
-        <p class="mt-2 text-xs text-foreground-muted">Portrait vertical de préférence : le cadrage suit le visage.</p>
+        <p class="mt-2 text-xs text-foreground-muted">
+          Portrait affiché en haut de la fiche, à côté de la biographie. Vertical de préférence : le cadrage suit le visage.
+        </p>
+      </div>
+
+      <div class="admin-card">
+        <span class="admin-label">Photo de couverture</span>
+        <admin-image-upload formControlName="cover" folder="candidats" aspect="aspect-[4/5]" />
+        <p class="mt-2 text-xs text-foreground-muted">
+          Visuel des cartes, sur l'accueil et dans la liste complète des candidats. Sans couverture, la photo de la fiche est reprise.
+        </p>
       </div>
 
       <!-- Formation -->

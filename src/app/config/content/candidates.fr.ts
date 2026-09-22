@@ -15,7 +15,7 @@ export const candidatesFr: Candidate[] = [
     position: 'Président de la République',
     constituency: 'Circonscription nationale',
     party: 'DEBOUT PATRIOTES',
-    profession: 'Économiste',
+    professions: ['Économiste'],
     birthplace: 'Port-au-Prince',
     quote: 'Se tenir debout, c\'est refuser que la résignation décide à notre place.',
     bio: [
@@ -44,7 +44,7 @@ export const candidatesFr: Candidate[] = [
     position: 'Sénatrice',
     constituency: 'Département de l\'Ouest',
     party: 'DEBOUT PATRIOTES',
-    profession: 'Avocate',
+    professions: ['Avocate'],
     birthplace: 'Pétion-Ville',
     quote: 'Servir Haïti, c\'est d\'abord écouter celles et ceux qui la font vivre chaque jour.',
     bio: [
@@ -73,7 +73,7 @@ export const candidatesFr: Candidate[] = [
     position: 'Sénateur',
     constituency: 'Département de l\'Artibonite',
     party: 'DEBOUT PATRIOTES',
-    profession: 'Agronome',
+    professions: ['Agronome'],
     birthplace: 'Saint-Marc',
     quote: 'Se tenir debout, c\'est refuser que la résignation décide à notre place.',
     bio: [
@@ -102,7 +102,7 @@ export const candidatesFr: Candidate[] = [
     position: 'Députée',
     constituency: 'Circonscription de Port-au-Prince',
     party: 'DEBOUT PATRIOTES',
-    profession: 'Médecin',
+    professions: ['Médecin'],
     birthplace: 'Port-au-Prince',
     quote: 'Servir Haïti, c\'est d\'abord écouter celles et ceux qui la font vivre chaque jour.',
     bio: [
@@ -131,7 +131,7 @@ export const candidatesFr: Candidate[] = [
     position: 'Sénateur',
     constituency: 'Département du Nord',
     party: 'DEBOUT PATRIOTES',
-    profession: 'Ingénieur civil',
+    professions: ['Ingénieur civil'],
     birthplace: 'Limbé',
     quote: 'Se tenir debout, c\'est refuser que la résignation décide à notre place.',
     bio: [
@@ -160,7 +160,7 @@ export const candidatesFr: Candidate[] = [
     position: 'Députée',
     constituency: 'Circonscription de Jacmel',
     party: 'DEBOUT PATRIOTES',
-    profession: 'Enseignante',
+    professions: ['Enseignante'],
     birthplace: 'Jacmel',
     quote: 'Servir Haïti, c\'est d\'abord écouter celles et ceux qui la font vivre chaque jour.',
     bio: [
@@ -189,7 +189,7 @@ export const candidatesFr: Candidate[] = [
     position: 'Député',
     constituency: 'Circonscription des Cayes',
     party: 'DEBOUT PATRIOTES',
-    profession: 'Entrepreneur',
+    professions: ['Entrepreneur'],
     birthplace: 'Les Cayes',
     quote: 'Se tenir debout, c\'est refuser que la résignation décide à notre place.',
     bio: [
@@ -218,7 +218,7 @@ export const candidatesFr: Candidate[] = [
     position: 'Sénatrice',
     constituency: 'Département du Sud-Est',
     party: 'DEBOUT PATRIOTES',
-    profession: 'Journaliste',
+    professions: ['Journaliste'],
     birthplace: 'Bainet',
     quote: 'Servir Haïti, c\'est d\'abord écouter celles et ceux qui la font vivre chaque jour.',
     bio: [
@@ -247,7 +247,7 @@ export const candidatesFr: Candidate[] = [
     position: 'Député',
     constituency: 'Circonscription du Cap-Haïtien',
     party: 'DEBOUT PATRIOTES',
-    profession: 'Gestionnaire portuaire',
+    professions: ['Gestionnaire portuaire'],
     birthplace: 'Cap-Haïtien',
     quote: 'Se tenir debout, c\'est refuser que la résignation décide à notre place.',
     bio: [
@@ -276,7 +276,7 @@ export const candidatesFr: Candidate[] = [
     position: 'Sénatrice',
     constituency: 'Département de la Grand\'Anse',
     party: 'DEBOUT PATRIOTES',
-    profession: 'Infirmière',
+    professions: ['Infirmière'],
     birthplace: 'Jérémie',
     quote: 'Servir Haïti, c\'est d\'abord écouter celles et ceux qui la font vivre chaque jour.',
     bio: [
@@ -305,7 +305,7 @@ export const candidatesFr: Candidate[] = [
     position: 'Député',
     constituency: 'Circonscription de Hinche',
     party: 'DEBOUT PATRIOTES',
-    profession: 'Animateur communautaire',
+    professions: ['Animateur communautaire'],
     birthplace: 'Hinche',
     quote: 'Se tenir debout, c\'est refuser que la résignation décide à notre place.',
     bio: [
@@ -334,7 +334,7 @@ export const candidatesFr: Candidate[] = [
     position: 'Sénatrice',
     constituency: 'Département du Nord-Est',
     party: 'DEBOUT PATRIOTES',
-    profession: 'Juriste',
+    professions: ['Juriste'],
     birthplace: 'Fort-Liberté',
     quote: 'Servir Haïti, c\'est d\'abord écouter celles et ceux qui la font vivre chaque jour.',
     bio: [

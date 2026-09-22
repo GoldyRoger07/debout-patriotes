@@ -19,8 +19,9 @@
 
       <div class="relative mt-8 grid grid-cols-1 items-center gap-10 md:grid-cols-12">
         <div class="md:col-span-4">
+          <!-- Photo propre à la fiche : le portrait qui accompagne la biographie. -->
           <div class="relative mx-auto aspect-[4/5] max-w-xs overflow-hidden rounded-md bg-white/10 shadow-card ring-1 ring-white/10">
-            @if (c.photo; as photo) {
+            @if (portrait(); as photo) {
               <img [src]="photo | ik: 'w-480,h-600,fo-face'" [alt]="c.name" class="h-full w-full object-cover" />
             } @else {
               <div aria-hidden="true" class="flex h-full w-full items-center justify-center">
@@ -32,15 +33,19 @@
         </div>
 
         <div class="md:col-span-8">
-          <p class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-white/80">
-            <span class="inline-block h-1.5 w-1.5 rounded-full bg-primary"></span>
-            {{ c.position }}
-          </p>
+          @if (c.position) {
+            <p class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-white/80">
+              <span class="inline-block h-1.5 w-1.5 rounded-full bg-primary"></span>
+              {{ c.position }}
+            </p>
+          }
 
           <h1 class="mt-5 font-heading text-4xl font-extrabold leading-tight text-white md:text-5xl">
             {{ c.name }}
           </h1>
-          <p class="mt-3 text-lg text-white/75">{{ c.subtitle }}</p>
+          @if (c.subtitle) {
+            <p class="mt-3 text-lg text-white/75">{{ c.subtitle }}</p>
+          }
 
           @if (c.quote) {
             <blockquote class="mt-8 border-l-4 border-primary pl-6">
@@ -53,143 +58,150 @@
   </section>
 
   <!-- ============================ CONTENU ============================ -->
-  <section class="py-16 md:py-24">
-    <my-container>
-      <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
-        <div class="flex flex-col gap-16 lg:col-span-8">
-          <!-- Biographie -->
-          <div>
-            <my-section-title [heading]="labels().bio" />
-            <div class="mt-6 flex flex-col gap-4">
-              @for (paragraph of c.bio; track $index) {
-                <p class="leading-relaxed text-foreground-muted">{{ paragraph }}</p>
-              }
-            </div>
-          </div>
-
-          <!-- Priorités -->
-          @if (c.priorities.length) {
-            <div>
-              <my-section-title [heading]="labels().priorities" />
-              <ul class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
-                @for (priority of c.priorities; track priority.title) {
-                  <li class="rounded-md border border-gray-200 bg-white p-6 shadow-card">
-                    @if (priority.icon) {
-                      <span class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-sm bg-primary/10 text-primary">
-                        <i class="pi {{ priority.icon }} text-xl" aria-hidden="true"></i>
-                      </span>
+  <!-- Chaque bloc ne s'affiche que si l'information a été saisie. -->
+  @if (c.bio.length || c.priorities.length || c.career.length || hasAside()) {
+    <section class="py-16 md:py-24">
+      <my-container>
+        <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
+          @if (c.bio.length || c.priorities.length || c.career.length) {
+            <div class="flex flex-col gap-16" [class]="hasAside() ? 'lg:col-span-8' : 'lg:col-span-12'">
+              <!-- Biographie -->
+              @if (c.bio.length) {
+                <div>
+                  <my-section-title [heading]="labels().bio" />
+                  <div class="mt-6 flex flex-col gap-4">
+                    @for (paragraph of c.bio; track $index) {
+                      <p class="leading-relaxed text-foreground-muted">{{ paragraph }}</p>
                     }
-                    <h3 class="font-heading text-lg font-bold text-secondary">{{ priority.title }}</h3>
-                    <p class="mt-2 text-sm leading-relaxed text-foreground-muted">{{ priority.desc }}</p>
-                  </li>
-                }
-              </ul>
-            </div>
-          }
-
-          <!-- Parcours -->
-          @if (c.career.length) {
-            <div>
-              <my-section-title [heading]="labels().career" />
-              <ol class="mt-8 flex flex-col gap-6 border-l-2 border-gray-200 pl-6">
-                @for (step of c.career; track $index) {
-                  <li class="relative">
-                    <span
-                      aria-hidden="true"
-                      class="absolute -left-[1.95rem] top-1 h-3.5 w-3.5 rounded-full border-2 border-white bg-primary ring-2 ring-primary/20"
-                    ></span>
-                    <p class="text-xs font-semibold uppercase tracking-wider text-primary">{{ step.period }}</p>
-                    <h3 class="mt-1 font-heading text-lg font-bold text-secondary">{{ step.title }}</h3>
-                    @if (step.desc) {
-                      <p class="mt-1 text-sm leading-relaxed text-foreground-muted">{{ step.desc }}</p>
-                    }
-                  </li>
-                }
-              </ol>
-            </div>
-          }
-        </div>
-
-        <!-- Fiche latérale -->
-        <aside class="flex flex-col gap-6 lg:sticky lg:top-28 lg:col-span-4 lg:self-start">
-          <div class="rounded-md border border-gray-200 bg-surface p-6">
-            <h2 class="font-heading text-sm font-semibold uppercase tracking-[0.16em] text-foreground-muted">
-              {{ labels().sheet }}
-            </h2>
-            <dl class="mt-5 flex flex-col divide-y divide-gray-200">
-              @for (row of [
-                { label: labels().position, value: c.position },
-                { label: labels().constituency, value: c.constituency },
-                { label: labels().party, value: c.party },
-                { label: labels().profession, value: c.profession },
-                { label: labels().birthplace, value: c.birthplace }
-              ]; track row.label) {
-                <div class="py-3 first:pt-0 last:pb-0">
-                  <dt class="text-xs text-foreground-muted">{{ row.label }}</dt>
-                  <dd class="mt-0.5 font-semibold text-secondary">{{ row.value }}</dd>
+                  </div>
                 </div>
               }
-            </dl>
-          </div>
 
-          @if (c.education.length) {
-            <div class="rounded-md border border-gray-200 bg-white p-6 shadow-card">
-              <h2 class="font-heading text-sm font-semibold uppercase tracking-[0.16em] text-foreground-muted">
-                {{ labels().education }}
-              </h2>
-              <ul class="mt-4 flex flex-col gap-3">
-                @for (item of c.education; track item) {
-                  <li class="flex items-start gap-3 text-sm text-secondary">
-                    <i class="pi pi-graduation-cap mt-0.5 text-primary" aria-hidden="true"></i>
-                    {{ item }}
-                  </li>
-                }
-              </ul>
+              <!-- Priorités -->
+              @if (c.priorities.length) {
+                <div>
+                  <my-section-title [heading]="labels().priorities" />
+                  <ul class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
+                    @for (priority of c.priorities; track priority.title) {
+                      <li class="rounded-md border border-gray-200 bg-white p-6 shadow-card">
+                        @if (priority.icon) {
+                          <span class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-sm bg-primary/10 text-primary">
+                            <i class="pi {{ priority.icon }} text-xl" aria-hidden="true"></i>
+                          </span>
+                        }
+                        <h3 class="font-heading text-lg font-bold text-secondary">{{ priority.title }}</h3>
+                        <p class="mt-2 text-sm leading-relaxed text-foreground-muted">{{ priority.desc }}</p>
+                      </li>
+                    }
+                  </ul>
+                </div>
+              }
+
+              <!-- Parcours -->
+              @if (c.career.length) {
+                <div>
+                  <my-section-title [heading]="labels().career" />
+                  <ol class="mt-8 flex flex-col gap-6 border-l-2 border-gray-200 pl-6">
+                    @for (step of c.career; track $index) {
+                      <li class="relative">
+                        <span
+                          aria-hidden="true"
+                          class="absolute -left-[1.95rem] top-1 h-3.5 w-3.5 rounded-full border-2 border-white bg-primary ring-2 ring-primary/20"
+                        ></span>
+                        <p class="text-xs font-semibold uppercase tracking-wider text-primary">{{ step.period }}</p>
+                        <h3 class="mt-1 font-heading text-lg font-bold text-secondary">{{ step.title }}</h3>
+                        @if (step.desc) {
+                          <p class="mt-1 text-sm leading-relaxed text-foreground-muted">{{ step.desc }}</p>
+                        }
+                      </li>
+                    }
+                  </ol>
+                </div>
+              }
             </div>
           }
 
-          @if (c.contact; as contact) {
-            <div class="rounded-md border border-gray-200 bg-white p-6 shadow-card">
-              <h2 class="font-heading text-sm font-semibold uppercase tracking-[0.16em] text-foreground-muted">
-                {{ labels().contact }}
-              </h2>
-              <ul class="mt-4 flex flex-col gap-3 text-sm">
-                @if (contact.email) {
-                  <li>
-                    <a [href]="'mailto:' + contact.email" class="flex items-center gap-3 break-all text-secondary transition-colors hover:text-primary">
-                      <i class="pi pi-envelope text-primary" aria-hidden="true"></i>
-                      {{ contact.email }}
-                    </a>
-                  </li>
-                }
-                @if (contact.facebook) {
-                  <li>
-                    <a [href]="contact.facebook" target="_blank" rel="noopener" class="flex items-center gap-3 text-secondary transition-colors hover:text-primary">
-                      <i class="pi pi-facebook text-primary" aria-hidden="true"></i> Facebook
-                    </a>
-                  </li>
-                }
-                @if (contact.x) {
-                  <li>
-                    <a [href]="contact.x" target="_blank" rel="noopener" class="flex items-center gap-3 text-secondary transition-colors hover:text-primary">
-                      <i class="pi pi-twitter text-primary" aria-hidden="true"></i> X
-                    </a>
-                  </li>
-                }
-                @if (contact.instagram) {
-                  <li>
-                    <a [href]="contact.instagram" target="_blank" rel="noopener" class="flex items-center gap-3 text-secondary transition-colors hover:text-primary">
-                      <i class="pi pi-instagram text-primary" aria-hidden="true"></i> Instagram
-                    </a>
-                  </li>
-                }
-              </ul>
-            </div>
+          <!-- Fiche latérale -->
+          @if (hasAside()) {
+            <aside class="flex flex-col gap-6 lg:sticky lg:top-28 lg:col-span-4 lg:self-start">
+              @if (sheet().length) {
+                <div class="rounded-md border border-gray-200 bg-surface p-6">
+                  <h2 class="font-heading text-sm font-semibold uppercase tracking-[0.16em] text-foreground-muted">
+                    {{ labels().sheet }}
+                  </h2>
+                  <dl class="mt-5 flex flex-col divide-y divide-gray-200">
+                    @for (row of sheet(); track row.label) {
+                      <div class="py-3 first:pt-0 last:pb-0">
+                        <dt class="text-xs text-foreground-muted">{{ row.label }}</dt>
+                        @for (value of row.values; track value) {
+                          <dd class="mt-0.5 font-semibold text-secondary">{{ value }}</dd>
+                        }
+                      </div>
+                    }
+                  </dl>
+                </div>
+              }
+
+              @if (c.education.length) {
+                <div class="rounded-md border border-gray-200 bg-white p-6 shadow-card">
+                  <h2 class="font-heading text-sm font-semibold uppercase tracking-[0.16em] text-foreground-muted">
+                    {{ labels().education }}
+                  </h2>
+                  <ul class="mt-4 flex flex-col gap-3">
+                    @for (item of c.education; track item) {
+                      <li class="flex items-start gap-3 text-sm text-secondary">
+                        <i class="pi pi-graduation-cap mt-0.5 text-primary" aria-hidden="true"></i>
+                        {{ item }}
+                      </li>
+                    }
+                  </ul>
+                </div>
+              }
+
+              @if (c.contact; as contact) {
+                <div class="rounded-md border border-gray-200 bg-white p-6 shadow-card">
+                  <h2 class="font-heading text-sm font-semibold uppercase tracking-[0.16em] text-foreground-muted">
+                    {{ labels().contact }}
+                  </h2>
+                  <ul class="mt-4 flex flex-col gap-3 text-sm">
+                    @if (contact.email) {
+                      <li>
+                        <a [href]="'mailto:' + contact.email" class="flex items-center gap-3 break-all text-secondary transition-colors hover:text-primary">
+                          <i class="pi pi-envelope text-primary" aria-hidden="true"></i>
+                          {{ contact.email }}
+                        </a>
+                      </li>
+                    }
+                    @if (contact.facebook) {
+                      <li>
+                        <a [href]="contact.facebook" target="_blank" rel="noopener" class="flex items-center gap-3 text-secondary transition-colors hover:text-primary">
+                          <i class="pi pi-facebook text-primary" aria-hidden="true"></i> Facebook
+                        </a>
+                      </li>
+                    }
+                    @if (contact.x) {
+                      <li>
+                        <a [href]="contact.x" target="_blank" rel="noopener" class="flex items-center gap-3 text-secondary transition-colors hover:text-primary">
+                          <i class="pi pi-twitter text-primary" aria-hidden="true"></i> X
+                        </a>
+                      </li>
+                    }
+                    @if (contact.instagram) {
+                      <li>
+                        <a [href]="contact.instagram" target="_blank" rel="noopener" class="flex items-center gap-3 text-secondary transition-colors hover:text-primary">
+                          <i class="pi pi-instagram text-primary" aria-hidden="true"></i> Instagram
+                        </a>
+                      </li>
+                    }
+                  </ul>
+                </div>
+              }
+            </aside>
           }
-        </aside>
-      </div>
-    </my-container>
-  </section>
+        </div>
+      </my-container>
+    </section>
+  }
 
   <!-- ============================ AUTRES CANDIDATS ============================ -->
   @if (others().length) {

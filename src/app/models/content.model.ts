@@ -56,15 +56,18 @@ export interface Candidate {
   /** Identifiant d'URL : `/candidats/<slug>`. */
   slug: string;
   name: string;
-  subtitle: string;
-  /** URL ImageKit de la photo. Un visuel neutre s'affiche en attendant. */
+  subtitle?: string | null;
+  /** Portrait ImageKit affiché sur la fiche, à côté de la biographie. */
   photo?: string | null;
+  /** Visuel de couverture des cartes (accueil et liste complète). À défaut, le portrait est repris. */
+  cover?: string | null;
   /** Poste brigué. */
-  position: string;
-  constituency: string;
-  party: string;
-  profession: string;
-  birthplace: string;
+  position?: string | null;
+  constituency?: string | null;
+  party?: string | null;
+  /** Une ou plusieurs professions. */
+  professions: string[];
+  birthplace?: string | null;
   quote?: string | null;
   bio: string[];
   priorities: Feature[];
@@ -160,6 +163,8 @@ export interface SiteContent {
       constituency: string;
       party: string;
       profession: string;
+      /** Employé dès qu'un candidat exerce plusieurs professions. */
+      professions: string;
       birthplace: string;
       bio: string;
       priorities: string;

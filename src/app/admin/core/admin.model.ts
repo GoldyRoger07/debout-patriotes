@@ -62,6 +62,7 @@ export type ImageFolder = 'blog' | 'candidats' | 'divers';
 export interface AdminCandidate extends Candidate {
   id: number;
   photoFileId?: string | null;
+  coverFileId?: string | null;
   displayOrder: number;
   published: boolean;
   updatedAt: string;

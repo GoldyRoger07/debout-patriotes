@@ -39,7 +39,13 @@ const candidateTitle: ResolveFn<string> = (route) =>
 const candidateSeo: ResolveFn<RouteSeo> = (route) =>
   inject(CandidatesApi)
     .bySlug(route.paramMap.get('slug')!)
-    .pipe(map((c) => ({ description: c ? `${c.name} — ${c.subtitle}. ${c.bio[0] ?? ''}` : undefined })));
+    .pipe(
+      map((c) => ({
+        description: c
+          ? [c.name, c.subtitle, c.bio[0]].filter(Boolean).join(' — ')
+          : undefined,
+      })),
+    );
 
 /* --- Article du blog --- */
 

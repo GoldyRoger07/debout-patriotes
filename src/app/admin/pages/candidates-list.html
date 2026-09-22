@@ -38,8 +38,8 @@
             </div>
 
             <div class="h-14 w-11 shrink-0 overflow-hidden rounded bg-surface">
-              @if (candidate.photo) {
-                <img [src]="candidate.photo | ik: 'w-88,h-112,fo-face'" alt="" class="h-full w-full object-cover" />
+              @if (thumbnail(candidate); as photo) {
+                <img [src]="photo | ik: 'w-88,h-112,fo-face'" alt="" class="h-full w-full object-cover" />
               } @else {
                 <div class="flex h-full items-center justify-center text-gray-300"><i class="pi pi-user" aria-hidden="true"></i></div>
               }
@@ -49,7 +49,9 @@
               <a [routerLink]="['/admin/candidats', candidate.id]" class="block truncate font-semibold text-secondary hover:text-primary">
                 {{ candidate.name }}
               </a>
-              <p class="truncate text-xs text-foreground-muted">{{ candidate.position }} · {{ candidate.constituency }}</p>
+              @if (summary(candidate); as line) {
+                <p class="truncate text-xs text-foreground-muted">{{ line }}</p>
+              }
             </div>
 
             <button

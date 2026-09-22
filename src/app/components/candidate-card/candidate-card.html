@@ -4,9 +4,10 @@
   class="group relative block h-full overflow-hidden rounded-md border border-gray-200 bg-white shadow-card transition-colors duration-200 hover:border-primary/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
 >
   <div class="relative aspect-[4/5] overflow-hidden bg-surface">
-    @if (candidate().photo; as photo) {
+    <!-- La couverture prime sur la fiche ; le portrait sert de secours. -->
+    @if (image(); as visual) {
       <img
-        [src]="photo | ik: 'w-400,h-500,fo-face'"
+        [src]="visual.url | ik: visual.transformation"
         [alt]="candidate().name"
         loading="lazy"
         class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -24,6 +25,8 @@
     <h3 class="font-heading text-lg font-bold leading-tight text-secondary transition-colors group-hover:text-primary">
       {{ candidate().name }}
     </h3>
-    <p class="mt-1 text-sm text-foreground-muted">{{ candidate().subtitle }}</p>
+    @if (subtitle(); as line) {
+      <p class="mt-1 text-sm text-foreground-muted">{{ line }}</p>
+    }
   </div>
 </a>
