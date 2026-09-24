@@ -12,7 +12,7 @@
         <ul class="grid grid-cols-1 items-start gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           @for (candidate of list; track candidate.slug) {
             <li>
-              <my-candidate-card [candidate]="candidate" [ratio]="page().cardRatio" />
+              <my-candidate-card [candidate]="candidate" [ratio]="cardFormats().list" />
             </li>
           }
         </ul>

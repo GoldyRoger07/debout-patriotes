@@ -106,3 +106,57 @@
     <div class="p-12 text-center text-foreground-muted"><i class="pi pi-spin pi-spinner" aria-hidden="true"></i></div>
   }
 </div>
+
+<!-- Format des photos des cartes, par emplacement -->
+@if (formats(); as current) {
+  <section class="admin-card mt-8">
+    <div class="flex flex-wrap items-start justify-between gap-4">
+      <div>
+        <h2 class="font-heading text-base font-bold text-secondary">Format des photos des cartes</h2>
+        <p class="mt-1 text-sm text-foreground-muted">
+          Toutes les cartes d'un même emplacement ont les mêmes dimensions ; chaque photo y est recadrée selon son cadrage.
+        </p>
+      </div>
+      <button
+        type="button"
+        class="admin-btn admin-btn-primary"
+        [disabled]="!formatsChanged() || savingFormats()"
+        (click)="saveFormats()"
+      >
+        <i class="pi" [class]="savingFormats() ? 'pi-spin pi-spinner' : 'pi-check'" aria-hidden="true"></i> Enregistrer
+      </button>
+    </div>
+
+    <div class="mt-5 grid grid-cols-1 gap-6 md:grid-cols-2">
+      @for (placement of placements; track placement.key) {
+        <fieldset>
+          <legend class="admin-label">{{ placement.label }}</legend>
+          <div class="flex flex-wrap gap-1.5">
+            @for (option of ratioOptions; track option.label) {
+              <button
+                type="button"
+                class="inline-flex items-center gap-2 rounded-md border px-2.5 py-1.5 text-xs font-semibold transition-colors"
+                [class]="
+                  isRatio(current[placement.key], option.ratio)
+                    ? 'border-primary bg-primary/10 text-primary'
+                    : 'border-gray-300 text-foreground-muted hover:border-primary/40 hover:text-secondary'
+                "
+                [attr.aria-pressed]="isRatio(current[placement.key], option.ratio)"
+                (click)="setRatio(placement.key, option.ratio)"
+              >
+                <!-- Aperçu de la proportion -->
+                <span
+                  aria-hidden="true"
+                  class="inline-block h-4 rounded-[2px] border-2 border-current"
+                  [style.aspect-ratio]="option.ratio.width + ' / ' + option.ratio.height"
+                ></span>
+                {{ option.label }}
+              </button>
+            }
+          </div>
+          <p class="mt-2 text-xs text-foreground-muted">{{ placement.hint }}</p>
+        </fieldset>
+      }
+    </div>
+  </section>
+}

@@ -11,6 +11,7 @@ import { EmptyState } from '../../components/empty-state/empty-state';
 import { LanguageService } from '../../services/language.service';
 import { CandidatesApi } from '../../services/candidates-api.service';
 import { BlogApi } from '../../services/blog-api.service';
+import { DEFAULT_CARD_FORMATS } from '../../models/image.model';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +25,11 @@ export default class Home {
   protected readonly page = computed(() => this.content().home);
   /** Les quatre piliers sont définis une seule fois, sur la page Vision. */
   protected readonly pillars = computed(() => this.content().vision.pillars);
-  protected readonly candidates = toSignal(inject(CandidatesApi).list(), { initialValue: [] });
+  private readonly candidatesApi = inject(CandidatesApi);
+  protected readonly candidates = toSignal(this.candidatesApi.list(), { initialValue: [] });
+  protected readonly cardFormats = toSignal(this.candidatesApi.cardFormats(), {
+    initialValue: DEFAULT_CARD_FORMATS,
+  });
   protected readonly news = computed(() => this.content().news);
   protected readonly latestPosts = toSignal(
     inject(BlogApi)

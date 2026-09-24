@@ -1,11 +1,23 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AdminApi } from '../core/admin-api.service';
 import { Feedback } from '../core/feedback.service';
 import { AdminCandidate, CandidatePayload } from '../core/admin.model';
 import { apiErrorMessage } from '../core/api-error';
 import { ImageKitPipe } from '../../pipes/imagekit.pipe';
-import { ImageFocus, PORTRAIT_FOCUS } from '../../models/image.model';
+import {
+  CARD_RATIO_OPTIONS,
+  CardFormats,
+  ImageFocus,
+  ImageRatio,
+  PORTRAIT_FOCUS,
+} from '../../models/image.model';
+
+/** Emplacements des cartes sur le site, réglés séparément. */
+const PLACEMENTS: ReadonlyArray<{ key: keyof CardFormats; label: string; hint: string }> = [
+  { key: 'home', label: 'Accueil', hint: 'Défilement des candidats sur la page d’accueil.' },
+  { key: 'list', label: 'Page « Nos candidats »', hint: 'Grille de la liste complète.' },
+];
 
 @Component({
   selector: 'admin-candidates-list',
@@ -19,12 +31,58 @@ export default class CandidatesList {
   protected readonly candidates = signal<AdminCandidate[] | null>(null);
   protected readonly busy = signal(false);
 
+  protected readonly placements = PLACEMENTS;
+  protected readonly ratioOptions = CARD_RATIO_OPTIONS;
+  /** Format des cartes tel qu'enregistré, et tel que modifié dans le panneau. */
+  private readonly savedFormats = signal<CardFormats | null>(null);
+  protected readonly formats = signal<CardFormats | null>(null);
+  protected readonly savingFormats = signal(false);
+  protected readonly formatsChanged = computed(
+    () => JSON.stringify(this.formats()) !== JSON.stringify(this.savedFormats()),
+  );
+
   constructor() {
+    this.api.cardFormats().subscribe({
+      next: (formats) => {
+        this.savedFormats.set(formats);
+        this.formats.set(formats);
+      },
+      error: (err) => this.feedback.error(apiErrorMessage(err)),
+    });
+
     this.api.candidates().subscribe({
       next: (list) => this.candidates.set(list),
       error: (err) => {
         this.candidates.set([]);
         this.feedback.error(apiErrorMessage(err));
+      },
+    });
+  }
+
+  protected isRatio(a: ImageRatio, b: ImageRatio): boolean {
+    return a.width === b.width && a.height === b.height;
+  }
+
+  protected setRatio(key: keyof CardFormats, ratio: ImageRatio): void {
+    this.formats.update((formats) => (formats ? { ...formats, [key]: ratio } : formats));
+  }
+
+  protected saveFormats(): void {
+    const formats = this.formats();
+    if (!formats) {
+      return;
+    }
+    this.savingFormats.set(true);
+    this.api.saveCardFormats(formats).subscribe({
+      next: (saved) => {
+        this.savedFormats.set(saved);
+        this.formats.set(saved);
+        this.savingFormats.set(false);
+        this.feedback.success('Format des cartes enregistré.');
+      },
+      error: (err) => {
+        this.savingFormats.set(false);
+        this.feedback.error(apiErrorMessage(err, "Le format des cartes n'a pas pu être enregistré."));
       },
     });
   }

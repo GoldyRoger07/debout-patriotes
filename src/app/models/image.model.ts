@@ -29,6 +29,30 @@ export interface ImageRatio {
   height: number;
 }
 
+/**
+ * Proportion des photos des cartes candidats, réglée dans le back-office pour chaque emplacement :
+ * le défilement de l'accueil et la page « Nos candidats ».
+ */
+export interface CardFormats {
+  home: ImageRatio;
+  list: ImageRatio;
+}
+
+/** Proportion des cartes tant que l'API n'en fournit pas : le portrait 4/5 d'origine. */
+export const DEFAULT_CARD_RATIO: ImageRatio = { width: 4, height: 5 };
+
+export const DEFAULT_CARD_FORMATS: CardFormats = { home: DEFAULT_CARD_RATIO, list: DEFAULT_CARD_RATIO };
+
+/** Formats proposés dans le back-office pour les cartes, dans l'ordre d'affichage. */
+export const CARD_RATIO_OPTIONS: ReadonlyArray<{ ratio: ImageRatio; label: string }> = [
+  { ratio: { width: 4, height: 5 }, label: 'Portrait 4/5' },
+  { ratio: { width: 3, height: 4 }, label: 'Portrait 3/4' },
+  { ratio: { width: 2, height: 3 }, label: 'Portrait 2/3' },
+  { ratio: { width: 1, height: 1 }, label: 'Carré 1/1' },
+  { ratio: { width: 4, height: 3 }, label: 'Paysage 4/3' },
+  { ratio: { width: 16, height: 9 }, label: 'Paysage 16/9' },
+];
+
 /** Cadrage retenu quand aucun n'a été enregistré (articles, visuels de couverture). */
 export const DEFAULT_FOCUS: ImageFocus = 'auto';
 

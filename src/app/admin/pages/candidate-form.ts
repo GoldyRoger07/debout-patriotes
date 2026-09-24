@@ -1,4 +1,4 @@
-import { Component, inject, signal, viewChildren } from '@angular/core';
+import { Component, computed, inject, signal, viewChildren } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   FormArray,
@@ -11,7 +11,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AdminApi } from '../core/admin-api.service';
 import { Feedback } from '../core/feedback.service';
 import { AdminCandidate, CandidatePayload, ImageRef } from '../core/admin.model';
-import { PORTRAIT_FOCUS } from '../../models/image.model';
+import { DEFAULT_CARD_FORMATS, PORTRAIT_FOCUS } from '../../models/image.model';
 import { apiErrorMessage, apiFieldErrors } from '../core/api-error';
 import { emptyToNull, slugify } from '../core/form-utils';
 import { ImageUpload } from '../ui/image-upload';
@@ -71,6 +71,15 @@ export default class CandidateForm {
 
   protected readonly icons = PRIORITY_ICONS;
 
+  /** Format des cartes réglé dans la liste des candidats : l'aperçu de la couverture suit celui de l'accueil. */
+  protected readonly cardFormats = signal(DEFAULT_CARD_FORMATS);
+  protected readonly coverRatio = computed(
+    () => `${this.cardFormats().home.width}/${this.cardFormats().home.height}`,
+  );
+  protected readonly listRatio = computed(
+    () => `${this.cardFormats().list.width}/${this.cardFormats().list.height}`,
+  );
+
   protected readonly form = this.fb.group({
     name: ['', [Validators.required, Validators.maxLength(160)]],
     slug: ['', Validators.maxLength(190)],
@@ -106,6 +115,7 @@ export default class CandidateForm {
   private slugEdited = false;
 
   constructor() {
+    this.api.cardFormats().subscribe({ next: (formats) => this.cardFormats.set(formats), error: () => {} });
     const idParam = inject(ActivatedRoute).snapshot.paramMap.get('id');
     if (idParam) {
       this.id.set(Number(idParam));

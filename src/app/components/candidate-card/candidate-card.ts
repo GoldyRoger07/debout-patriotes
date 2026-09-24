@@ -2,7 +2,7 @@ import { Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Candidate } from '../../models/content.model';
 import { ImageKitPipe } from '../../pipes/imagekit.pipe';
-import { ImageRatio, PORTRAIT_FOCUS } from '../../models/image.model';
+import { DEFAULT_CARD_RATIO, ImageRatio, PORTRAIT_FOCUS } from '../../models/image.model';
 
 /** Carte d'un candidat : photo de couverture, nom et sous-titre. Mène à sa fiche. */
 @Component({
@@ -14,8 +14,8 @@ export class CandidateCard {
   candidate = input.required<Candidate>();
   /** Copie purement visuelle (ex. doublon du défilement) : retirée de la navigation clavier. */
   decorative = input(false);
-  /** Proportion de la photo, réglée par page pour que toutes les cartes aient les mêmes dimensions. */
-  ratio = input<ImageRatio>({ width: 4, height: 5 });
+  /** Proportion de la photo, réglée par emplacement dans le back-office : toutes les cartes d'une page la partagent. */
+  ratio = input<ImageRatio>(DEFAULT_CARD_RATIO);
 
   /** Valeur CSS `aspect-ratio` du cadre. */
   protected readonly aspectRatio = computed(() => `${this.ratio().width} / ${this.ratio().height}`);
@@ -27,7 +27,7 @@ export class CandidateCard {
 
   /**
    * Visuel de la carte : la photo de couverture si elle existe, sinon le portrait de la fiche.
-   * La carte garde la proportion de la page ; le cadrage choisi dans le back-office décide de ce qui en est gardé.
+   * La carte garde la proportion de son emplacement ; le cadrage choisi dans le back-office décide de ce qui en est gardé.
    */
   protected readonly image = computed(() => {
     const { cover, coverFocus, photo, photoFocus } = this.candidate();

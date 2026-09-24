@@ -137,7 +137,6 @@ export const fr: SiteContent = {
       title: 'Les visages de DEBOUT PATRIOTES',
       lead: 'Des femmes et des hommes debout, prêts à servir Haïti dans chaque département.',
       cta: { label: 'Voir tous les candidats', url: '/candidats' },
-      cardRatio: { width: 4, height: 5 },
     },
 
     news: {
@@ -166,8 +165,6 @@ export const fr: SiteContent = {
     },
     // Les fiches sont gérées dans le back-office (/admin/candidats).
     empty: 'La liste des candidats sera publiée ici dès sa validation par le CEP.',
-    // Proportion des photos des cartes ; toutes les cartes de la page la partagent.
-    cardRatio: { width: 4, height: 5 },
     profile: {
       back: 'Tous les candidats',
       sheet: 'En bref',

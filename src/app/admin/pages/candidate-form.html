@@ -265,9 +265,10 @@
 
       <div class="admin-card">
         <span class="admin-label">Photo de couverture</span>
-        <admin-image-upload formControlName="cover" folder="candidats" ratio="4/5" defaultFocus="face" />
+        <admin-image-upload formControlName="cover" folder="candidats" [ratio]="coverRatio()" defaultFocus="face" />
         <p class="mt-2 text-xs text-foreground-muted">
-          Visuel des cartes en 4/5, sur l'accueil et dans la liste complète des candidats. Sans couverture, la photo de la fiche est reprise.
+          Visuel des cartes : {{ coverRatio() }} sur l'accueil, {{ listRatio() }} dans la liste complète des candidats
+          (réglable depuis la liste des candidats). Sans couverture, la photo de la fiche est reprise.
         </p>
       </div>
 

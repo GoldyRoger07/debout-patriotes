@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API_BASE_URL } from '../../config/api';
 import { Category, Page, Post, PostStatus, PostSummary } from '../../models/blog.model';
+import { CardFormats } from '../../models/image.model';
 import {
   AdminCandidate,
   CandidatePayload,
@@ -101,6 +102,15 @@ export class AdminApi {
 
   reorderCandidates(ids: number[]): Observable<AdminCandidate[]> {
     return this.http.put<AdminCandidate[]>(`${this.base}/admin/candidates/order`, { ids });
+  }
+
+  /** Proportion des photos des cartes, par emplacement du site. */
+  cardFormats(): Observable<CardFormats> {
+    return this.http.get<CardFormats>(`${this.base}/admin/candidates/card-formats`);
+  }
+
+  saveCardFormats(formats: CardFormats): Observable<CardFormats> {
+    return this.http.put<CardFormats>(`${this.base}/admin/candidates/card-formats`, formats);
   }
 
   // --- Images (ImageKit) -----------------------------------------------------

@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, of, shareReplay } from 'rxjs';
 import { API_BASE_URL } from '../config/api';
 import { Candidate } from '../models/content.model';
+import { CardFormats, DEFAULT_CARD_FORMATS } from '../models/image.model';
 
 /** Lecture publique des candidats publiés depuis l'API. */
 @Injectable({ providedIn: 'root' })
@@ -14,6 +15,13 @@ export class CandidatesApi {
   /** Candidats publiés, dans l'ordre choisi dans le back-office. Liste vide si l'API est injoignable. */
   list(): Observable<Candidate[]> {
     return this.http.get<Candidate[]>(`${this.base}/api/candidates`).pipe(catchError(() => of([])));
+  }
+
+  /** Proportion des photos des cartes, par emplacement. Format d'origine si l'API est injoignable. */
+  cardFormats(): Observable<CardFormats> {
+    return this.http
+      .get<CardFormats>(`${this.base}/api/candidates/card-formats`)
+      .pipe(catchError(() => of(DEFAULT_CARD_FORMATS)));
   }
 
   /**
