@@ -11,6 +11,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AdminApi } from '../core/admin-api.service';
 import { Feedback } from '../core/feedback.service';
 import { AdminCandidate, CandidatePayload, ImageRef } from '../core/admin.model';
+import { PORTRAIT_FOCUS } from '../../models/image.model';
 import { apiErrorMessage, apiFieldErrors } from '../core/api-error';
 import { emptyToNull, slugify } from '../core/form-utils';
 import { ImageUpload } from '../ui/image-upload';
@@ -182,8 +183,10 @@ export default class CandidateForm {
       subtitle: emptyToNull(v.subtitle),
       photo: v.photo?.url ?? null,
       photoFileId: v.photo?.fileId ?? null,
+      photoFocus: v.photo?.focus ?? null,
       cover: v.cover?.url ?? null,
       coverFileId: v.cover?.fileId ?? null,
+      coverFocus: v.cover?.focus ?? null,
       position: emptyToNull(v.position),
       constituency: emptyToNull(v.constituency),
       party: emptyToNull(v.party),
@@ -296,8 +299,12 @@ export default class CandidateForm {
       party: c.party ?? '',
       birthplace: c.birthplace ?? '',
       quote: c.quote ?? '',
-      photo: c.photo ? { url: c.photo, fileId: c.photoFileId ?? null } : null,
-      cover: c.cover ? { url: c.cover, fileId: c.coverFileId ?? null } : null,
+      photo: c.photo
+        ? { url: c.photo, fileId: c.photoFileId ?? null, focus: c.photoFocus ?? PORTRAIT_FOCUS }
+        : null,
+      cover: c.cover
+        ? { url: c.cover, fileId: c.coverFileId ?? null, focus: c.coverFocus ?? PORTRAIT_FOCUS }
+        : null,
       published: c.published,
       contact: {
         email: c.contact?.email ?? '',

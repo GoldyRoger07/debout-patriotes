@@ -109,7 +109,10 @@
 
       <div class="admin-card">
         <span class="admin-label">Image de couverture</span>
-        <admin-image-upload formControlName="cover" folder="blog" aspect="aspect-video" />
+        <admin-image-upload formControlName="cover" folder="blog" ratio="16/9" />
+        <p class="mt-2 text-xs text-foreground-muted">
+          Affichée en 16/9 sur les cartes et en tête de l’article. Le cadrage décide de la partie conservée.
+        </p>
       </div>
     </div>
   </form>

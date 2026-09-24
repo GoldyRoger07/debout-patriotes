@@ -11,6 +11,7 @@ import { LanguageService } from '../../services/language.service';
 import { CandidatesApi } from '../../services/candidates-api.service';
 import { Candidate } from '../../models/content.model';
 import { ImageKitPipe } from '../../pipes/imagekit.pipe';
+import { PORTRAIT_FOCUS } from '../../models/image.model';
 
 /** Une ligne de la fiche « En bref » : un libellé et les valeurs saisies. */
 interface SheetRow {
@@ -40,10 +41,13 @@ export default class Candidat {
       .slice(0, 4),
   );
 
-  /** Portrait de la fiche ; la couverture des cartes sert de secours. */
+  /** Portrait de la fiche, avec son cadrage ; la couverture des cartes sert de secours. */
   protected readonly portrait = computed(() => {
     const c = this.candidate();
-    return c?.photo || c?.cover || null;
+    if (c?.photo) {
+      return { url: c.photo, focus: c.photoFocus ?? PORTRAIT_FOCUS };
+    }
+    return c?.cover ? { url: c.cover, focus: c.coverFocus ?? PORTRAIT_FOCUS } : null;
   });
 
   /** Seules les lignes réellement renseignées sont conservées. */

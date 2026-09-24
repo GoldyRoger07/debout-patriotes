@@ -257,17 +257,17 @@
 
       <div class="admin-card">
         <span class="admin-label">Photo de la fiche</span>
-        <admin-image-upload formControlName="photo" folder="candidats" aspect="aspect-[4/5]" />
+        <admin-image-upload formControlName="photo" folder="candidats" ratio="4/5" defaultFocus="face" />
         <p class="mt-2 text-xs text-foreground-muted">
-          Portrait affiché en haut de la fiche, à côté de la biographie. Vertical de préférence : le cadrage suit le visage.
+          Portrait affiché en 4/5 en haut de la fiche, à côté de la biographie. Vertical de préférence.
         </p>
       </div>
 
       <div class="admin-card">
         <span class="admin-label">Photo de couverture</span>
-        <admin-image-upload formControlName="cover" folder="candidats" aspect="aspect-[4/5]" />
+        <admin-image-upload formControlName="cover" folder="candidats" ratio="4/5" defaultFocus="face" />
         <p class="mt-2 text-xs text-foreground-muted">
-          Visuel des cartes, sur l'accueil et dans la liste complète des candidats. Sans couverture, la photo de la fiche est reprise.
+          Visuel des cartes en 4/5, sur l'accueil et dans la liste complète des candidats. Sans couverture, la photo de la fiche est reprise.
         </p>
       </div>
 

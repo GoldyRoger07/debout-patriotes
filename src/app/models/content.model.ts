@@ -3,6 +3,8 @@
  * Une locale = un fichier dans `config/content/` qui implémente `SiteContent`.
  */
 
+import { ImageFocus } from './image.model';
+
 export interface PageIntro {
   eyebrow?: string;
   title: string;
@@ -59,8 +61,12 @@ export interface Candidate {
   subtitle?: string | null;
   /** Portrait ImageKit affiché sur la fiche, à côté de la biographie. */
   photo?: string | null;
+  /** Cadrage du portrait choisi dans le back-office. */
+  photoFocus?: ImageFocus | null;
   /** Visuel de couverture des cartes (accueil et liste complète). À défaut, le portrait est repris. */
   cover?: string | null;
+  /** Cadrage de la couverture choisi dans le back-office. */
+  coverFocus?: ImageFocus | null;
   /** Poste brigué. */
   position?: string | null;
   constituency?: string | null;

@@ -1,5 +1,7 @@
 /** Formes JSON renvoyées par l'API pour le blog (voir `BlogDtos` côté Spring). */
 
+import { ImageFocus } from './image.model';
+
 export interface Category {
   id: number;
   name: string;
@@ -17,6 +19,8 @@ export interface PostSummary {
   title: string;
   excerpt: string;
   cover?: string | null;
+  /** Cadrage de la couverture choisi dans le back-office. */
+  coverFocus?: ImageFocus | null;
   category?: Category | null;
   status: PostStatus;
   /** Date ISO 8601. */

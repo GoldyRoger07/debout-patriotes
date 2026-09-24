@@ -44,7 +44,7 @@
           <li class="flex items-center gap-4 p-4">
             <div class="hidden h-14 w-24 shrink-0 overflow-hidden rounded bg-surface sm:block">
               @if (post.cover) {
-                <img [src]="post.cover | ik: 'w-192,h-112'" alt="" class="h-full w-full object-cover" />
+                <img [src]="post.cover | ik: 'w-192,h-112' : (post.coverFocus ?? 'auto')" alt="" class="h-full w-full object-cover" />
               } @else {
                 <div class="flex h-full items-center justify-center text-gray-300">
                   <i class="pi pi-image" aria-hidden="true"></i>

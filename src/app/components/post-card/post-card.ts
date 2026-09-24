@@ -16,7 +16,7 @@ import { ImageKitPipe } from '../../pipes/imagekit.pipe';
     >
       @if (item.cover) {
         <img
-          [src]="item.cover | ik: 'w-640,h-360,fo-auto'"
+          [src]="item.cover | ik: 'w-640,h-360' : (item.coverFocus ?? 'auto')"
           [alt]="item.title"
           loading="lazy"
           class="aspect-video w-full object-cover"

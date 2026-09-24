@@ -22,7 +22,7 @@
           <!-- Photo propre à la fiche : le portrait qui accompagne la biographie. -->
           <div class="relative mx-auto aspect-[4/5] max-w-xs overflow-hidden rounded-md bg-white/10 shadow-card ring-1 ring-white/10">
             @if (portrait(); as photo) {
-              <img [src]="photo | ik: 'w-480,h-600,fo-face'" [alt]="c.name" class="h-full w-full object-cover" />
+              <img [src]="photo.url | ik: 'w-480,h-600' : photo.focus" [alt]="c.name" class="h-full w-full object-cover" />
             } @else {
               <div aria-hidden="true" class="flex h-full w-full items-center justify-center">
                 <i class="pi pi-user text-7xl text-white/30"></i>

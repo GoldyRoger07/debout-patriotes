@@ -1,8 +1,0 @@
-{
-  "/api": {
-    "target": "https://debout-patriotes-api-production.up.railway.app",
-    "secure": false,
-    "changeOrigin": true
-  }
-}
-

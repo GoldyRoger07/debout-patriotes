@@ -161,7 +161,7 @@ export const fr: SiteContent = {
     intro: {
       eyebrow: 'Élections générales',
       title: 'Nos candidats',
-      lead: 'Les femmes et les hommes qui portent les couleurs de DEBOUT PATRIOTES aux prochaines élections générales.',
+      lead: '',
     },
     // Les fiches sont gérées dans le back-office (/admin/candidats).
     empty: 'La liste des candidats sera publiée ici dès sa validation par le CEP.',

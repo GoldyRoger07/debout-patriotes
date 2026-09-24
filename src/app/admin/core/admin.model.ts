@@ -1,5 +1,6 @@
 import { Candidate } from '../../models/content.model';
 import { PostStatus } from '../../models/blog.model';
+import { ImageFocus } from '../../models/image.model';
 
 export interface AdminUser {
   id: number;
@@ -22,10 +23,14 @@ export interface Dashboard {
   imageKitConfigured: boolean;
 }
 
-/** Image hébergée sur ImageKit : l'URL affichée et l'identifiant qui permet de la supprimer. */
+/**
+ * Image hébergée sur ImageKit, telle que la manipule un formulaire : l'URL affichée, l'identifiant
+ * qui permet de la supprimer, et le cadrage retenu pour son emplacement sur le site.
+ */
 export interface ImageRef {
   url: string;
   fileId: string | null;
+  focus: ImageFocus;
 }
 
 export interface UploadedImage {
@@ -77,6 +82,7 @@ export interface PostPayload {
   content: string;
   cover: string | null;
   coverFileId: string | null;
+  coverFocus: ImageFocus | null;
   categoryId: number | null;
   status: PostStatus;
   publishedAt: string | null;

@@ -2,6 +2,7 @@ import { Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Candidate } from '../../models/content.model';
 import { ImageKitPipe } from '../../pipes/imagekit.pipe';
+import { PORTRAIT_FOCUS } from '../../models/image.model';
 
 /** Carte d'un candidat : photo de couverture, nom et sous-titre. Mène à sa fiche. */
 @Component({
@@ -16,14 +17,14 @@ export class CandidateCard {
 
   /**
    * Visuel de la carte : la photo de couverture si elle existe, sinon le portrait de la fiche.
-   * Le portrait est recadré sur le visage, la couverture au centre de l'image.
+   * La carte reste en 4/5 ; le cadrage choisi dans le back-office décide de ce qui en est gardé.
    */
   protected readonly image = computed(() => {
-    const { cover, photo } = this.candidate();
+    const { cover, coverFocus, photo, photoFocus } = this.candidate();
     if (cover) {
-      return { url: cover, transformation: 'w-400,h-500' };
+      return { url: cover, focus: coverFocus ?? PORTRAIT_FOCUS };
     }
-    return photo ? { url: photo, transformation: 'w-400,h-500,fo-face' } : null;
+    return photo ? { url: photo, focus: photoFocus ?? PORTRAIT_FOCUS } : null;
   });
 
   /** Sous-titre, ou à défaut la première information renseignée. */

@@ -5,6 +5,7 @@ import { Feedback } from '../core/feedback.service';
 import { AdminCandidate, CandidatePayload } from '../core/admin.model';
 import { apiErrorMessage } from '../core/api-error';
 import { ImageKitPipe } from '../../pipes/imagekit.pipe';
+import { ImageFocus, PORTRAIT_FOCUS } from '../../models/image.model';
 
 @Component({
   selector: 'admin-candidates-list',
@@ -28,9 +29,14 @@ export default class CandidatesList {
     });
   }
 
-  /** Vignette de la liste : le portrait de la fiche, à défaut la couverture. */
-  protected thumbnail(candidate: AdminCandidate): string | null {
-    return candidate.photo || candidate.cover || null;
+  /** Vignette de la liste : le portrait de la fiche, à défaut la couverture, avec son cadrage. */
+  protected thumbnail(candidate: AdminCandidate): { url: string; focus: ImageFocus } | null {
+    if (candidate.photo) {
+      return { url: candidate.photo, focus: candidate.photoFocus ?? PORTRAIT_FOCUS };
+    }
+    return candidate.cover
+      ? { url: candidate.cover, focus: candidate.coverFocus ?? PORTRAIT_FOCUS }
+      : null;
   }
 
   /** Résumé d'une ligne : seules les informations renseignées y figurent. */

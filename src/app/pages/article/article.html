@@ -39,7 +39,7 @@
       <div class="mx-auto max-w-3xl">
         @if (p.cover) {
           <img
-            [src]="p.cover | ik: 'w-1200,h-675,fo-auto'"
+            [src]="p.cover | ik: 'w-1200,h-675' : (p.coverFocus ?? 'auto')"
             [alt]="p.title"
             class="mb-12 aspect-video w-full rounded-md object-cover shadow-card"
           />

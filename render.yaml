@@ -10,6 +10,11 @@ services:
     startCommand: node dist/debout-patriotes/server/server.mjs
     healthCheckPath: /api/ping
     envVars:
+      # API Spring jointe par le rendu serveur et par le relais `/api` (voir `.env.example`).
+      # Sans elle, le serveur retombe sur `http://localhost:8081` : le rendu serveur ne ramene
+      # plus aucune donnee et le relais repond 502.
+      - key: API_URL
+        value: https://debout-patriotes-api-production.up.railway.app
       - key: NODE_VERSION
         value: v22.22.3
       - key: NODE_ENV

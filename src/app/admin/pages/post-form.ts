@@ -11,6 +11,7 @@ import { emptyToNull, fromLocalInput, slugify, toLocalInput } from '../core/form
 import { ImageUpload } from '../ui/image-upload';
 import { MarkdownEditor } from '../ui/markdown-editor';
 import { Post, PostStatus } from '../../models/blog.model';
+import { DEFAULT_FOCUS } from '../../models/image.model';
 
 @Component({
   selector: 'admin-post-form',
@@ -85,6 +86,7 @@ export default class PostForm {
       content: value.content,
       cover: value.cover?.url ?? null,
       coverFileId: value.cover?.fileId ?? null,
+      coverFocus: value.cover?.focus ?? null,
       categoryId: value.categoryId,
       status: value.status,
       publishedAt: fromLocalInput(value.publishedAt),
@@ -157,7 +159,9 @@ export default class PostForm {
       slug: post.slug,
       categoryId: post.category?.id ?? null,
       excerpt: post.excerpt,
-      cover: post.cover ? { url: post.cover, fileId: post.coverFileId ?? null } : null,
+      cover: post.cover
+        ? { url: post.cover, fileId: post.coverFileId ?? null, focus: post.coverFocus ?? DEFAULT_FOCUS }
+        : null,
       content: post.content,
       status: post.status,
       publishedAt: toLocalInput(post.publishedAt),
