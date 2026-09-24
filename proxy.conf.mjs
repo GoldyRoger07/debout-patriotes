@@ -14,7 +14,7 @@ try {
 
 export default {
   '/api': {
-    target: process.env['API_URL'] ?? 'http://localhost:8081',
+    target: process.env['API_URL'] ?? 'https://debout-patriotes-api-production.up.railway.app',
     secure: false,
     changeOrigin: true,
   },
