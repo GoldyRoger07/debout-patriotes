@@ -11,6 +11,8 @@
 
 .marquee-track {
   display: flex;
+  /* Chaque carte garde sa hauteur, fixée par la proportion de sa photo. */
+  align-items: flex-start;
   width: max-content;
   animation: marquee 60s linear infinite;
 }

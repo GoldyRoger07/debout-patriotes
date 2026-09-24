@@ -20,6 +20,15 @@ export type ImageFocus =
   | 'right'
   | 'contain';
 
+/**
+ * Proportion d'un emplacement d'image, largeur sur hauteur : `{ width: 4, height: 5 }` pour du 4/5.
+ * Toutes les photos d'un même emplacement y sont recadrées, selon le cadrage du back-office.
+ */
+export interface ImageRatio {
+  width: number;
+  height: number;
+}
+
 /** Cadrage retenu quand aucun n'a été enregistré (articles, visuels de couverture). */
 export const DEFAULT_FOCUS: ImageFocus = 'auto';
 

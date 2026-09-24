@@ -3,7 +3,7 @@
  * Une locale = un fichier dans `config/content/` qui implémente `SiteContent`.
  */
 
-import { ImageFocus } from './image.model';
+import { ImageFocus, ImageRatio } from './image.model';
 
 export interface PageIntro {
   eyebrow?: string;
@@ -153,7 +153,14 @@ export interface SiteContent {
     identity: { title: string; lead: string; cards: Feature[] };
     pillars: { title: string; lead: string };
     heritage: { eyebrow: string; title: string; paragraphs: string[]; attribution: string };
-    candidates: { eyebrow: string; title: string; lead: string; cta: { label: string; url: string } };
+    candidates: {
+      eyebrow: string;
+      title: string;
+      lead: string;
+      cta: { label: string; url: string };
+      /** Proportion commune à toutes les photos des cartes du défilement. */
+      cardRatio: ImageRatio;
+    };
     news: { title: string; lead: string; cta: { label: string; url: string } };
     cta: CtaContent;
   };
@@ -162,6 +169,8 @@ export interface SiteContent {
   candidates: {
     intro: PageIntro;
     empty: string;
+    /** Proportion commune à toutes les photos des cartes de la liste. */
+    cardRatio: ImageRatio;
     profile: {
       back: string;
       sheet: string;

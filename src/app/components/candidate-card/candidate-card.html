@@ -3,11 +3,11 @@
   [attr.tabindex]="decorative() ? -1 : null"
   class="group relative block h-full overflow-hidden rounded-md border border-gray-200 bg-white shadow-card transition-colors duration-200 hover:border-primary/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
 >
-  <div class="relative aspect-[4/5] overflow-hidden bg-surface">
+  <div class="relative overflow-hidden bg-surface" [style.aspect-ratio]="aspectRatio()">
     <!-- La couverture prime sur la fiche ; le portrait sert de secours. -->
     @if (image(); as visual) {
       <img
-        [src]="visual.url | ik: 'w-400,h-500' : visual.focus"
+        [src]="visual.url | ik: size() : visual.focus"
         [alt]="candidate().name"
         loading="lazy"
         class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"

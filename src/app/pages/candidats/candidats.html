@@ -9,10 +9,10 @@
     <!-- Rien n'est affiché pendant le chargement (navigation côté navigateur). -->
     @if (candidates(); as list) {
       @if (list.length) {
-        <ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <ul class="grid grid-cols-1 items-start gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           @for (candidate of list; track candidate.slug) {
             <li>
-              <my-candidate-card [candidate]="candidate" />
+              <my-candidate-card [candidate]="candidate" [ratio]="page().cardRatio" />
             </li>
           }
         </ul>

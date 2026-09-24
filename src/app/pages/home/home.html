@@ -78,7 +78,7 @@
         @for (copy of [0, 1]; track copy) {
           @for (candidate of candidates(); track candidate.name) {
             <li class="w-56 shrink-0 md:w-64" [attr.aria-hidden]="copy === 1 ? 'true' : null">
-              <my-candidate-card [candidate]="candidate" [decorative]="copy === 1" />
+              <my-candidate-card [candidate]="candidate" [decorative]="copy === 1" [ratio]="page().candidates.cardRatio" />
             </li>
           }
         }
