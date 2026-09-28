@@ -25,7 +25,7 @@
 <section class="bg-surface py-20 md:py-24">
   <my-container>
     <my-section-title
-      eyebrow="Le point de départ"
+      [eyebrow]="page().diagnosis.eyebrow"
       [heading]="page().diagnosis.title"
       [lead]="page().diagnosis.lead"
     />
@@ -57,7 +57,7 @@
 <section class="py-20 md:py-24">
   <my-container>
     <my-section-title
-      eyebrow="Notre charte"
+      [eyebrow]="page().charter.eyebrow"
       [heading]="page().charter.title"
       [lead]="page().charter.lead"
     />
@@ -73,7 +73,7 @@
   <my-container>
     <my-section-title
       align="center"
-      eyebrow="Nos composantes"
+      [eyebrow]="page().parties.eyebrow"
       [heading]="page().parties.title"
       [lead]="page().parties.lead"
     />

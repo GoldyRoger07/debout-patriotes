@@ -1,17 +1,19 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { PostSummary } from '../../models/blog.model';
 import { ImageKitPipe } from '../../pipes/imagekit.pipe';
+import { LocalizePipe } from '../../pipes/localize.pipe';
+import { LanguageService } from '../../services/language.service';
 
 /** Carte d'un article du blog : couverture, rubrique, date, titre et chapô. Mène à l'article. */
 @Component({
   selector: 'my-post-card',
-  imports: [RouterLink, DatePipe, ImageKitPipe],
+  imports: [RouterLink, DatePipe, ImageKitPipe, LocalizePipe],
   template: `
     @let item = post();
     <a
-      [routerLink]="['/actualites', item.slug]"
+      [routerLink]="'/actualites/' + item.slug | localize"
       class="group flex h-full flex-col overflow-hidden rounded-md border border-gray-200 bg-white shadow-card transition-colors hover:border-primary/40"
     >
       @if (item.cover) {
@@ -27,7 +29,7 @@ import { ImageKitPipe } from '../../pipes/imagekit.pipe';
           @if (item.category) {
             {{ item.category.name }} ·
           }
-          {{ item.publishedAt | date: 'longDate' }}
+          {{ item.publishedAt | date: 'longDate' : undefined : language() }}
         </p>
         <h3 class="font-heading text-lg font-bold text-secondary transition-colors group-hover:text-primary">
           {{ item.title }}
@@ -44,6 +46,8 @@ import { ImageKitPipe } from '../../pipes/imagekit.pipe';
   `,
 })
 export class PostCard {
+  protected readonly language = inject(LanguageService).language;
+
   post = input.required<PostSummary>();
   readMore = input<string>();
 }

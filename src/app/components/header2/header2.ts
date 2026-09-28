@@ -1,15 +1,17 @@
 import { Component, HostListener, PLATFORM_ID, computed, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { isPlatformBrowser } from '@angular/common';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { filter } from 'rxjs';
+import { filter, map } from 'rxjs';
 import { Container } from '../container/container';
 import { Dropdown } from '../dropdown/dropdown';
 import { LanguageService } from '../../services/language.service';
 import { CompanyService } from '../../services/company.service';
+import { LocalizePipe } from '../../pipes/localize.pipe';
 
 @Component({
   selector: 'my-header-2',
-  imports: [Container, Dropdown, RouterLink, RouterLinkActive],
+  imports: [Container, Dropdown, RouterLink, RouterLinkActive, LocalizePipe],
   templateUrl: './header2.html',
   styleUrl: './header2.css',
 })
@@ -17,10 +19,24 @@ export class Header2 {
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly router = inject(Router);
 
-  private readonly content = inject(LanguageService).content;
+  protected readonly language = inject(LanguageService);
+  private readonly content = this.language.content;
 
   protected readonly company = inject(CompanyService).company;
   protected readonly navItems = computed(() => this.content().nav);
+  protected readonly ui = computed(() => this.content().ui);
+
+  /** Adresse courante, pour proposer la même page dans l'autre langue. */
+  private readonly url = toSignal(
+    this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      map((event) => event.urlAfterRedirects),
+    ),
+    { initialValue: this.router.url },
+  );
+  protected readonly switchUrl = computed(() =>
+    this.language.translateUrl(this.url(), this.language.otherLanguage()),
+  );
 
   protected readonly menuOpen = signal(false);
   /** Sous-menu mobile actuellement déplié. */
@@ -77,6 +93,15 @@ export class Header2 {
     this.menuOpen.set(false);
     this.openSection.set(null);
     this.lockScroll(false);
+  }
+
+  /** Navigation interne vers l'autre langue ; le `href` reste pour les robots et l'ouverture dans un onglet. */
+  protected switchLanguage(event: MouseEvent): void {
+    if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) {
+      return;
+    }
+    event.preventDefault();
+    this.router.navigateByUrl(this.switchUrl());
   }
 
   protected toggleSection(label: string): void {

@@ -8,7 +8,7 @@
   <my-container>
     <!-- Filtres par rubrique -->
     @if (filters().length > 1) {
-      <div class="flex flex-wrap gap-2" role="group" aria-label="Filtrer par rubrique">
+      <div class="flex flex-wrap gap-2" role="group" [attr.aria-label]="page().filterLabel">
         @for (category of filters(); track category.slug) {
           <button
             type="button"

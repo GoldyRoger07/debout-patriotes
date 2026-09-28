@@ -113,6 +113,30 @@ export interface CtaContent {
   secondary?: { label: string; url: string };
 }
 
+/** Pages dont le titre d'onglet et la description SEO sont fixes (voir `app.routes.ts`). */
+export type SeoPage =
+  | 'home'
+  | 'about'
+  | 'vision'
+  | 'program'
+  | 'org'
+  | 'candidates'
+  | 'news'
+  | 'events'
+  | 'press'
+  | 'gallery'
+  | 'join'
+  | 'donate'
+  | 'contact'
+  | 'notFound';
+
+/** Libellés des champs d'un formulaire. */
+export interface FormLabels {
+  required: string;
+  invalidEmail: string;
+  choose: string;
+}
+
 export interface SiteContent {
   meta: {
     name: string;
@@ -120,6 +144,31 @@ export interface SiteContent {
     description: string;
     foundedOn: string;
     partyCount: string;
+  };
+
+  /** Titres d'onglet (sans le suffixe, sauf l'accueil) et descriptions SEO. */
+  seo: {
+    titleSuffix: string;
+    pages: Record<SeoPage, { title: string; description: string }>;
+    candidateNotFound: string;
+    postNotFound: string;
+  };
+
+  /** Libellés d'interface communs : en-tête, pied de page, formulaires. */
+  ui: {
+    skipToContent: string;
+    mainNav: string;
+    homeLink: string;
+    openMenu: string;
+    closeMenu: string;
+    support: string;
+    supportLong: string;
+    join: string;
+    /** Nom de la langue proposée par le sélecteur, et son libellé accessible. */
+    otherLanguage: { label: string; ariaLabel: string };
+    contact: string;
+    follow: string;
+    form: FormLabels;
   };
 
   nav: {
@@ -136,6 +185,7 @@ export interface SiteContent {
       subtitle: string;
       primaryCta: { label: string; url: string };
       secondaryCta: { label: string; url: string };
+      imageAlt: string;
     };
     emblem: {
       eyebrow: string;
@@ -149,9 +199,15 @@ export interface SiteContent {
       number: string;
     };
     stats: Stat[];
-    welcome: { title: string; paragraphs: string[]; cta: { label: string; url: string } };
+    welcome: {
+      eyebrow: string;
+      title: string;
+      paragraphs: string[];
+      cta: { label: string; url: string };
+      imageAlt: string;
+    };
     identity: { title: string; lead: string; cards: Feature[] };
-    pillars: { title: string; lead: string };
+    pillars: { eyebrow: string; title: string; lead: string; more: string };
     heritage: { eyebrow: string; title: string; paragraphs: string[]; attribution: string };
     candidates: { eyebrow: string; title: string; lead: string; cta: { label: string; url: string } };
     news: { title: string; lead: string; cta: { label: string; url: string } };
@@ -186,18 +242,22 @@ export interface SiteContent {
   about: {
     intro: PageIntro;
     story: { title: string; paragraphs: string[] };
-    diagnosis: { title: string; lead: string; items: Feature[] };
+    diagnosis: { eyebrow: string; title: string; lead: string; items: Feature[] };
     answer: { title: string; paragraphs: string[] };
-    charter: { title: string; lead: string; principles: Feature[] };
-    parties: { title: string; lead: string; note: string; list: MemberParty[] };
+    charter: { eyebrow: string; title: string; lead: string; principles: Feature[] };
+    parties: { eyebrow: string; title: string; lead: string; note: string; list: MemberParty[] };
     cta: CtaContent;
   };
 
   vision: {
     intro: PageIntro;
     statement: { title: string; paragraphs: string[] };
+    pillarsIntro: { eyebrow: string; title: string; lead: string };
+    /** Numérotation des piliers, ex. « Pilier 1 / 4 ». */
+    pillarCount: (index: number, total: number) => string;
+    pillarPoints: string;
     pillars: Pillar[];
-    values: { title: string; lead: string; items: Feature[] };
+    values: { eyebrow: string; title: string; lead: string; items: Feature[] };
     horizon: { title: string; lead: string; items: Feature[] };
     cta: CtaContent;
   };
@@ -205,7 +265,10 @@ export interface SiteContent {
   program: {
     intro: PageIntro;
     disclaimer: string;
-    method: { title: string; lead: string; steps: Feature[] };
+    method: { eyebrow: string; title: string; lead: string; steps: Feature[] };
+    /** Titre du sommaire, ex. « Les 7 axes du programme ». */
+    axesSummary: (count: number) => string;
+    measuresLabel: string;
     axes: ProgramAxis[];
     cta: CtaContent;
   };
@@ -213,7 +276,9 @@ export interface SiteContent {
   org: {
     intro: PageIntro;
     principle: { title: string; paragraphs: string[] };
+    levelsIntro: { eyebrow: string; title: string; lead: string };
     levels: OrgNode[];
+    namesNote: string;
     commissions: { title: string; lead: string; items: Feature[] };
     territory: { title: string; lead: string; items: Feature[] };
     cta: CtaContent;
@@ -224,6 +289,7 @@ export interface SiteContent {
     intro: PageIntro;
     /** Filtre « toutes rubriques ». */
     all: string;
+    filterLabel: string;
     empty: string;
     more: string;
     readMore: string;
@@ -239,6 +305,9 @@ export interface SiteContent {
   press: {
     intro: PageIntro;
     contact: { title: string; desc: string; email: string; phone: string };
+    documents: { title: string; lead: string };
+    kinds: Record<PressItem['kind'], string>;
+    download: string;
     items: PressItem[];
     empty: string;
   };
@@ -246,6 +315,7 @@ export interface SiteContent {
   gallery: {
     intro: PageIntro;
     albums: { title: string; date: string; count: number; cover?: string }[];
+    photos: string;
     empty: string;
   };
 
@@ -254,7 +324,24 @@ export interface SiteContent {
     why: { title: string; items: Feature[] };
     profiles: { title: string; lead: string; items: Feature[] };
     commitment: { title: string; items: string[] };
-    form: { title: string; lead: string; consent: string; submit: string; success: string };
+    form: {
+      title: string;
+      lead: string;
+      firstName: string;
+      lastName: string;
+      email: string;
+      phone: string;
+      departement: string;
+      profile: string;
+      skills: string;
+      skillsPlaceholder: string;
+      message: string;
+      messagePlaceholder: string;
+      consent: string;
+      consentRequired: string;
+      submit: string;
+      success: string;
+    };
     faq: { title: string; items: Faq[] };
   };
 
@@ -262,22 +349,37 @@ export interface SiteContent {
     intro: PageIntro;
     why: { title: string; paragraphs: string[] };
     uses: { title: string; lead: string; items: Feature[] };
-    methods: { title: string; lead: string; items: Feature[] };
+    methods: {
+      title: string;
+      lead: string;
+      items: Feature[];
+      /** Encadré sous les moyens de paiement : texte avant le lien, lien, texte après. */
+      note: { before: string; link: string; after: string };
+    };
     rules: { title: string; lead: string; items: string[] };
   };
 
   contact: {
     intro: PageIntro;
+    channelsTitle: string;
     channels: Feature[];
     form: {
       title: string;
       lead: string;
+      name: string;
+      email: string;
+      subject: string;
+      message: string;
+      messageTooShort: string;
       subjects: string[];
       submit: string;
       success: string;
     };
     office: { title: string; address: string; hours: string };
+    networks: { title: string; desc: string };
   };
+
+  notFound: { title: string; lead: string; home: string; report: string };
 
   footer: {
     about: string;

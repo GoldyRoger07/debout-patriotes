@@ -17,6 +17,7 @@ export default class Contact {
   private readonly fb = inject(FormBuilder);
 
   protected readonly page = computed(() => this.content().contact);
+  protected readonly ui = computed(() => this.content().ui);
   protected readonly networks = inject(SocialService).enabledNetworks;
   protected readonly submitted = signal(false);
 

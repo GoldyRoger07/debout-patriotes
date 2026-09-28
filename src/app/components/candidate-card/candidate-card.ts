@@ -3,11 +3,12 @@ import { RouterLink } from '@angular/router';
 import { Candidate } from '../../models/content.model';
 import { ImageKitPipe } from '../../pipes/imagekit.pipe';
 import { DEFAULT_CARD_RATIO, ImageRatio, PORTRAIT_FOCUS } from '../../models/image.model';
+import { LocalizePipe } from '../../pipes/localize.pipe';
 
 /** Carte d'un candidat : photo de couverture, nom et sous-titre. Mène à sa fiche. */
 @Component({
   selector: 'my-candidate-card',
-  imports: [RouterLink, ImageKitPipe],
+  imports: [RouterLink, ImageKitPipe, LocalizePipe],
   templateUrl: './candidate-card.html',
 })
 export class CandidateCard {

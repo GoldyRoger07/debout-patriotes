@@ -1,6 +1,7 @@
 import { Component, input } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { LinkItem } from '../../models/link-item.model';
+import { LocalizePipe } from '../../pipes/localize.pipe';
 
 /**
  * Menu déroulant de la barre de navigation (bureau uniquement).
@@ -8,7 +9,7 @@ import { LinkItem } from '../../models/link-item.model';
  */
 @Component({
   selector: 'my-dropdown',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, LocalizePipe],
   templateUrl: './dropdown.html',
   styleUrl: './dropdown.css',
 })

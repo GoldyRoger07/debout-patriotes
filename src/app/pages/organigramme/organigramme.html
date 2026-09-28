@@ -25,9 +25,9 @@
 <section class="bg-surface py-20 md:py-24">
   <my-container>
     <my-section-title
-      eyebrow="Nos instances"
-      heading="De l'Assemblée aux sections communales"
-      lead="Six niveaux, du plus souverain au plus proche du terrain."
+      [eyebrow]="page().levelsIntro.eyebrow"
+      [heading]="page().levelsIntro.title"
+      [lead]="page().levelsIntro.lead"
     />
 
     <ol class="relative mt-12 flex flex-col gap-5 border-l-2 border-gray-200 pl-6 md:pl-10">
@@ -60,8 +60,7 @@
 
     <p class="mt-10 flex items-start gap-3 rounded-md border border-dashed border-gray-300 bg-white p-5 text-sm leading-relaxed text-foreground-muted">
       <i class="pi pi-info-circle mt-0.5 shrink-0 text-primary" aria-hidden="true"></i>
-      Les responsables de chaque instance seront nommément publiés sur cette page dès leur désignation
-      par l'Assemblée des partis membres.
+      {{ page().namesNote }}
     </p>
   </my-container>
 </section>

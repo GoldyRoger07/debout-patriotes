@@ -28,13 +28,13 @@
 
       <div class="mt-2 flex flex-col gap-3 sm:flex-row">
         <a
-          [routerLink]="page().hero.primaryCta.url"
+          [routerLink]="page().hero.primaryCta.url | localize"
           class="rounded-sm border-2 border-primary bg-primary px-7 py-3.5 font-bold text-white shadow transition-transform duration-200 hover:-translate-y-0.5"
         >
           {{ page().hero.primaryCta.label }}
         </a>
         <a
-          [routerLink]="page().hero.secondaryCta.url"
+          [routerLink]="page().hero.secondaryCta.url | localize"
           class="rounded-sm border-2 border-primary px-7 py-3.5 font-bold text-primary transition-colors duration-200 hover:bg-primary/5"
         >
           {{ page().hero.secondaryCta.label }}
@@ -46,7 +46,7 @@
       <img
         src="img/home/hero-img.png"
         class="hero-mask mx-auto mt-12 w-full max-w-5xl"
-        alt="Militantes et militants de DEBOUT PATRIOTES rassemblés"
+        [alt]="page().hero.imageAlt"
       />
 
 </section>
@@ -63,7 +63,7 @@
         />
 
         <a
-          [routerLink]="page().candidates.cta.url"
+          [routerLink]="page().candidates.cta.url | localize"
           class="inline-flex shrink-0 items-center gap-2 self-start rounded-sm border-2 border-primary px-6 py-3 font-bold text-primary transition-colors duration-200 hover:bg-primary/5 md:self-auto"
         >
           {{ page().candidates.cta.label }}
@@ -164,7 +164,7 @@
   <my-container>
     <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
       <div>
-        <my-section-title eyebrow="Bienvenue" [heading]="page().welcome.title" />
+        <my-section-title [eyebrow]="page().welcome.eyebrow" [heading]="page().welcome.title" />
 
         <div class="mt-6 flex flex-col gap-4">
           @for (paragraph of page().welcome.paragraphs; track $index) {
@@ -173,7 +173,7 @@
         </div>
 
         <a
-          [routerLink]="page().welcome.cta.url"
+          [routerLink]="page().welcome.cta.url | localize"
           class="mt-7 inline-flex items-center gap-2 font-bold text-primary transition-colors hover:text-primary-dark"
         >
           {{ page().welcome.cta.label }}
@@ -186,7 +186,7 @@
         <img
           src="img/home/vision.png"
           class="relative w-full rounded-md shadow-card"
-          alt="Rassemblement de DEBOUT PATRIOTES"
+          [alt]="page().welcome.imageAlt"
         />
       </div>
     </div>
@@ -227,7 +227,7 @@
   <my-container>
     <my-section-title
       align="center"
-      eyebrow="Nos exigences"
+      [eyebrow]="page().pillars.eyebrow"
       [heading]="page().pillars.title"
       [lead]="page().pillars.lead"
     />
@@ -248,10 +248,10 @@
 
     <div class="mt-10 text-center">
       <a
-        routerLink="/vision"
+        [routerLink]="'/vision' | localize"
         class="inline-flex items-center gap-2 font-bold text-primary transition-colors hover:text-primary-dark"
       >
-        Lire notre vision en détail
+        {{ page().pillars.more }}
         <i class="pi pi-arrow-right text-sm" aria-hidden="true"></i>
       </a>
     </div>
@@ -302,7 +302,7 @@
       <my-section-title [heading]="page().news.title" [lead]="page().news.lead" />
 
       <a
-        [routerLink]="page().news.cta.url"
+        [routerLink]="page().news.cta.url | localize"
         class="inline-flex shrink-0 items-center gap-2 font-bold text-primary transition-colors hover:text-primary-dark"
       >
         {{ page().news.cta.label }}

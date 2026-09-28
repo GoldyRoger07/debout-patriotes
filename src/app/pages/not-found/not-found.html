@@ -4,26 +4,25 @@
       <p class="font-heading text-7xl font-extrabold text-primary/25 md:text-8xl">404</p>
 
       <h1 class="font-heading text-3xl font-extrabold text-secondary md:text-4xl">
-        Cette page est introuvable
+        {{ page().title }}
       </h1>
 
       <p class="leading-relaxed text-foreground-muted">
-        Le lien que vous avez suivi ne mène nulle part, ou la page a changé d'adresse.
-        Reprenons depuis le début.
+        {{ page().lead }}
       </p>
 
       <div class="mt-2 flex flex-col gap-3 sm:flex-row">
         <a
-          routerLink="/"
+          [routerLink]="'/' | localize"
           class="rounded-sm bg-primary px-6 py-3 font-bold text-white shadow transition-colors hover:bg-primary-dark"
         >
-          Retour à l'accueil
+          {{ page().home }}
         </a>
         <a
-          routerLink="/contact"
+          [routerLink]="'/contact' | localize"
           class="rounded-sm border-2 border-primary px-6 py-3 font-bold text-primary transition-colors hover:bg-primary/5"
         >
-          Nous signaler le problème
+          {{ page().report }}
         </a>
       </div>
     </div>

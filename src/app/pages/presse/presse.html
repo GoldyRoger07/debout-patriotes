@@ -35,8 +35,8 @@
 <section class="py-16 md:py-20">
   <my-container>
     <my-section-title
-      heading="Communiqués et documents"
-      lead="Tous les documents officiels publiés par le groupement, du plus récent au plus ancien."
+      [heading]="page().documents.title"
+      [lead]="page().documents.lead"
     />
 
     <div class="mt-10">
@@ -46,7 +46,7 @@
             <li class="flex flex-col gap-3 py-6 md:flex-row md:items-start md:gap-8">
               <div class="flex shrink-0 items-center gap-3 md:w-56 md:flex-col md:items-start">
                 <span class="rounded-sm bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">
-                  {{ kindLabels[item.kind] }}
+                  {{ page().kinds[item.kind] }}
                 </span>
                 <time class="text-sm text-foreground-muted">{{ item.date }}</time>
               </div>
@@ -63,7 +63,7 @@
                     class="mt-3 inline-flex items-center gap-2 text-sm font-bold text-primary transition-colors hover:text-primary-dark"
                   >
                     <i class="pi pi-download" aria-hidden="true"></i>
-                    Télécharger le document
+                    {{ page().download }}
                   </a>
                 }
               </div>

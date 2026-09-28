@@ -11,7 +11,7 @@
   <ul class="dropdown-menu">
     @for (item of items(); track item.url) {
       <li>
-        <a [routerLink]="item.url" routerLinkActive="is-active">{{ item.label }}</a>
+        <a [routerLink]="item.url | localize" routerLinkActive="is-active">{{ item.label }}</a>
       </li>
     }
   </ul>

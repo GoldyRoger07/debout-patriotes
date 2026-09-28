@@ -14,12 +14,4 @@ export default class Presse {
   private readonly content = inject(LanguageService).content;
 
   protected readonly page = computed(() => this.content().press);
-
-  /** Libellé lisible pour chaque type de document. */
-  protected readonly kindLabels: Record<string, string> = {
-    communique: 'Communiqué',
-    note: 'Note',
-    declaration: 'Déclaration',
-    dossier: 'Dossier',
-  };
 }

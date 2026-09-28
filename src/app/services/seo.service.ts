@@ -20,7 +20,8 @@ export class SeoService {
   private readonly route = inject(ActivatedRoute);
   private readonly meta = inject(Meta);
   private readonly titleService = inject(Title);
-  private readonly content = inject(LanguageService).content;
+  private readonly language = inject(LanguageService);
+  private readonly content = this.language.content;
 
   init(): void {
     this.router.events
@@ -41,6 +42,7 @@ export class SeoService {
     this.meta.updateTag({ property: 'og:description', content: description });
     this.meta.updateTag({ property: 'og:title', content: title });
     this.meta.updateTag({ property: 'og:image', content: seo?.image ?? DEFAULT_IMAGE });
+    this.meta.updateTag({ property: 'og:locale', content: this.language.ogLocale() });
   }
 
   private deepestRoute(): ActivatedRoute {

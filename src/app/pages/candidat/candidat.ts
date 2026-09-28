@@ -12,6 +12,7 @@ import { CandidatesApi } from '../../services/candidates-api.service';
 import { Candidate } from '../../models/content.model';
 import { ImageKitPipe } from '../../pipes/imagekit.pipe';
 import { PORTRAIT_FOCUS } from '../../models/image.model';
+import { LocalizePipe } from '../../pipes/localize.pipe';
 
 /** Une ligne de la fiche « En bref » : un libellé et les valeurs saisies. */
 interface SheetRow {
@@ -22,7 +23,7 @@ interface SheetRow {
 /** Fiche détaillée d'un candidat : `/candidats/:slug`. Données chargées par le résolveur de la route. */
 @Component({
   selector: 'app-candidat',
-  imports: [Container, SectionTitle, CandidateCard, CtaSection, EmptyState, RouterLink, ImageKitPipe],
+  imports: [Container, SectionTitle, CandidateCard, CtaSection, EmptyState, RouterLink, ImageKitPipe, LocalizePipe],
   templateUrl: './candidat.html',
 })
 export default class Candidat {

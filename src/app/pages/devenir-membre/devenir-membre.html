@@ -62,7 +62,7 @@
 
           <form [formGroup]="form" (ngSubmit)="submit()" class="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-2">
             <div class="flex flex-col gap-1.5">
-              <label for="firstName" class="text-sm font-semibold text-secondary">Prénom *</label>
+              <label for="firstName" class="text-sm font-semibold text-secondary">{{ page().form.firstName }} *</label>
               <input
                 id="firstName"
                 type="text"
@@ -72,12 +72,12 @@
                 [class.border-danger]="invalid('firstName')"
               />
               @if (invalid('firstName')) {
-                <span class="text-xs text-danger">Ce champ est requis.</span>
+                <span class="text-xs text-danger">{{ ui().form.required }}</span>
               }
             </div>
 
             <div class="flex flex-col gap-1.5">
-              <label for="lastName" class="text-sm font-semibold text-secondary">Nom *</label>
+              <label for="lastName" class="text-sm font-semibold text-secondary">{{ page().form.lastName }} *</label>
               <input
                 id="lastName"
                 type="text"
@@ -87,12 +87,12 @@
                 [class.border-danger]="invalid('lastName')"
               />
               @if (invalid('lastName')) {
-                <span class="text-xs text-danger">Ce champ est requis.</span>
+                <span class="text-xs text-danger">{{ ui().form.required }}</span>
               }
             </div>
 
             <div class="flex flex-col gap-1.5">
-              <label for="email" class="text-sm font-semibold text-secondary">Adresse e-mail *</label>
+              <label for="email" class="text-sm font-semibold text-secondary">{{ page().form.email }} *</label>
               <input
                 id="email"
                 type="email"
@@ -102,12 +102,12 @@
                 [class.border-danger]="invalid('email')"
               />
               @if (invalid('email')) {
-                <span class="text-xs text-danger">Indiquez une adresse e-mail valide.</span>
+                <span class="text-xs text-danger">{{ ui().form.invalidEmail }}</span>
               }
             </div>
 
             <div class="flex flex-col gap-1.5">
-              <label for="phone" class="text-sm font-semibold text-secondary">Téléphone</label>
+              <label for="phone" class="text-sm font-semibold text-secondary">{{ page().form.phone }}</label>
               <input
                 id="phone"
                 type="tel"
@@ -119,61 +119,61 @@
             </div>
 
             <div class="flex flex-col gap-1.5">
-              <label for="departement" class="text-sm font-semibold text-secondary">Département *</label>
+              <label for="departement" class="text-sm font-semibold text-secondary">{{ page().form.departement }} *</label>
               <select
                 id="departement"
                 formControlName="departement"
                 class="rounded-sm border border-gray-300 bg-white px-4 py-3 text-sm transition-colors focus:border-primary focus:outline-none"
                 [class.border-danger]="invalid('departement')"
               >
-                <option value="" disabled>Choisissez…</option>
+                <option value="" disabled>{{ ui().form.choose }}</option>
                 @for (departement of departements; track departement) {
                   <option [value]="departement">{{ departement }}</option>
                 }
               </select>
               @if (invalid('departement')) {
-                <span class="text-xs text-danger">Ce champ est requis.</span>
+                <span class="text-xs text-danger">{{ ui().form.required }}</span>
               }
             </div>
 
             <div class="flex flex-col gap-1.5">
-              <label for="profile" class="text-sm font-semibold text-secondary">Je souhaite être *</label>
+              <label for="profile" class="text-sm font-semibold text-secondary">{{ page().form.profile }} *</label>
               <select
                 id="profile"
                 formControlName="profile"
                 class="rounded-sm border border-gray-300 bg-white px-4 py-3 text-sm transition-colors focus:border-primary focus:outline-none"
                 [class.border-danger]="invalid('profile')"
               >
-                <option value="" disabled>Choisissez…</option>
+                <option value="" disabled>{{ ui().form.choose }}</option>
                 @for (item of page().profiles.items; track item.title) {
                   <option [value]="item.title">{{ item.title }}</option>
                 }
               </select>
               @if (invalid('profile')) {
-                <span class="text-xs text-danger">Ce champ est requis.</span>
+                <span class="text-xs text-danger">{{ ui().form.required }}</span>
               }
             </div>
 
             <div class="flex flex-col gap-1.5 sm:col-span-2">
               <label for="skills" class="text-sm font-semibold text-secondary">
-                Compétences ou domaine d'expertise
+                {{ page().form.skills }}
               </label>
               <input
                 id="skills"
                 type="text"
                 formControlName="skills"
-                placeholder="Agronomie, droit, santé publique, ingénierie, éducation…"
+                [placeholder]="page().form.skillsPlaceholder"
                 class="rounded-sm border border-gray-300 px-4 py-3 text-sm transition-colors focus:border-primary focus:outline-none"
               />
             </div>
 
             <div class="flex flex-col gap-1.5 sm:col-span-2">
-              <label for="message" class="text-sm font-semibold text-secondary">Votre message</label>
+              <label for="message" class="text-sm font-semibold text-secondary">{{ page().form.message }}</label>
               <textarea
                 id="message"
                 rows="4"
                 formControlName="message"
-                placeholder="Dites-nous en quelques mots ce que vous souhaitez apporter au groupement."
+                [placeholder]="page().form.messagePlaceholder"
                 class="rounded-sm border border-gray-300 px-4 py-3 text-sm transition-colors focus:border-primary focus:outline-none"
               ></textarea>
             </div>
@@ -188,7 +188,7 @@
                 <span>{{ page().form.consent }} *</span>
               </label>
               @if (invalid('consent')) {
-                <span class="mt-1 block text-xs text-danger">Votre accord est nécessaire pour continuer.</span>
+                <span class="mt-1 block text-xs text-danger">{{ page().form.consentRequired }}</span>
               }
             </div>
 

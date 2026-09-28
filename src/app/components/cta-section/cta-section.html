@@ -12,7 +12,7 @@
 
       <div class="mt-2 flex flex-col gap-3 sm:flex-row">
         <a
-          [routerLink]="cta().primary.url"
+          [routerLink]="cta().primary.url | localize"
           class="rounded-sm bg-white px-6 py-3 text-center font-bold text-primary shadow transition-transform duration-200 hover:-translate-y-0.5"
         >
           {{ cta().primary.label }}
@@ -20,7 +20,7 @@
 
         @if (cta().secondary; as second) {
           <a
-            [routerLink]="second.url"
+            [routerLink]="second.url | localize"
             class="rounded-sm border-2 border-white/70 px-6 py-3 text-center font-bold text-white transition-colors duration-200 hover:bg-white/10"
           >
             {{ second.label }}

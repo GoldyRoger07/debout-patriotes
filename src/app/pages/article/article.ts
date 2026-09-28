@@ -13,15 +13,17 @@ import { BlogApi } from '../../services/blog-api.service';
 import { Post } from '../../models/blog.model';
 import { ImageKitPipe } from '../../pipes/imagekit.pipe';
 import { MarkdownPipe } from '../../pipes/markdown.pipe';
+import { LocalizePipe } from '../../pipes/localize.pipe';
 
 /** Article du blog : `/actualites/:slug`. Données chargées par le résolveur de la route. */
 @Component({
   selector: 'app-article',
-  imports: [Container, SectionTitle, CtaSection, EmptyState, PostCard, RouterLink, DatePipe, ImageKitPipe, MarkdownPipe],
+  imports: [Container, SectionTitle, CtaSection, EmptyState, PostCard, RouterLink, DatePipe, ImageKitPipe, MarkdownPipe, LocalizePipe],
   templateUrl: './article.html',
 })
 export default class Article {
   private readonly content = inject(LanguageService).content;
+  protected readonly language = inject(LanguageService).language;
 
   protected readonly post = toSignal(inject(ActivatedRoute).data.pipe(map((data) => data['post'] as Post | null)));
   private readonly latest = toSignal(

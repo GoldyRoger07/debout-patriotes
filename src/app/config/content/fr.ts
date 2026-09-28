@@ -20,10 +20,105 @@ export const fr: SiteContent = {
     partyCount: 'onze (11)',
   },
 
+  seo: {
+    titleSuffix: ' — DEBOUT PATRIOTES',
+    pages: {
+      home: {
+        title: 'DEBOUT PATRIOTES — Debout pour Haïti, patriotes pour la Nation',
+        description:
+          "Onze partis politiques émergents rassemblés autour d'une même vision : refonder l'État, reconstruire le pays et garantir de meilleures conditions de vie à la population haïtienne.",
+      },
+      about: {
+        title: 'À propos',
+        description:
+          "Constitué en août 2026 à l'occasion de l'inscription au CEP, DEBOUT PATRIOTES rassemble onze partis politiques émergents à un carrefour décisif de l'histoire d'Haïti.",
+      },
+      vision: {
+        title: 'Notre vision',
+        description:
+          'Remettre Haïti sur le chemin de la sécurité, de la souveraineté, de la légitimité démocratique et du progrès : la vision de DEBOUT PATRIOTES.',
+      },
+      program: {
+        title: 'Notre programme',
+        description:
+          'Les sept axes de gouvernance arrêtés par les onze partis membres de DEBOUT PATRIOTES, soumis au débat public avant les élections générales.',
+      },
+      org: {
+        title: 'Organigramme',
+        description:
+          "Assemblée des partis membres, Coordination générale, secrétariats, commissions thématiques et coordinations départementales : l'organisation de DEBOUT PATRIOTES.",
+      },
+      candidates: {
+        title: 'Nos candidats',
+        description:
+          'Les femmes et les hommes qui portent les couleurs de DEBOUT PATRIOTES aux prochaines élections générales.',
+      },
+      news: {
+        title: 'Actualités',
+        description:
+          'Prises de position, activités de terrain et vie des onze partis membres de DEBOUT PATRIOTES.',
+      },
+      events: {
+        title: 'Événements',
+        description:
+          'Assemblées, rencontres départementales, conférences de presse et mobilisations de DEBOUT PATRIOTES.',
+      },
+      press: {
+        title: 'Espace presse',
+        description: 'Communiqués officiels, notes de position et contact presse de DEBOUT PATRIOTES.',
+      },
+      gallery: {
+        title: 'Galerie',
+        description:
+          'Images des assemblées, des rencontres de terrain et de la vie du groupement DEBOUT PATRIOTES.',
+      },
+      join: {
+        title: 'Devenir membre',
+        description:
+          'Militant, sympathisant, contributeur technique, jeune ou membre de la diaspora : rejoignez DEBOUT PATRIOTES.',
+      },
+      donate: {
+        title: 'Soutenir le groupement',
+        description:
+          'Une politique indépendante a besoin de moyens indépendants. Soutenez le travail de DEBOUT PATRIOTES.',
+      },
+      contact: {
+        title: 'Nous contacter',
+        description:
+          'Une question, une proposition, une critique ou une demande presse : écrivez à DEBOUT PATRIOTES.',
+      },
+      notFound: {
+        title: 'Page introuvable',
+        description: "Cette page n'existe pas ou a changé d'adresse.",
+      },
+    },
+    candidateNotFound: 'Candidat introuvable',
+    postNotFound: 'Article introuvable',
+  },
+
+  ui: {
+    skipToContent: 'Aller au contenu principal',
+    mainNav: 'Navigation principale',
+    homeLink: 'DEBOUT PATRIOTES — accueil',
+    openMenu: 'Ouvrir le menu',
+    closeMenu: 'Fermer le menu',
+    support: 'Soutenir',
+    supportLong: 'Soutenir le groupement',
+    join: 'Devenir membre',
+    otherLanguage: { label: 'EN', ariaLabel: 'Read this page in English' },
+    contact: 'Contact',
+    follow: 'Suivez-nous',
+    form: {
+      required: 'Ce champ est requis.',
+      invalidEmail: 'Indiquez une adresse e-mail valide.',
+      choose: 'Choisissez…',
+    },
+  },
+
   nav: [
     { label: 'Accueil', url: '/' },
     {
-      label: 'Le Groupement',
+      label: 'Groupement',
       children: [
         { label: 'À propos', url: '/a-propos' },
         { label: 'Notre vision', url: '/vision' },
@@ -58,12 +153,13 @@ export const fr: SiteContent = {
   home: {
     hero: {
       eyebrow: 'Groupement politique · Haïti',
-      title: 'Onze partis, une seule',
+      title: 'Onze partis et Organisation, une seule',
       highlight: 'exigence pour Haïti',
       subtitle:
         "À un carrefour décisif de notre histoire, onze partis politiques émergents mettent ensemble leurs potentialités et leur énergie dans une même vision de la gouvernance et de la défense des intérêts supérieurs de la Nation.",
       primaryCta: { label: 'Devenir membre', url: '/devenir-membre' },
       secondaryCta: { label: 'Découvrir notre vision', url: '/vision' },
+      imageAlt: 'Militantes et militants de DEBOUT PATRIOTES rassemblés',
     },
 
     emblem: {
@@ -90,6 +186,7 @@ export const fr: SiteContent = {
     ],
 
     welcome: {
+      eyebrow: 'Bienvenue',
       title: 'Bienvenue chez DEBOUT PATRIOTES',
       paragraphs: [
         "Le groupement politique DEBOUT PATRIOTES est heureux de vous souhaiter la bienvenue sur son site Web.",
@@ -97,6 +194,7 @@ export const fr: SiteContent = {
         "Devant la faillite de l'État, la déchéance des élites nationales et la dégradation accélérée et inquiétante de la situation générale du pays, nos dirigeant.e.s, membres et sympathisant.e.s se tiennent debout, en ordre de marche, pour avancer délibérément vers la conquête du pouvoir politique.",
       ],
       cta: { label: 'Lire notre présentation complète', url: '/a-propos' },
+      imageAlt: 'Rassemblement de DEBOUT PATRIOTES',
     },
 
     identity: {
@@ -117,8 +215,10 @@ export const fr: SiteContent = {
     },
 
     pillars: {
+      eyebrow: 'Nos exigences',
       title: 'Quatre exigences pour remettre Haïti en marche',
       lead: "À la veille des élections générales, DEBOUT PATRIOTES veut porter une exigence claire : remettre Haïti sur le chemin de la sécurité, de la souveraineté, de la légitimité démocratique et du progrès.",
+      more: 'Lire notre vision en détail',
     },
 
     heritage: {
@@ -134,8 +234,8 @@ export const fr: SiteContent = {
 
     candidates: {
       eyebrow: 'Nos candidats',
-      title: 'Les visages de DEBOUT PATRIOTES',
-      lead: 'Des femmes et des hommes debout, prêts à servir Haïti dans chaque département.',
+      title: 'Candidats aux primaires a la presidence de Debout Patriotes (DPA #16)',
+      lead: '',
       cta: { label: 'Voir tous les candidats', url: '/candidats' },
     },
 
@@ -211,6 +311,7 @@ export const fr: SiteContent = {
     },
 
     diagnosis: {
+      eyebrow: 'Le point de départ',
       title: 'Le constat qui nous oblige',
       lead: "Nous ne partons pas d'une abstraction. Nous partons de ce que vit la population haïtienne chaque jour.",
       items: [
@@ -242,6 +343,7 @@ export const fr: SiteContent = {
     },
 
     charter: {
+      eyebrow: 'Notre charte',
       title: 'Ce qui nous tient ensemble',
       lead: "Un groupement n'est pas une fusion. Voici les principes qui organisent notre marche commune.",
       principles: [
@@ -269,6 +371,7 @@ export const fr: SiteContent = {
     },
 
     parties: {
+      eyebrow: 'Nos composantes',
       title: 'Les onze partis membres',
       lead: "Onze formations politiques émergentes, onze parcours, une même vision de la gouvernance du pays.",
       // À COMPLÉTER : remplacer par les dénominations officielles, sigles et
@@ -317,6 +420,14 @@ export const fr: SiteContent = {
         "Garantir de meilleures conditions de vie, parce que c'est à cela — et à rien d'autre — que se mesure la réussite d'une politique.",
       ],
     },
+
+    pillarsIntro: {
+      eyebrow: 'Nos quatre piliers',
+      title: 'Sécurité, souveraineté, légitimité démocratique, progrès',
+      lead: 'Quatre exigences indissociables. Aucune ne tient sans les trois autres.',
+    },
+    pillarCount: (index, total) => `Pilier ${index} / ${total}`,
+    pillarPoints: 'Ce que cela implique',
 
     pillars: [
       {
@@ -374,6 +485,7 @@ export const fr: SiteContent = {
     ],
 
     values: {
+      eyebrow: 'Nos valeurs',
       title: 'Nos valeurs',
       lead: "Ce qui nous engage dans la manière de faire, pas seulement dans les objectifs.",
       items: [
@@ -455,6 +567,7 @@ export const fr: SiteContent = {
       "Ce document présente les orientations programmatiques arrêtées par l'Assemblée des partis membres. Le programme détaillé et chiffré sera publié et débattu publiquement avant le scrutin.",
 
     method: {
+      eyebrow: 'Notre méthode',
       title: 'Comment ce programme se construit',
       lead: "Nous refusons le programme écrit à huis clos par quelques-uns et découvert par le peuple le jour du vote.",
       steps: [
@@ -480,6 +593,9 @@ export const fr: SiteContent = {
         },
       ],
     },
+
+    axesSummary: (count) => `Les ${count} axes du programme`,
+    measuresLabel: 'Orientations retenues',
 
     axes: [
       {
@@ -617,6 +733,12 @@ export const fr: SiteContent = {
       ],
     },
 
+    levelsIntro: {
+      eyebrow: 'Nos instances',
+      title: "De l'Assemblée aux sections communales",
+      lead: 'Six niveaux, du plus souverain au plus proche du terrain.',
+    },
+
     levels: [
       {
         title: 'Assemblée des partis membres',
@@ -651,6 +773,9 @@ export const fr: SiteContent = {
         members: ['Dix coordinations départementales', 'Coordinations communales'],
       },
     ],
+
+    namesNote:
+      "Les responsables de chaque instance seront nommément publiés sur cette page dès leur désignation par l'Assemblée des partis membres.",
 
     commissions: {
       title: 'Les commissions thématiques',
@@ -736,6 +861,7 @@ export const fr: SiteContent = {
     },
     // Rubriques et articles sont gérés dans le back-office (/admin/articles).
     all: 'Tout',
+    filterLabel: 'Filtrer par rubrique',
     empty:
       "Aucune publication pour le moment. Les premières actualités du groupement paraîtront ici. Abonnez-vous à notre lettre d'information pour ne rien manquer.",
     more: 'Afficher plus d’actualités',
@@ -786,6 +912,17 @@ export const fr: SiteContent = {
       email: 'presse@deboutpatriotes.ht',
       phone: '+509 — (à communiquer)',
     },
+    documents: {
+      title: 'Communiqués et documents',
+      lead: 'Tous les documents officiels publiés par le groupement, du plus récent au plus ancien.',
+    },
+    kinds: {
+      communique: 'Communiqué',
+      note: 'Note',
+      declaration: 'Déclaration',
+      dossier: 'Dossier',
+    },
+    download: 'Télécharger le document',
     items: [],
     empty:
       'Aucun document publié pour le moment. Les communiqués et notes de position du groupement seront archivés ici.',
@@ -802,6 +939,7 @@ export const fr: SiteContent = {
       lead: 'Images de nos assemblées, de nos rencontres de terrain et de la vie du groupement.',
     },
     albums: [],
+    photos: 'photos',
     empty: 'La galerie sera alimentée au fil des activités du groupement.',
   },
 
@@ -887,6 +1025,17 @@ export const fr: SiteContent = {
     form: {
       title: "Formulaire d'adhésion",
       lead: 'Remplissez ce formulaire : une coordination départementale ou le secrétariat vous recontactera.',
+      firstName: 'Prénom',
+      lastName: 'Nom',
+      email: 'Adresse e-mail',
+      phone: 'Téléphone',
+      departement: 'Département',
+      profile: 'Je souhaite être',
+      skills: "Compétences ou domaine d'expertise",
+      skillsPlaceholder: 'Agronomie, droit, santé publique, ingénierie, éducation…',
+      message: 'Votre message',
+      messagePlaceholder: 'Dites-nous en quelques mots ce que vous souhaitez apporter au groupement.',
+      consentRequired: 'Votre accord est nécessaire pour continuer.',
       consent:
         "J'accepte que DEBOUT PATRIOTES conserve ces informations pour me recontacter et m'informer de ses activités.",
       submit: 'Envoyer ma demande',
@@ -988,6 +1137,11 @@ export const fr: SiteContent = {
           icon: 'pi-gift',
         },
       ],
+      note: {
+        before: 'En attendant la publication des coordonnées officielles,',
+        link: 'écrivez-nous',
+        after: ': le Secrétariat à la trésorerie vous indiquera la marche à suivre.',
+      },
     },
 
     rules: {
@@ -1013,6 +1167,7 @@ export const fr: SiteContent = {
       lead: 'Une question, une proposition, une critique, une demande presse : écrivez-nous, nous lisons tout.',
     },
 
+    channelsTitle: 'Nos points de contact',
     // À COMPLÉTER : coordonnées réelles du groupement
     channels: [
       { title: 'Secrétariat général', desc: 'contact@deboutpatriotes.ht', icon: 'pi-envelope' },
@@ -1024,6 +1179,11 @@ export const fr: SiteContent = {
     form: {
       title: 'Écrivez-nous',
       lead: 'Nous nous efforçons de répondre sous quelques jours ouvrables.',
+      name: 'Nom complet',
+      email: 'Adresse e-mail',
+      subject: 'Objet',
+      message: 'Message',
+      messageTooShort: 'Votre message doit faire au moins 10 caractères.',
       subjects: [
         'Information générale',
         'Adhésion et militantisme',
@@ -1042,6 +1202,22 @@ export const fr: SiteContent = {
       address: 'Adresse du siège — à communiquer, Port-au-Prince, Haïti',
       hours: 'Du lundi au vendredi, de 9h à 16h',
     },
+
+    networks: {
+      title: 'Sur les réseaux',
+      desc: 'Suivez au jour le jour les positions et les activités du groupement.',
+    },
+  },
+
+  /* ------------------------------------------------------------------ */
+  /* PAGE INTROUVABLE                                                    */
+  /* ------------------------------------------------------------------ */
+
+  notFound: {
+    title: 'Cette page est introuvable',
+    lead: "Le lien que vous avez suivi ne mène nulle part, ou la page a changé d'adresse. Reprenons depuis le début.",
+    home: "Retour à l'accueil",
+    report: 'Nous signaler le problème',
   },
 
   /* ------------------------------------------------------------------ */

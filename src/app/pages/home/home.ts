@@ -12,10 +12,11 @@ import { LanguageService } from '../../services/language.service';
 import { CandidatesApi } from '../../services/candidates-api.service';
 import { BlogApi } from '../../services/blog-api.service';
 import { DEFAULT_CARD_FORMATS } from '../../models/image.model';
+import { LocalizePipe } from '../../pipes/localize.pipe';
 
 @Component({
   selector: 'app-home',
-  imports: [Container, SectionTitle, CtaSection, EmptyState, CandidateCard, PostCard, RouterLink],
+  imports: [Container, SectionTitle, CtaSection, EmptyState, CandidateCard, PostCard, RouterLink, LocalizePipe],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

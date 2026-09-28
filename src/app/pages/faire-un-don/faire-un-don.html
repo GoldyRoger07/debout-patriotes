@@ -44,9 +44,9 @@
     <p class="mt-8 flex items-start gap-3 rounded-md border border-dashed border-gray-300 bg-surface p-5 text-sm leading-relaxed text-foreground-muted">
       <i class="pi pi-info-circle mt-0.5 shrink-0 text-primary" aria-hidden="true"></i>
       <span>
-        En attendant la publication des coordonnées officielles,
-        <a routerLink="/contact" class="font-bold text-primary underline underline-offset-2">écrivez-nous</a>
-        : le Secrétariat à la trésorerie vous indiquera la marche à suivre.
+        {{ page().methods.note.before }}
+        <a [routerLink]="'/contact' | localize" class="font-bold text-primary underline underline-offset-2">{{ page().methods.note.link }}</a>
+        {{ page().methods.note.after }}
       </span>
     </p>
   </my-container>

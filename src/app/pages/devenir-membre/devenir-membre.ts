@@ -31,6 +31,7 @@ export default class DevenirMembre {
   private readonly fb = inject(FormBuilder);
 
   protected readonly page = computed(() => this.content().join);
+  protected readonly ui = computed(() => this.content().ui);
   protected readonly departements = DEPARTEMENTS;
   protected readonly submitted = signal(false);
   protected readonly openQuestion = signal<number | null>(0);

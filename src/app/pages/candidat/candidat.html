@@ -10,7 +10,7 @@
 
     <my-container>
       <a
-        routerLink="/candidats"
+        [routerLink]="'/candidats' | localize"
         class="relative inline-flex items-center gap-2 text-sm font-semibold text-white/70 transition-colors hover:text-white"
       >
         <i class="pi pi-arrow-left text-xs" aria-hidden="true"></i>
@@ -210,7 +210,7 @@
         <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <my-section-title [heading]="labels().others" />
           <a
-            routerLink="/candidats"
+            [routerLink]="'/candidats' | localize"
             class="inline-flex shrink-0 items-center gap-2 font-bold text-primary transition-colors hover:text-primary-dark"
           >
             {{ labels().back }}
@@ -233,7 +233,7 @@
     <my-container>
       <my-empty-state [message]="labels().notFound" icon="pi-user" />
       <div class="mt-8 text-center">
-        <a routerLink="/candidats" class="inline-flex items-center gap-2 font-bold text-primary hover:text-primary-dark">
+        <a [routerLink]="'/candidats' | localize" class="inline-flex items-center gap-2 font-bold text-primary hover:text-primary-dark">
           <i class="pi pi-arrow-left text-sm" aria-hidden="true"></i>
           {{ labels().back }}
         </a>

@@ -26,9 +26,9 @@
   <my-container>
     <my-section-title
       align="center"
-      eyebrow="Nos quatre piliers"
-      heading="Sécurité, souveraineté, légitimité démocratique, progrès"
-      lead="Quatre exigences indissociables. Aucune ne tient sans les trois autres."
+      [eyebrow]="page().pillarsIntro.eyebrow"
+      [heading]="page().pillarsIntro.title"
+      [lead]="page().pillarsIntro.lead"
     />
 
     <div class="mt-14 flex flex-col gap-6">
@@ -45,7 +45,7 @@
 
               <div>
                 <p class="text-xs font-semibold uppercase tracking-[0.18em] text-foreground-muted">
-                  Pilier {{ i + 1 }} / {{ page().pillars.length }}
+                  {{ page().pillarCount(i + 1, page().pillars.length) }}
                 </p>
                 <h3 class="font-heading text-2xl font-extrabold text-secondary">{{ pillar.title }}</h3>
               </div>
@@ -57,7 +57,7 @@
 
           <div class="md:col-span-7">
             <h4 class="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-foreground-muted">
-              Ce que cela implique
+              {{ page().pillarPoints }}
             </h4>
 
             <ul class="flex flex-col gap-3">
@@ -95,7 +95,7 @@
 <section class="py-20 md:py-24">
   <my-container>
     <my-section-title
-      eyebrow="Nos valeurs"
+      [eyebrow]="page().values.eyebrow"
       [heading]="page().values.title"
       [lead]="page().values.lead"
     />

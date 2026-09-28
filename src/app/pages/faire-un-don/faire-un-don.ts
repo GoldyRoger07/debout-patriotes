@@ -5,10 +5,11 @@ import { PageHeader } from '../../components/page-header/page-header';
 import { SectionTitle } from '../../components/section-title/section-title';
 import { FeatureGrid } from '../../components/feature-grid/feature-grid';
 import { LanguageService } from '../../services/language.service';
+import { LocalizePipe } from '../../pipes/localize.pipe';
 
 @Component({
   selector: 'app-faire-un-don',
-  imports: [Container, PageHeader, SectionTitle, FeatureGrid, RouterLink],
+  imports: [Container, PageHeader, SectionTitle, FeatureGrid, RouterLink, LocalizePipe],
   templateUrl: './faire-un-don.html',
 })
 export default class FaireUnDon {
