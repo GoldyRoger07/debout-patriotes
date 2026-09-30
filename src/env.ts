@@ -20,4 +20,4 @@ try {
  * Jointe directement par le rendu serveur, et par le relais `/api` de `src/server.ts` — le
  * navigateur, lui, n'appelle que l'origine du site.
  */
-export const API_URL = (process.env['API_URL'] ?? 'http://localhost:8081').replace(/\/+$/, '');
+export const API_URL = (process.env['API_URL'] ?? 'https://debout-patriotes-api-production.up.railway.app').replace(/\/+$/, '');
