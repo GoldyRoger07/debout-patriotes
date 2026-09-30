@@ -40,6 +40,11 @@ export class ImageKitPipe implements PipeTransform {
     if (!url.includes('imagekit.io')) {
       return url;
     }
+    // ImageKit refuse le recadrage intelligent (`fo-auto`, `fo-face`) sur l'image extraite
+    // d'une vidéo : « Invalid Transformation ». On y recadre au centre.
+    if ((focus === 'auto' || focus === 'face') && url.includes('/ik-thumbnail.jpg')) {
+      focus = 'center';
+    }
     const tr = focus ? `${transformation},${FOCUS_TRANSFORMATIONS[focus]}` : transformation;
     return `${url}${url.includes('?') ? '&' : '?'}tr=${tr}`;
   }
