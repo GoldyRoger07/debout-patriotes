@@ -13,6 +13,8 @@ const MAX_SIZE = 10 * 1024 * 1024;
 const FOLDERS: { label: string; value: ImageFolder }[] = [
   { label: 'Articles', value: 'blog' },
   { label: 'Candidats', value: 'candidats' },
+  { label: 'Galerie', value: 'galerie' },
+  { label: 'Événements', value: 'evenements' },
   { label: 'Divers', value: 'divers' },
 ];
 

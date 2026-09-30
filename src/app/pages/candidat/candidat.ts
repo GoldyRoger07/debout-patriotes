@@ -7,6 +7,7 @@ import { SectionTitle } from '../../components/section-title/section-title';
 import { CandidateCard } from '../../components/candidate-card/candidate-card';
 import { CtaSection } from '../../components/cta-section/cta-section';
 import { EmptyState } from '../../components/empty-state/empty-state';
+import { VideoPlayer } from '../../components/video-player/video-player';
 import { LanguageService } from '../../services/language.service';
 import { CandidatesApi } from '../../services/candidates-api.service';
 import { Candidate } from '../../models/content.model';
@@ -23,7 +24,7 @@ interface SheetRow {
 /** Fiche détaillée d'un candidat : `/candidats/:slug`. Données chargées par le résolveur de la route. */
 @Component({
   selector: 'app-candidat',
-  imports: [Container, SectionTitle, CandidateCard, CtaSection, EmptyState, RouterLink, ImageKitPipe, LocalizePipe],
+  imports: [Container, SectionTitle, CandidateCard, CtaSection, EmptyState, VideoPlayer, RouterLink, ImageKitPipe, LocalizePipe],
   templateUrl: './candidat.html',
 })
 export default class Candidat {

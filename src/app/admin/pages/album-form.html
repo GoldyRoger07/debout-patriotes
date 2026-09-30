@@ -1,0 +1,174 @@
+<a routerLink="/admin/galerie" class="inline-flex items-center gap-2 text-sm font-semibold text-foreground-muted hover:text-secondary">
+  <i class="pi pi-arrow-left text-xs" aria-hidden="true"></i> Tous les albums
+</a>
+
+<div class="mt-3 flex flex-wrap items-center justify-between gap-4">
+  <h1 class="font-heading text-2xl font-extrabold text-secondary">
+    {{ id() === null ? 'Nouvel album' : 'Modifier l’album' }}
+  </h1>
+  @if (album(); as a) {
+    @if (a.published) {
+      <a [href]="'/galerie/' + a.slug" target="_blank" rel="noopener" class="admin-btn admin-btn-ghost">
+        <i class="pi pi-external-link" aria-hidden="true"></i> Voir sur le site
+      </a>
+    }
+  }
+</div>
+
+@if (loading()) {
+  <div class="mt-12 text-center text-foreground-muted"><i class="pi pi-spin pi-spinner" aria-hidden="true"></i></div>
+} @else {
+  <form class="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-3" [formGroup]="form" (ngSubmit)="save()">
+    <!-- Colonne principale -->
+    <div class="flex flex-col gap-6 lg:col-span-2">
+      <div class="admin-card flex flex-col gap-5">
+        <div>
+          <label class="admin-label" for="title">Titre *</label>
+          <input id="title" class="admin-input text-lg font-semibold" formControlName="title" />
+          @if (error('title'); as e) {
+            <p class="mt-1 text-xs text-danger">{{ e }}</p>
+          }
+        </div>
+
+        <div>
+          <label class="admin-label" for="slug">Adresse de l’album</label>
+          <div class="flex items-center rounded-md border border-gray-300 bg-surface focus-within:border-primary">
+            <span class="pl-3 text-sm text-foreground-muted">/galerie/</span>
+            <input id="slug" class="w-full bg-transparent px-1 py-2 text-sm outline-none" formControlName="slug" (input)="onSlugInput()" />
+          </div>
+          @if (error('slug'); as e) {
+            <p class="mt-1 text-xs text-danger">{{ e }}</p>
+          }
+        </div>
+
+        <div>
+          <label class="admin-label" for="description">Description</label>
+          <textarea id="description" rows="3" class="admin-input" formControlName="description"></textarea>
+          <p class="mt-1 text-xs text-foreground-muted">Affichée en tête de l’album. Facultative.</p>
+        </div>
+      </div>
+
+      <!-- Photos et vidéos -->
+      <section class="admin-card">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 class="font-heading text-base font-bold text-secondary">Photos et vidéos</h2>
+            <p class="mt-1 text-xs text-foreground-muted">
+              Dans l’ordre du site ; la première sert de couverture. Photos : 10 Mo max. Vidéos (MP4, WebM, MOV) : 100 Mo max.
+            </p>
+          </div>
+          <label class="admin-btn admin-btn-ghost cursor-pointer">
+            <i class="pi pi-upload" aria-hidden="true"></i> Ajouter
+            <input type="file" class="sr-only" multiple [accept]="accepted" (change)="onPick($event)" />
+          </label>
+        </div>
+
+        <div
+          class="mt-4 rounded-md border-2 border-dashed p-4 text-center text-sm text-foreground-muted transition-colors"
+          [class]="dragging() ? 'border-primary bg-primary/5' : 'border-gray-300'"
+          (dragover)="$event.preventDefault(); dragging.set(true)"
+          (dragleave)="dragging.set(false)"
+          (drop)="onDrop($event)"
+        >
+          <i class="pi pi-cloud-upload mr-1" aria-hidden="true"></i>
+          Déposez ici plusieurs photos ou vidéos à la fois.
+        </div>
+
+        @if (queue().length) {
+          <ul class="mt-4 flex flex-col gap-2" aria-live="polite">
+            @for (entry of queue(); track $index; let first = $first) {
+              <li class="flex items-center gap-3 rounded-md bg-surface px-3 py-2 text-sm">
+                <i class="pi" [class]="entry.type === 'video' ? 'pi-video' : 'pi-image'" aria-hidden="true"></i>
+                <span class="min-w-0 flex-1 truncate">{{ entry.name }}</span>
+                @if (first) {
+                  <span class="shrink-0 text-xs font-semibold text-secondary">
+                    <i class="pi pi-spin pi-spinner mr-1" aria-hidden="true"></i>
+                    {{ entry.progress === null ? 'Téléversement…' : entry.progress === 100 ? 'Traitement…' : entry.progress + ' %' }}
+                  </span>
+                } @else {
+                  <span class="shrink-0 text-xs text-foreground-muted">En attente</span>
+                }
+              </li>
+            }
+          </ul>
+        }
+
+        @if (items().length) {
+          <ul class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
+            @for (item of items(); track item.url; let i = $index, first = $first, last = $last) {
+              <li class="flex flex-col gap-2">
+                <div class="relative aspect-square overflow-hidden rounded-md bg-surface">
+                  <img [src]="thumbnailOf(item) | ik: 'w-320,h-320' : 'auto'" alt="" class="h-full w-full object-cover" />
+                  @if (item.type === 'video') {
+                    <span class="absolute left-2 top-2 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-white">
+                      <i class="pi pi-video mr-1 text-[10px]" aria-hidden="true"></i>Vidéo
+                    </span>
+                  }
+                  @if (first) {
+                    <span class="absolute right-2 top-2 rounded bg-primary px-1.5 py-0.5 text-[10px] font-semibold uppercase text-white">
+                      Couverture
+                    </span>
+                  }
+                </div>
+                <input
+                  class="admin-input py-1.5 text-xs"
+                  placeholder="Légende (facultative)"
+                  maxlength="255"
+                  [value]="item.caption ?? ''"
+                  [attr.aria-label]="'Légende de l’élément ' + (i + 1)"
+                  (input)="setCaption(i, $any($event.target).value)"
+                />
+                <div class="flex justify-between">
+                  <div class="flex">
+                    <button type="button" class="p-1 text-foreground-muted hover:text-primary disabled:opacity-30" [disabled]="first" (click)="move(i, -1)" title="Avancer">
+                      <i class="pi pi-chevron-left text-xs" aria-hidden="true"></i><span class="sr-only">Avancer</span>
+                    </button>
+                    <button type="button" class="p-1 text-foreground-muted hover:text-primary disabled:opacity-30" [disabled]="last" (click)="move(i, 1)" title="Reculer">
+                      <i class="pi pi-chevron-right text-xs" aria-hidden="true"></i><span class="sr-only">Reculer</span>
+                    </button>
+                  </div>
+                  <button type="button" class="p-1 text-foreground-muted hover:text-danger" (click)="removeItem(i)" title="Retirer">
+                    <i class="pi pi-trash text-xs" aria-hidden="true"></i><span class="sr-only">Retirer</span>
+                  </button>
+                </div>
+              </li>
+            }
+          </ul>
+        } @else if (!queue().length) {
+          <p class="mt-4 text-sm text-foreground-muted">Aucune photo ni vidéo pour l’instant.</p>
+        }
+      </section>
+    </div>
+
+    <!-- Colonne latérale -->
+    <div class="flex flex-col gap-6">
+      <div class="admin-card flex flex-col gap-4">
+        <label class="flex items-center justify-between gap-3">
+          <span>
+            <span class="block text-sm font-semibold text-secondary">Publié sur le site</span>
+            <span class="block text-xs text-foreground-muted">Décocher pour masquer l’album sans le supprimer.</span>
+          </span>
+          <input type="checkbox" class="h-5 w-5 accent-primary" formControlName="published" />
+        </label>
+
+        <div>
+          <label class="admin-label" for="takenOn">Date</label>
+          <input id="takenOn" type="date" class="admin-input" formControlName="takenOn" />
+          <p class="mt-1 text-xs text-foreground-muted">Date de l’événement couvert. Ordonne la galerie.</p>
+        </div>
+
+        <div class="flex flex-col gap-2 pt-2">
+          <button type="submit" class="admin-btn admin-btn-primary w-full" [disabled]="saving() || queue().length > 0">
+            <i class="pi" [class]="saving() ? 'pi-spin pi-spinner' : 'pi-save'" aria-hidden="true"></i>
+            Enregistrer
+          </button>
+          @if (id() !== null) {
+            <button type="button" class="admin-btn admin-btn-danger w-full" (click)="remove()">
+              <i class="pi pi-trash" aria-hidden="true"></i> Supprimer
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  </form>
+}

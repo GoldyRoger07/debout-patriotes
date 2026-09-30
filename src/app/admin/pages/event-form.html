@@ -1,0 +1,114 @@
+<a routerLink="/admin/evenements" class="inline-flex items-center gap-2 text-sm font-semibold text-foreground-muted hover:text-secondary">
+  <i class="pi pi-arrow-left text-xs" aria-hidden="true"></i> Tous les événements
+</a>
+
+<div class="mt-3 flex flex-wrap items-center justify-between gap-4">
+  <h1 class="font-heading text-2xl font-extrabold text-secondary">
+    {{ id() === null ? 'Nouvel événement' : 'Modifier l’événement' }}
+  </h1>
+  @if (event()?.published) {
+    <a href="/evenements" target="_blank" rel="noopener" class="admin-btn admin-btn-ghost">
+      <i class="pi pi-external-link" aria-hidden="true"></i> Voir l’agenda
+    </a>
+  }
+</div>
+
+@if (loading()) {
+  <div class="mt-12 text-center text-foreground-muted"><i class="pi pi-spin pi-spinner" aria-hidden="true"></i></div>
+} @else {
+  <form class="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-3" [formGroup]="form" (ngSubmit)="save()">
+    <!-- Colonne principale -->
+    <div class="flex flex-col gap-6 lg:col-span-2">
+      <div class="admin-card grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div class="sm:col-span-2">
+          <label class="admin-label" for="title">Titre *</label>
+          <input id="title" class="admin-input text-lg font-semibold" formControlName="title" />
+          @if (error('title'); as e) {
+            <p class="mt-1 text-xs text-danger">{{ e }}</p>
+          }
+        </div>
+
+        <div>
+          <label class="admin-label" for="kind">Type</label>
+          <input id="kind" class="admin-input" formControlName="kind" placeholder="Assemblée, meeting, conférence de presse…" />
+          @if (error('kind'); as e) {
+            <p class="mt-1 text-xs text-danger">{{ e }}</p>
+          }
+        </div>
+
+        <div>
+          <label class="admin-label" for="startsAt">Date et heure *</label>
+          <input id="startsAt" type="datetime-local" class="admin-input" formControlName="startsAt" />
+          @if (error('startsAt'); as e) {
+            <p class="mt-1 text-xs text-danger">{{ e }}</p>
+          }
+        </div>
+
+        <div>
+          <label class="admin-label" for="place">Lieu</label>
+          <input id="place" class="admin-input" formControlName="place" placeholder="Salle, adresse…" />
+        </div>
+
+        <div>
+          <label class="admin-label" for="city">Ville</label>
+          <input id="city" class="admin-input" formControlName="city" />
+        </div>
+
+        <div class="sm:col-span-2">
+          <label class="admin-label" for="description">Description</label>
+          <textarea id="description" rows="5" class="admin-input" formControlName="description"></textarea>
+        </div>
+
+        <div class="sm:col-span-2">
+          <label class="admin-label" for="slug">Identifiant</label>
+          <input id="slug" class="admin-input text-sm" formControlName="slug" (input)="onSlugInput()" />
+          @if (error('slug'); as e) {
+            <p class="mt-1 text-xs text-danger">{{ e }}</p>
+          } @else {
+            <p class="mt-1 text-xs text-foreground-muted">Généré à partir du titre.</p>
+          }
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <span class="admin-label">Vidéo</span>
+        <admin-video-upload formControlName="video" folder="evenements" />
+        <p class="mt-2 text-xs text-foreground-muted">
+          Facultative. Présentée comme une annonce tant que l’événement est à venir, puis comme sa rediffusion.
+          La couverture lui sert d’affiche.
+        </p>
+      </div>
+    </div>
+
+    <!-- Colonne latérale -->
+    <div class="flex flex-col gap-6">
+      <div class="admin-card flex flex-col gap-4">
+        <label class="flex items-center justify-between gap-3">
+          <span>
+            <span class="block text-sm font-semibold text-secondary">Publié sur le site</span>
+            <span class="block text-xs text-foreground-muted">Décocher pour masquer l’événement sans le supprimer.</span>
+          </span>
+          <input type="checkbox" class="h-5 w-5 accent-primary" formControlName="published" />
+        </label>
+
+        <div class="flex flex-col gap-2 pt-2">
+          <button type="submit" class="admin-btn admin-btn-primary w-full" [disabled]="saving()">
+            <i class="pi" [class]="saving() ? 'pi-spin pi-spinner' : 'pi-save'" aria-hidden="true"></i>
+            Enregistrer
+          </button>
+          @if (id() !== null) {
+            <button type="button" class="admin-btn admin-btn-danger w-full" (click)="remove()">
+              <i class="pi pi-trash" aria-hidden="true"></i> Supprimer
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <span class="admin-label">Image de couverture</span>
+        <admin-image-upload formControlName="cover" folder="evenements" ratio="16/9" />
+        <p class="mt-2 text-xs text-foreground-muted">Affichée en 16/9 sous l’événement, ou en affiche de sa vidéo.</p>
+      </div>
+    </div>
+  </form>
+}

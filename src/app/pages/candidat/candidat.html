@@ -59,11 +59,11 @@
 
   <!-- ============================ CONTENU ============================ -->
   <!-- Chaque bloc ne s'affiche que si l'information a été saisie. -->
-  @if (c.bio.length || c.priorities.length || c.career.length || hasAside()) {
+  @if (c.bio.length || c.video || c.priorities.length || c.career.length || hasAside()) {
     <section class="py-16 md:py-24">
       <my-container>
         <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
-          @if (c.bio.length || c.priorities.length || c.career.length) {
+          @if (c.bio.length || c.video || c.priorities.length || c.career.length) {
             <div class="flex flex-col gap-16" [class]="hasAside() ? 'lg:col-span-8' : 'lg:col-span-12'">
               <!-- Biographie -->
               @if (c.bio.length) {
@@ -74,6 +74,14 @@
                       <p class="leading-relaxed text-foreground-muted">{{ paragraph }}</p>
                     }
                   </div>
+                </div>
+              }
+
+              <!-- Vidéo de présentation -->
+              @if (c.video) {
+                <div>
+                  <my-section-title [heading]="labels().video" />
+                  <my-video-player class="mt-8 block" [src]="c.video" [label]="labels().video + ' — ' + c.name" />
                 </div>
               }
 

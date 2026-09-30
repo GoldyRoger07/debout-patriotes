@@ -67,6 +67,8 @@ export interface Candidate {
   cover?: string | null;
   /** Cadrage de la couverture choisi dans le back-office. */
   coverFocus?: ImageFocus | null;
+  /** Vidéo ImageKit présentée sur la fiche (section « En vidéo »). */
+  video?: string | null;
   /** Poste brigué. */
   position?: string | null;
   constituency?: string | null;
@@ -82,16 +84,6 @@ export interface Candidate {
   contact?: { email?: string; facebook?: string; x?: string; instagram?: string } | null;
 }
 
-export interface EventItem {
-  slug: string;
-  date: string;
-  time?: string;
-  place: string;
-  city: string;
-  title: string;
-  desc: string;
-  kind: string;
-}
 
 export interface PressItem {
   date: string;
@@ -152,6 +144,7 @@ export interface SiteContent {
     pages: Record<SeoPage, { title: string; description: string }>;
     candidateNotFound: string;
     postNotFound: string;
+    albumNotFound: string;
   };
 
   /** Libellés d'interface communs : en-tête, pied de page, formulaires. */
@@ -233,6 +226,7 @@ export interface SiteContent {
       career: string;
       education: string;
       contact: string;
+      video: string;
       others: string;
       notFound: string;
       cta: CtaContent;
@@ -296,9 +290,16 @@ export interface SiteContent {
     article: { back: string; related: string; notFound: string; cta: CtaContent };
   };
 
+  /** Agenda : les événements sont saisis dans le back-office. */
   events: {
     intro: PageIntro;
-    items: EventItem[];
+    upcoming: string;
+    past: string;
+    /** Aucun événement à venir, alors que des événements passés existent. */
+    noUpcoming: string;
+    /** Titre du lecteur vidéo d'un événement passé (rediffusion) ou à venir (annonce). */
+    replay: string;
+    teaser: string;
     empty: string;
   };
 
@@ -312,11 +313,23 @@ export interface SiteContent {
     empty: string;
   };
 
+  /** Galerie : les albums (photos et vidéos) sont saisis dans le back-office. */
   gallery: {
     intro: PageIntro;
-    albums: { title: string; date: string; count: number; cover?: string }[];
+    photo: string;
     photos: string;
+    video: string;
+    videos: string;
     empty: string;
+    album: {
+      back: string;
+      empty: string;
+      notFound: string;
+      open: string;
+      close: string;
+      previous: string;
+      next: string;
+    };
   };
 
   join: {

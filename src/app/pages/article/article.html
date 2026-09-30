@@ -37,7 +37,15 @@
   <article class="py-14 md:py-20">
     <my-container>
       <div class="mx-auto max-w-3xl">
-        @if (p.cover) {
+        @if (p.video) {
+          <!-- La vidéo prend la place de la couverture, qui lui sert d'affiche. -->
+          <my-video-player
+            class="mb-12 block"
+            [src]="p.video"
+            [label]="p.title"
+            [posterUrl]="p.cover ? (p.cover | ik: 'w-1280,h-720' : (p.coverFocus ?? 'auto')) : null"
+          />
+        } @else if (p.cover) {
           <img
             [src]="p.cover | ik: 'w-1200,h-675' : (p.coverFocus ?? 'auto')"
             [alt]="p.title"

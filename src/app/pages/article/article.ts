@@ -8,6 +8,7 @@ import { SectionTitle } from '../../components/section-title/section-title';
 import { CtaSection } from '../../components/cta-section/cta-section';
 import { EmptyState } from '../../components/empty-state/empty-state';
 import { PostCard } from '../../components/post-card/post-card';
+import { VideoPlayer } from '../../components/video-player/video-player';
 import { LanguageService } from '../../services/language.service';
 import { BlogApi } from '../../services/blog-api.service';
 import { Post } from '../../models/blog.model';
@@ -18,7 +19,7 @@ import { LocalizePipe } from '../../pipes/localize.pipe';
 /** Article du blog : `/actualites/:slug`. Données chargées par le résolveur de la route. */
 @Component({
   selector: 'app-article',
-  imports: [Container, SectionTitle, CtaSection, EmptyState, PostCard, RouterLink, DatePipe, ImageKitPipe, MarkdownPipe, LocalizePipe],
+  imports: [Container, SectionTitle, CtaSection, EmptyState, PostCard, VideoPlayer, RouterLink, DatePipe, ImageKitPipe, MarkdownPipe, LocalizePipe],
   templateUrl: './article.html',
 })
 export default class Article {

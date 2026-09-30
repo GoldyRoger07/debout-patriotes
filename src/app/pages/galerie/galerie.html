@@ -6,29 +6,59 @@
 
 <section class="py-16 md:py-20">
   <my-container>
-    @if (page().albums.length) {
-      <ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        @for (album of page().albums; track album.title) {
-          <li class="group overflow-hidden rounded-md border border-gray-200 bg-white shadow-card">
-            @if (album.cover) {
-              <img
-                [src]="album.cover"
-                [alt]="album.title"
-                class="h-56 w-full object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-            }
+    <!-- Rien n'est affiché pendant le chargement (navigation côté navigateur). -->
+    @if (albums(); as list) {
+      @if (list.length) {
+        <ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          @for (album of list; track album.id) {
+            <li>
+              <a
+                [routerLink]="'/galerie/' + album.slug | localize"
+                class="group block h-full overflow-hidden rounded-md border border-gray-200 bg-white shadow-card transition-colors hover:border-primary/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              >
+                <div class="relative aspect-[4/3] overflow-hidden bg-surface">
+                  @if (album.cover; as cover) {
+                    <img
+                      [src]="thumbnailOf(cover) | ik: 'w-640,h-480' : 'auto'"
+                      [alt]="cover.caption ?? ''"
+                      loading="lazy"
+                      class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    @if (cover.type === 'video') {
+                      <span aria-hidden="true" class="absolute inset-0 flex items-center justify-center">
+                        <span class="flex h-14 w-14 items-center justify-center rounded-full bg-black/60 text-white">
+                          <i class="pi pi-play text-xl"></i>
+                        </span>
+                      </span>
+                    }
+                  } @else {
+                    <div aria-hidden="true" class="flex h-full w-full items-center justify-center">
+                      <i class="pi pi-images text-5xl text-gray-300"></i>
+                    </div>
+                  }
+                </div>
 
-            <div class="p-5">
-              <h2 class="font-heading text-lg font-bold text-secondary">{{ album.title }}</h2>
-              <p class="mt-1 text-sm text-foreground-muted">
-                {{ album.date }} · {{ album.count }} {{ page().photos }}
-              </p>
-            </div>
-          </li>
-        }
-      </ul>
-    } @else {
-      <my-empty-state [message]="page().empty" icon="pi-images" />
+                <div class="p-5">
+                  <h2 class="font-heading text-lg font-bold text-secondary transition-colors group-hover:text-primary">
+                    {{ album.title }}
+                  </h2>
+                  <p class="mt-1 flex flex-wrap items-center gap-x-2 text-sm text-foreground-muted">
+                    @if (album.takenOn) {
+                      <time [attr.datetime]="album.takenOn">{{ album.takenOn | date: 'longDate' : 'UTC' : language() }}</time>
+                    }
+                    @if (album.takenOn && counts(album)) {
+                      <span aria-hidden="true">·</span>
+                    }
+                    <span>{{ counts(album) }}</span>
+                  </p>
+                </div>
+              </a>
+            </li>
+          }
+        </ul>
+      } @else {
+        <my-empty-state [message]="page().empty" icon="pi-images" />
+      }
     }
   </my-container>
 </section>

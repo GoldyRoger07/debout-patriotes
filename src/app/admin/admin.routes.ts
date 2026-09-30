@@ -67,6 +67,36 @@ export default [
             loadComponent: () => import('./pages/candidate-form'),
           },
           {
+            path: 'evenements',
+            title: 'Événements' + SUFFIX,
+            loadComponent: () => import('./pages/events-list'),
+          },
+          {
+            path: 'evenements/nouveau',
+            title: 'Nouvel événement' + SUFFIX,
+            loadComponent: () => import('./pages/event-form'),
+          },
+          {
+            path: 'evenements/:id',
+            title: 'Modifier un événement' + SUFFIX,
+            loadComponent: () => import('./pages/event-form'),
+          },
+          {
+            path: 'galerie',
+            title: 'Galerie' + SUFFIX,
+            loadComponent: () => import('./pages/albums-list'),
+          },
+          {
+            path: 'galerie/nouveau',
+            title: 'Nouvel album' + SUFFIX,
+            loadComponent: () => import('./pages/album-form'),
+          },
+          {
+            path: 'galerie/:id',
+            title: 'Modifier un album' + SUFFIX,
+            loadComponent: () => import('./pages/album-form'),
+          },
+          {
             path: 'medias',
             title: 'Médiathèque' + SUFFIX,
             loadComponent: () => import('./pages/media'),

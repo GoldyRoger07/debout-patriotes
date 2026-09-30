@@ -94,6 +94,7 @@ export const fr: SiteContent = {
     },
     candidateNotFound: 'Candidat introuvable',
     postNotFound: 'Article introuvable',
+    albumNotFound: 'Album introuvable',
   },
 
   ui: {
@@ -279,6 +280,7 @@ export const fr: SiteContent = {
       career: 'Parcours',
       education: 'Formation',
       contact: 'Contact',
+      video: 'En vidéo',
       others: 'Découvrir les autres candidats',
       notFound: "Ce candidat est introuvable. Il a peut-être été retiré de la liste ou l'adresse est incorrecte.",
       cta: {
@@ -889,8 +891,12 @@ export const fr: SiteContent = {
       title: 'Événements',
       lead: 'Assemblées, rencontres départementales, conférences de presse et mobilisations de DEBOUT PATRIOTES.',
     },
-    // À COMPLÉTER : agenda réel du groupement
-    items: [],
+    // Les événements sont saisis dans le back-office (/admin/evenements).
+    upcoming: 'À venir',
+    past: 'Événements passés',
+    noUpcoming: "Aucun événement à venir pour l'instant. Les prochains rendez-vous seront annoncés ici.",
+    replay: 'Revoir en vidéo',
+    teaser: 'Voir la vidéo',
     empty:
       "Aucun événement programmé publiquement pour l'instant. L'agenda des assemblées et des rencontres départementales sera publié ici.",
   },
@@ -938,9 +944,21 @@ export const fr: SiteContent = {
       title: 'Galerie',
       lead: 'Images de nos assemblées, de nos rencontres de terrain et de la vie du groupement.',
     },
-    albums: [],
+    // Les albums sont saisis dans le back-office (/admin/galerie).
+    photo: 'photo',
     photos: 'photos',
+    video: 'vidéo',
+    videos: 'vidéos',
     empty: 'La galerie sera alimentée au fil des activités du groupement.',
+    album: {
+      back: 'Toute la galerie',
+      empty: 'Cet album ne contient encore aucune photo ni vidéo.',
+      notFound: "Cet album est introuvable. Il a peut-être été retiré ou l'adresse est incorrecte.",
+      open: 'Agrandir',
+      close: 'Fermer',
+      previous: 'Précédent',
+      next: 'Suivant',
+    },
   },
 
   /* ------------------------------------------------------------------ */

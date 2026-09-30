@@ -32,6 +32,9 @@ export interface Post extends PostSummary {
   /** Corps de l'article, en Markdown. */
   content: string;
   coverFileId?: string | null;
+  /** Vidéo ImageKit lue en tête de l'article, la couverture lui servant d'affiche. */
+  video?: string | null;
+  videoFileId?: string | null;
   createdAt: string;
 }
 

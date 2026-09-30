@@ -1,53 +1,47 @@
 import { Component, inject, signal, viewChild } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { catchError, of } from 'rxjs';
 import { AdminApi } from '../core/admin-api.service';
 import { Feedback } from '../core/feedback.service';
-import { ImageRef, PostPayload, VideoRef } from '../core/admin.model';
+import { EventPayload, ImageRef, VideoRef } from '../core/admin.model';
 import { apiErrorMessage, apiFieldErrors } from '../core/api-error';
 import { emptyToNull, fromLocalInput, slugify, toLocalInput } from '../core/form-utils';
 import { ImageUpload } from '../ui/image-upload';
-import { MarkdownEditor } from '../ui/markdown-editor';
 import { VideoUpload } from '../ui/video-upload';
-import { Post, PostStatus } from '../../models/blog.model';
+import { AgendaEvent } from '../../models/event.model';
 import { DEFAULT_FOCUS } from '../../models/image.model';
 
 @Component({
-  selector: 'admin-post-form',
-  imports: [ReactiveFormsModule, RouterLink, ImageUpload, VideoUpload, MarkdownEditor],
-  templateUrl: './post-form.html',
+  selector: 'admin-event-form',
+  imports: [ReactiveFormsModule, RouterLink, ImageUpload, VideoUpload],
+  templateUrl: './event-form.html',
 })
-export default class PostForm {
+export default class EventForm {
   private readonly api = inject(AdminApi);
   private readonly feedback = inject(Feedback);
   private readonly router = inject(Router);
+  private readonly fb = inject(NonNullableFormBuilder);
   private readonly imageUpload = viewChild(ImageUpload);
   private readonly videoUpload = viewChild(VideoUpload);
-  private readonly fb = inject(NonNullableFormBuilder);
 
   protected readonly form = this.fb.group({
     title: ['', [Validators.required, Validators.maxLength(255)]],
     slug: ['', Validators.maxLength(190)],
-    categoryId: this.fb.control<number | null>(null),
-    excerpt: ['', [Validators.required, Validators.maxLength(600)]],
+    kind: ['', Validators.maxLength(80)],
+    startsAt: ['', Validators.required],
+    place: ['', Validators.maxLength(255)],
+    city: ['', Validators.maxLength(160)],
+    description: [''],
     cover: this.fb.control<ImageRef | null>(null),
     video: this.fb.control<VideoRef | null>(null),
-    content: ['', Validators.required],
-    status: this.fb.control<PostStatus>('DRAFT'),
-    publishedAt: [''],
+    published: [true],
   });
 
-  protected readonly categories = toSignal(this.api.categories().pipe(catchError(() => of([]))), {
-    initialValue: [],
-  });
   protected readonly id = signal<number | null>(null);
-  protected readonly post = signal<Post | null>(null);
+  protected readonly event = signal<AgendaEvent | null>(null);
   protected readonly loading = signal(false);
   protected readonly saving = signal(false);
   protected readonly serverErrors = signal<Record<string, string>>({});
-  /** Tant que le slug n'a pas été modifié à la main, il suit le titre. */
   private slugEdited = false;
 
   constructor() {
@@ -56,11 +50,11 @@ export default class PostForm {
       this.id.set(Number(idParam));
       this.slugEdited = true;
       this.loading.set(true);
-      this.api.post(Number(idParam)).subscribe({
-        next: (post) => this.fill(post),
+      this.api.event(Number(idParam)).subscribe({
+        next: (event) => this.fill(event),
         error: (err) => {
-          this.feedback.error(apiErrorMessage(err, 'Article introuvable.'));
-          this.router.navigateByUrl('/admin/articles');
+          this.feedback.error(apiErrorMessage(err, 'Événement introuvable.'));
+          this.router.navigateByUrl('/admin/evenements');
         },
       });
     }
@@ -81,36 +75,35 @@ export default class PostForm {
       this.feedback.error('Complétez les champs obligatoires avant d’enregistrer.');
       return;
     }
-    const value = this.form.getRawValue();
-    const payload: PostPayload = {
-      slug: emptyToNull(value.slug),
-      title: value.title.trim(),
-      excerpt: value.excerpt.trim(),
-      content: value.content,
-      cover: value.cover?.url ?? null,
-      coverFileId: value.cover?.fileId ?? null,
-      coverFocus: value.cover?.focus ?? null,
-      video: value.video?.url ?? null,
-      videoFileId: value.video?.fileId ?? null,
-      categoryId: value.categoryId,
-      status: value.status,
-      publishedAt: fromLocalInput(value.publishedAt),
+    const v = this.form.getRawValue();
+    const payload: EventPayload = {
+      slug: emptyToNull(v.slug),
+      title: v.title.trim(),
+      kind: emptyToNull(v.kind),
+      description: emptyToNull(v.description),
+      startsAt: fromLocalInput(v.startsAt)!,
+      place: emptyToNull(v.place),
+      city: emptyToNull(v.city),
+      cover: v.cover?.url ?? null,
+      coverFileId: v.cover?.fileId ?? null,
+      coverFocus: v.cover?.focus ?? null,
+      video: v.video?.url ?? null,
+      videoFileId: v.video?.fileId ?? null,
+      published: v.published,
     };
 
     this.saving.set(true);
     this.serverErrors.set({});
-    this.api.savePost(this.id(), payload).subscribe({
-      next: (post) => {
+    this.api.saveEvent(this.id(), payload).subscribe({
+      next: (event) => {
         this.saving.set(false);
         this.imageUpload()?.commit();
         this.videoUpload()?.commit();
-        this.feedback.success(
-          post.status === 'PUBLISHED' ? 'Article enregistré et publié.' : 'Brouillon enregistré.',
-        );
+        this.feedback.success('Événement enregistré.');
         if (this.id() === null) {
-          this.router.navigate(['/admin/articles', post.id], { replaceUrl: true });
+          this.router.navigate(['/admin/evenements', event.id], { replaceUrl: true });
         }
-        this.fill(post);
+        this.fill(event);
       },
       error: (err) => {
         this.saving.set(false);
@@ -121,28 +114,27 @@ export default class PostForm {
   }
 
   protected async remove(): Promise<void> {
-    const post = this.post();
-    if (!post) {
+    const event = this.event();
+    if (!event) {
       return;
     }
     const confirmed = await this.feedback.confirm({
-      title: 'Supprimer cet article ?',
-      message: `« ${post.title} » sera définitivement supprimé, ainsi que son image de couverture et sa vidéo.`,
+      title: 'Supprimer cet événement ?',
+      message: `« ${event.title} » sera définitivement supprimé, avec sa couverture et sa vidéo.`,
       confirmLabel: 'Supprimer',
       danger: true,
     });
     if (confirmed) {
-      this.api.deletePost(post.id).subscribe({
+      this.api.deleteEvent(event.id).subscribe({
         next: () => {
-          this.feedback.success('Article supprimé.');
-          this.router.navigateByUrl('/admin/articles');
+          this.feedback.success('Événement supprimé.');
+          this.router.navigateByUrl('/admin/evenements');
         },
         error: (err) => this.feedback.error(apiErrorMessage(err)),
       });
     }
   }
 
-  /** Erreur à afficher sous un champ : validation locale, sinon retour de l'API. */
   protected error(field: keyof typeof this.form.controls): string | null {
     const control = this.form.controls[field];
     if (control.touched && control.errors) {
@@ -156,22 +148,23 @@ export default class PostForm {
     return this.serverErrors()[field] ?? null;
   }
 
-  private fill(post: Post): void {
-    this.id.set(post.id);
-    this.post.set(post);
+  private fill(event: AgendaEvent): void {
+    this.id.set(event.id);
+    this.event.set(event);
     this.loading.set(false);
     this.form.reset({
-      title: post.title,
-      slug: post.slug,
-      categoryId: post.category?.id ?? null,
-      excerpt: post.excerpt,
-      cover: post.cover
-        ? { url: post.cover, fileId: post.coverFileId ?? null, focus: post.coverFocus ?? DEFAULT_FOCUS }
+      title: event.title,
+      slug: event.slug,
+      kind: event.kind ?? '',
+      startsAt: toLocalInput(event.startsAt),
+      place: event.place ?? '',
+      city: event.city ?? '',
+      description: event.description ?? '',
+      cover: event.cover
+        ? { url: event.cover, fileId: event.coverFileId ?? null, focus: event.coverFocus ?? DEFAULT_FOCUS }
         : null,
-      video: post.video ? { url: post.video, fileId: post.videoFileId ?? null } : null,
-      content: post.content,
-      status: post.status,
-      publishedAt: toLocalInput(post.publishedAt),
+      video: event.video ? { url: event.video, fileId: event.videoFileId ?? null } : null,
+      published: event.published,
     });
   }
 }

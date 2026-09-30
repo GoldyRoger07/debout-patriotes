@@ -1,11 +1,15 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API_BASE_URL } from '../../config/api';
 import { Category, Page, Post, PostStatus, PostSummary } from '../../models/blog.model';
 import { CardFormats } from '../../models/image.model';
+import { Album, AlbumSummary } from '../../models/gallery.model';
+import { AgendaEvent } from '../../models/event.model';
 import {
   AdminCandidate,
+  AlbumPayload,
+  EventPayload,
   CandidatePayload,
   CategoryPayload,
   Dashboard,
@@ -14,6 +18,7 @@ import {
   ImageQuery,
   PostPayload,
   UploadedImage,
+  UploadedVideo,
 } from './admin.model';
 
 /** Images chargées par page de médiathèque. */
@@ -113,6 +118,46 @@ export class AdminApi {
     return this.http.put<CardFormats>(`${this.base}/admin/candidates/card-formats`, formats);
   }
 
+  // --- Galerie ---------------------------------------------------------------
+
+  albums(): Observable<AlbumSummary[]> {
+    return this.http.get<AlbumSummary[]>(`${this.base}/admin/albums`);
+  }
+
+  album(id: number): Observable<Album> {
+    return this.http.get<Album>(`${this.base}/admin/albums/${id}`);
+  }
+
+  saveAlbum(id: number | null, payload: AlbumPayload): Observable<Album> {
+    return id === null
+      ? this.http.post<Album>(`${this.base}/admin/albums`, payload)
+      : this.http.put<Album>(`${this.base}/admin/albums/${id}`, payload);
+  }
+
+  deleteAlbum(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.base}/admin/albums/${id}`);
+  }
+
+  // --- Événements ------------------------------------------------------------
+
+  events(): Observable<AgendaEvent[]> {
+    return this.http.get<AgendaEvent[]>(`${this.base}/admin/events`);
+  }
+
+  event(id: number): Observable<AgendaEvent> {
+    return this.http.get<AgendaEvent>(`${this.base}/admin/events/${id}`);
+  }
+
+  saveEvent(id: number | null, payload: EventPayload): Observable<AgendaEvent> {
+    return id === null
+      ? this.http.post<AgendaEvent>(`${this.base}/admin/events`, payload)
+      : this.http.put<AgendaEvent>(`${this.base}/admin/events/${id}`, payload);
+  }
+
+  deleteEvent(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.base}/admin/events/${id}`);
+  }
+
   // --- Images (ImageKit) -----------------------------------------------------
 
   /** Images déjà en ligne dans un dossier, pour en réutiliser une. */
@@ -133,6 +178,23 @@ export class AdminApi {
 
   deleteImage(fileId: string): Observable<void> {
     return this.http.delete<void>(`${this.base}/admin/images/${encodeURIComponent(fileId)}`);
+  }
+
+  // --- Vidéos (ImageKit) -----------------------------------------------------
+
+  /** Téléversement avec suivi de progression : une vidéo peut peser jusqu'à 100 Mo. */
+  uploadVideo(file: File, folder: ImageFolder): Observable<HttpEvent<UploadedVideo>> {
+    const body = new FormData();
+    body.append('file', file);
+    return this.http.post<UploadedVideo>(`${this.base}/admin/videos`, body, {
+      params: { folder },
+      reportProgress: true,
+      observe: 'events',
+    });
+  }
+
+  deleteVideo(fileId: string): Observable<void> {
+    return this.http.delete<void>(`${this.base}/admin/videos/${encodeURIComponent(fileId)}`);
   }
 
   // --- Compte ----------------------------------------------------------------

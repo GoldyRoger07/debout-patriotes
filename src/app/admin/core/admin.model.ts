@@ -1,6 +1,7 @@
 import { Candidate } from '../../models/content.model';
 import { PostStatus } from '../../models/blog.model';
 import { ImageFocus } from '../../models/image.model';
+import { AlbumItem } from '../../models/gallery.model';
 
 export interface AdminUser {
   id: number;
@@ -33,6 +34,22 @@ export interface ImageRef {
   focus: ImageFocus;
 }
 
+/** Vidéo hébergée sur ImageKit, telle que la manipule un formulaire. */
+export interface VideoRef {
+  url: string;
+  fileId: string | null;
+}
+
+export interface UploadedVideo {
+  fileId: string;
+  url: string;
+  thumbnailUrl?: string;
+  name: string;
+  width?: number;
+  height?: number;
+  size?: number;
+}
+
 export interface UploadedImage {
   fileId: string;
   url: string;
@@ -62,12 +79,13 @@ export interface ImageQuery {
 }
 
 /** Dossier de la médiathèque ImageKit (voir `ImageKitService.ALLOWED_FOLDERS` côté API). */
-export type ImageFolder = 'blog' | 'candidats' | 'divers';
+export type ImageFolder = 'blog' | 'candidats' | 'galerie' | 'evenements' | 'divers';
 
 export interface AdminCandidate extends Candidate {
   id: number;
   photoFileId?: string | null;
   coverFileId?: string | null;
+  videoFileId?: string | null;
   displayOrder: number;
   published: boolean;
   updatedAt: string;
@@ -83,9 +101,37 @@ export interface PostPayload {
   cover: string | null;
   coverFileId: string | null;
   coverFocus: ImageFocus | null;
+  video: string | null;
+  videoFileId: string | null;
   categoryId: number | null;
   status: PostStatus;
   publishedAt: string | null;
+}
+
+export interface AlbumPayload {
+  slug: string | null;
+  title: string;
+  description: string | null;
+  /** Date ISO `AAAA-MM-JJ`. */
+  takenOn: string | null;
+  items: AlbumItem[];
+  published: boolean;
+}
+
+export interface EventPayload {
+  slug: string | null;
+  title: string;
+  kind: string | null;
+  description: string | null;
+  startsAt: string;
+  place: string | null;
+  city: string | null;
+  cover: string | null;
+  coverFileId: string | null;
+  coverFocus: ImageFocus | null;
+  video: string | null;
+  videoFileId: string | null;
+  published: boolean;
 }
 
 export interface CategoryPayload {

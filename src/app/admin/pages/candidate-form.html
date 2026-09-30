@@ -272,6 +272,14 @@
         </p>
       </div>
 
+      <div class="admin-card">
+        <span class="admin-label">Vidéo de présentation</span>
+        <admin-video-upload formControlName="video" folder="candidats" />
+        <p class="mt-2 text-xs text-foreground-muted">
+          Facultative. Affichée sur la fiche dans une section « En vidéo », après la biographie.
+        </p>
+      </div>
+
       <!-- Formation -->
       <div class="admin-card" formArrayName="education">
         <div class="flex items-center justify-between">

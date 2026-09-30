@@ -4,9 +4,11 @@ import { map, tap } from 'rxjs';
 import { RouteSeo } from './services/seo.service';
 import { CandidatesApi } from './services/candidates-api.service';
 import { BlogApi } from './services/blog-api.service';
+import { GalleryApi } from './services/gallery-api.service';
 import { CATALOG, LOCALE_PREFIX, LanguageService, Locale } from './services/language.service';
 import { Candidate, SeoPage } from './models/content.model';
 import { Post } from './models/blog.model';
+import { Album, thumbnailOf } from './models/gallery.model';
 import { PublicLayout } from './layouts/public-layout';
 
 /** Page introuvable : renvoie un vrai 404 au rendu serveur (utile aux moteurs de recherche). */
@@ -72,6 +74,32 @@ const postSeo: ResolveFn<RouteSeo> = (route) =>
     .bySlug(route.paramMap.get('slug')!)
     .pipe(map((p) => ({ description: p?.excerpt, image: p?.cover ?? undefined })));
 
+/* --- Album de la galerie --- */
+
+const album: ResolveFn<Album | null> = (route) => {
+  const markNotFound = notFoundWhenNull();
+  return inject(GalleryApi)
+    .bySlug(route.paramMap.get('slug')!)
+    .pipe(tap((a) => markNotFound(a)));
+};
+
+const albumTitle: ResolveFn<string> = (route) => {
+  const seo = seoContent();
+  return inject(GalleryApi)
+    .bySlug(route.paramMap.get('slug')!)
+    .pipe(map((a) => (a?.title ?? seo.albumNotFound) + seo.titleSuffix));
+};
+
+const albumSeo: ResolveFn<RouteSeo> = (route) =>
+  inject(GalleryApi)
+    .bySlug(route.paramMap.get('slug')!)
+    .pipe(
+      map((a) => ({
+        description: a?.description ?? a?.title,
+        image: a?.items[0] ? thumbnailOf(a.items[0]) : undefined,
+      })),
+    );
+
 /* --- Site public, décliné par langue --- */
 
 /** Fixe la langue du site avant le rendu (et avant les résolveurs des pages). */
@@ -116,6 +144,12 @@ function publicRoutes(locale: Locale): Routes {
     page('events', { path: 'evenements', loadComponent: () => import('./pages/evenements/evenements') }),
     page('press', { path: 'presse', loadComponent: () => import('./pages/presse/presse') }),
     page('gallery', { path: 'galerie', loadComponent: () => import('./pages/galerie/galerie') }),
+    {
+      path: 'galerie/:slug',
+      title: albumTitle,
+      loadComponent: () => import('./pages/album/album'),
+      resolve: { album, seo: albumSeo },
+    },
     page('join', {
       path: 'devenir-membre',
       loadComponent: () => import('./pages/devenir-membre/devenir-membre'),

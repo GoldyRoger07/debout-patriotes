@@ -22,7 +22,9 @@ export class AdminLayout {
     { label: 'Articles', url: '/admin/articles', icon: 'pi-file-edit', exact: false },
     { label: 'Rubriques', url: '/admin/rubriques', icon: 'pi-tags', exact: false },
     { label: 'Candidats', url: '/admin/candidats', icon: 'pi-users', exact: false },
-    { label: 'Médiathèque', url: '/admin/medias', icon: 'pi-images', exact: false },
+    { label: 'Événements', url: '/admin/evenements', icon: 'pi-calendar', exact: false },
+    { label: 'Galerie', url: '/admin/galerie', icon: 'pi-images', exact: false },
+    { label: 'Médiathèque', url: '/admin/medias', icon: 'pi-folder-open', exact: false },
     { label: 'Mon compte', url: '/admin/compte', icon: 'pi-user-edit', exact: false },
   ];
 

@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal, viewChildren } from '@angular/core';
+import { Component, computed, inject, signal, viewChild, viewChildren } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   FormArray,
@@ -10,11 +10,12 @@ import {
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AdminApi } from '../core/admin-api.service';
 import { Feedback } from '../core/feedback.service';
-import { AdminCandidate, CandidatePayload, ImageRef } from '../core/admin.model';
+import { AdminCandidate, CandidatePayload, ImageRef, VideoRef } from '../core/admin.model';
 import { DEFAULT_CARD_FORMATS, PORTRAIT_FOCUS } from '../../models/image.model';
 import { apiErrorMessage, apiFieldErrors } from '../core/api-error';
 import { emptyToNull, slugify } from '../core/form-utils';
 import { ImageUpload } from '../ui/image-upload';
+import { VideoUpload } from '../ui/video-upload';
 
 /** Icônes proposées pour les priorités (PrimeIcons). */
 const PRIORITY_ICONS = [
@@ -59,7 +60,7 @@ function careerGroup(
 
 @Component({
   selector: 'admin-candidate-form',
-  imports: [ReactiveFormsModule, RouterLink, NgTemplateOutlet, ImageUpload],
+  imports: [ReactiveFormsModule, RouterLink, NgTemplateOutlet, ImageUpload, VideoUpload],
   templateUrl: './candidate-form.html',
 })
 export default class CandidateForm {
@@ -68,6 +69,7 @@ export default class CandidateForm {
   private readonly router = inject(Router);
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly imageUploads = viewChildren(ImageUpload);
+  private readonly videoUpload = viewChild(VideoUpload);
 
   protected readonly icons = PRIORITY_ICONS;
 
@@ -93,6 +95,8 @@ export default class CandidateForm {
     photo: this.fb.control<ImageRef | null>(null),
     /** Couverture des cartes : accueil et liste complète des candidats. */
     cover: this.fb.control<ImageRef | null>(null),
+    /** Vidéo de présentation, affichée sur la fiche. */
+    video: this.fb.control<VideoRef | null>(null),
     published: [true],
     professions: this.fb.array<FormControl<string>>([]),
     bio: this.fb.array<FormControl<string>>([]),
@@ -197,6 +201,8 @@ export default class CandidateForm {
       cover: v.cover?.url ?? null,
       coverFileId: v.cover?.fileId ?? null,
       coverFocus: v.cover?.focus ?? null,
+      video: v.video?.url ?? null,
+      videoFileId: v.video?.fileId ?? null,
       position: emptyToNull(v.position),
       constituency: emptyToNull(v.constituency),
       party: emptyToNull(v.party),
@@ -230,6 +236,7 @@ export default class CandidateForm {
       next: (candidate) => {
         this.saving.set(false);
         this.imageUploads().forEach((upload) => upload.commit());
+        this.videoUpload()?.commit();
         this.feedback.success(`Fiche de ${candidate.name} enregistrée.`);
         if (this.id() === null) {
           this.router.navigate(['/admin/candidats', candidate.id], { replaceUrl: true });
@@ -251,7 +258,7 @@ export default class CandidateForm {
     }
     const confirmed = await this.feedback.confirm({
       title: `Supprimer ${candidate.name} ?`,
-      message: 'La fiche et sa photo seront définitivement supprimées.',
+      message: 'La fiche, ses photos et sa vidéo seront définitivement supprimées.',
       confirmLabel: 'Supprimer',
       danger: true,
     });
@@ -315,6 +322,7 @@ export default class CandidateForm {
       cover: c.cover
         ? { url: c.cover, fileId: c.coverFileId ?? null, focus: c.coverFocus ?? PORTRAIT_FOCUS }
         : null,
+      video: c.video ? { url: c.video, fileId: c.videoFileId ?? null } : null,
       published: c.published,
       contact: {
         email: c.contact?.email ?? '',

@@ -92,6 +92,7 @@ export const en: SiteContent = {
     },
     candidateNotFound: 'Candidate not found',
     postNotFound: 'Article not found',
+    albumNotFound: 'Album not found',
   },
 
   ui: {
@@ -277,6 +278,7 @@ export const en: SiteContent = {
       career: 'Career',
       education: 'Education',
       contact: 'Contact',
+      video: 'On video',
       others: 'Meet the other candidates',
       notFound: 'This candidate could not be found. They may have been removed from the list, or the address is incorrect.',
       cta: {
@@ -887,8 +889,11 @@ export const en: SiteContent = {
       title: 'Events',
       lead: 'Assemblies, departmental meetings, press conferences and mobilisations of DEBOUT PATRIOTES.',
     },
-    // À COMPLÉTER : agenda réel du groupement
-    items: [],
+    upcoming: 'Upcoming',
+    past: 'Past events',
+    noUpcoming: 'No upcoming events for now. The next gatherings will be announced here.',
+    replay: 'Watch the replay',
+    teaser: 'Watch the video',
     empty:
       'No public events scheduled yet. The calendar of assemblies and departmental meetings will be published here.',
   },
@@ -936,9 +941,20 @@ export const en: SiteContent = {
       title: 'Gallery',
       lead: 'Pictures from our assemblies, our field meetings and the life of the coalition.',
     },
-    albums: [],
+    photo: 'photo',
     photos: 'photos',
+    video: 'video',
+    videos: 'videos',
     empty: 'The gallery will be filled as the coalition’s activities unfold.',
+    album: {
+      back: 'Whole gallery',
+      empty: 'This album does not contain any photo or video yet.',
+      notFound: 'This album could not be found. It may have been removed or the address is incorrect.',
+      open: 'Enlarge',
+      close: 'Close',
+      previous: 'Previous',
+      next: 'Next',
+    },
   },
 
   /* ------------------------------------------------------------------ */
