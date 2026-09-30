@@ -1,4 +1,5 @@
 import { Component, computed, input } from '@angular/core';
+import { videoThumbnail } from '../../models/gallery.model';
 import { ImageKitPipe } from '../../pipes/imagekit.pipe';
 
 /**
@@ -33,8 +34,6 @@ export class VideoPlayer {
   private readonly thumbnail = new ImageKitPipe();
 
   protected readonly poster = computed(
-    () =>
-      this.posterUrl() ??
-      (this.src().includes('imagekit.io') ? this.thumbnail.transform(`${this.src()}/ik-thumbnail.jpg`, 'w-1280') : null),
+    () => this.posterUrl() ?? this.thumbnail.transform(videoThumbnail(this.src()), 'w-1280'),
   );
 }
