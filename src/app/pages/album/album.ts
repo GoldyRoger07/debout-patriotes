@@ -8,6 +8,7 @@ import { EmptyState } from '../../components/empty-state/empty-state';
 import { LanguageService } from '../../services/language.service';
 import { Album as AlbumData, thumbnailOf } from '../../models/gallery.model';
 import { ImageKitPipe } from '../../pipes/imagekit.pipe';
+import { PosterFallback } from '../../directives/poster-fallback';
 import { LocalizePipe } from '../../pipes/localize.pipe';
 
 /**
@@ -16,7 +17,7 @@ import { LocalizePipe } from '../../pipes/localize.pipe';
  */
 @Component({
   selector: 'app-album',
-  imports: [Container, EmptyState, RouterLink, DatePipe, ImageKitPipe, LocalizePipe],
+  imports: [Container, EmptyState, RouterLink, DatePipe, ImageKitPipe, PosterFallback, LocalizePipe],
   templateUrl: './album.html',
   host: { '(document:keydown)': 'onKey($event)' },
 })

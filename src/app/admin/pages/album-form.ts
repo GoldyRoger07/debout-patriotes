@@ -10,6 +10,7 @@ import { apiErrorMessage, apiFieldErrors } from '../core/api-error';
 import { emptyToNull, slugify } from '../core/form-utils';
 import { Album, AlbumItem, MediaType, thumbnailOf } from '../../models/gallery.model';
 import { ImageKitPipe } from '../../pipes/imagekit.pipe';
+import { PosterFallback } from '../../directives/poster-fallback';
 
 const IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif'];
 const VIDEO_TYPES = ['video/mp4', 'video/webm', 'video/quicktime'];
@@ -27,7 +28,7 @@ interface PendingUpload {
 
 @Component({
   selector: 'admin-album-form',
-  imports: [ReactiveFormsModule, RouterLink, ImageKitPipe],
+  imports: [ReactiveFormsModule, RouterLink, ImageKitPipe, PosterFallback],
   templateUrl: './album-form.html',
 })
 export default class AlbumForm implements OnDestroy {

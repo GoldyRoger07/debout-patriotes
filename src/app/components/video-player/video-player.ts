@@ -1,4 +1,5 @@
 import { Component, computed, input } from '@angular/core';
+import { PosterFallback } from '../../directives/poster-fallback';
 import { videoThumbnail } from '../../models/gallery.model';
 import { ImageKitPipe } from '../../pipes/imagekit.pipe';
 
@@ -7,16 +8,18 @@ import { ImageKitPipe } from '../../pipes/imagekit.pipe';
  * téléphone) y entre en entier, complétée par des bandes noires.
  *
  * Rien n'est téléchargé avant que le visiteur ne lance la lecture (`preload="none"`) : l'affiche
- * suffit à la page. Sans affiche fournie, ImageKit en extrait une de la vidéo.
+ * suffit à la page. Sans affiche fournie, ImageKit en extrait une de la vidéo ; si elle ne se
+ * charge pas, l'affiche de secours du site prend le relais.
  *
  * @see https://imagekit.io/docs/create-video-thumbnails
  */
 @Component({
   selector: 'my-video-player',
+  imports: [PosterFallback],
   template: `
     <video
       [src]="src()"
-      [attr.poster]="poster()"
+      [myPosterFallback]="poster()"
       [attr.aria-label]="label()"
       controls
       preload="none"

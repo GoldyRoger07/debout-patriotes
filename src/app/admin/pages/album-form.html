@@ -98,7 +98,7 @@
             @for (item of items(); track item.url; let i = $index, first = $first, last = $last) {
               <li class="flex flex-col gap-2">
                 <div class="relative aspect-square overflow-hidden rounded-md bg-surface">
-                  <img [src]="thumbnailOf(item) | ik: 'w-320,h-320' : 'auto'" alt="" class="h-full w-full object-cover" />
+                  <img [src]="thumbnailOf(item) | ik: 'w-320,h-320' : 'auto'" myPosterFallback alt="" class="h-full w-full object-cover" />
                   @if (item.type === 'video') {
                     <span class="absolute left-2 top-2 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-white">
                       <i class="pi pi-video mr-1 text-[10px]" aria-hidden="true"></i>Vidéo

@@ -46,6 +46,7 @@
               >
                 <img
                   [src]="thumbnailOf(item) | ik: 'w-480,h-480' : 'auto'"
+                  myPosterFallback
                   alt=""
                   loading="lazy"
                   class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
@@ -93,7 +94,7 @@
         @if (item.type === 'video') {
           <video
             [src]="item.url"
-            [attr.poster]="thumbnailOf(item) | ik: 'w-1280' : null"
+            [myPosterFallback]="thumbnailOf(item) | ik: 'w-1280' : null"
             controls
             autoplay
             playsinline

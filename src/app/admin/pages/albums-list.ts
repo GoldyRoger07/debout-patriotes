@@ -6,11 +6,12 @@ import { Feedback } from '../core/feedback.service';
 import { apiErrorMessage } from '../core/api-error';
 import { AlbumSummary, thumbnailOf } from '../../models/gallery.model';
 import { ImageKitPipe } from '../../pipes/imagekit.pipe';
+import { PosterFallback } from '../../directives/poster-fallback';
 
 /** Albums de la galerie, du plus récent au plus ancien (ordre du site). */
 @Component({
   selector: 'admin-albums-list',
-  imports: [RouterLink, DatePipe, ImageKitPipe],
+  imports: [RouterLink, DatePipe, ImageKitPipe, PosterFallback],
   template: `
     <div class="flex flex-wrap items-end justify-between gap-4">
       <div>
@@ -32,7 +33,7 @@ import { ImageKitPipe } from '../../pipes/imagekit.pipe';
               <li class="flex items-center gap-4 p-4" [class.opacity-60]="!album.published">
                 <div class="hidden h-14 w-20 shrink-0 overflow-hidden rounded bg-surface sm:block">
                   @if (album.cover; as cover) {
-                    <img [src]="thumbnailOf(cover) | ik: 'w-160,h-112' : 'auto'" alt="" class="h-full w-full object-cover" />
+                    <img [src]="thumbnailOf(cover) | ik: 'w-160,h-112' : 'auto'" myPosterFallback alt="" class="h-full w-full object-cover" />
                   } @else {
                     <div class="flex h-full items-center justify-center text-gray-300">
                       <i class="pi pi-images" aria-hidden="true"></i>

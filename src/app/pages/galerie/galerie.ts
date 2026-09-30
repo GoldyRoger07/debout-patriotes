@@ -9,12 +9,13 @@ import { LanguageService } from '../../services/language.service';
 import { GalleryApi } from '../../services/gallery-api.service';
 import { AlbumSummary, thumbnailOf } from '../../models/gallery.model';
 import { ImageKitPipe } from '../../pipes/imagekit.pipe';
+import { PosterFallback } from '../../directives/poster-fallback';
 import { LocalizePipe } from '../../pipes/localize.pipe';
 
 /** Galerie : les albums publiés, photos et vidéos, du plus récent au plus ancien. */
 @Component({
   selector: 'app-galerie',
-  imports: [Container, PageHeader, EmptyState, RouterLink, DatePipe, ImageKitPipe, LocalizePipe],
+  imports: [Container, PageHeader, EmptyState, RouterLink, DatePipe, ImageKitPipe, PosterFallback, LocalizePipe],
   templateUrl: './galerie.html',
 })
 export default class Galerie {
